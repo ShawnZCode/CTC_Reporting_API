@@ -7,9 +7,7 @@ import time
 import json
 import concurrent.futures as cf
 from os import path
-from json_cache_files import read_file, BASE_FILE_LIST
-
-start_time = time.perf_counter()
+from read_file import read_file
 
 settings = read_file('Files\\SupportFiles\\Settings.json')
 
@@ -106,7 +104,7 @@ IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'P
             return err
 
 QUERY_FILES_LIST = ['SQL\\CMS\\Categories'
-                #,'SQL\\CMS\\Categories_Data'
+                ,'SQL\\CMS\\Categories_Data'
                 ,'SQL\\CMS\\ContentAttachments'
                 ,'SQL\\CMS\\ContentDownloads'
                 ,'SQL\\CMS\\ContentFileComponentProperties'
@@ -142,7 +140,9 @@ CSV = path.abspath('Files\\SupportFiles\\Categories.csv')
 BASE_DATA_ENTRY = f"""BULK INSERT Categories
   FROM '{CSV}'
   WITH (FORMAT = 'CSV')"""
-BASE_TABLES_LIST = BASE_FILE_LIST
+
+base_file_dict = read_file('Files\\SupportFiles\\Files_Collection.json')
+base_tables_list = base_file_dict.keys()
 
 def query_builder_tables(database, file):
     try:
@@ -187,7 +187,7 @@ def create_tables(conn1=CONN_STR_1, conn2=CONN_STR_2):
         #print(query)
 
 fields = read_file('Files\\SupportFiles\\Fields.json')
-temp_values = read_file('Files\\z_StructureReference\\Contents5.json')
+temp_values = read_file('Files\\z_StructureReference\\Contents.json')
 
 def write_to_tables (table='Contents', stream=temp_values, depth=''):
     """Enables the writing of CTC API Json streamed data to a table"""
@@ -283,7 +283,7 @@ def write_tables_concurrent():
     Currently not working as expected"""
     with cf.ProcessPoolExecutor() as executor:
         if __name__ == '__main__':
-            for table in BASE_TABLES_LIST:
+            for table in base_tables_list:
                 results = executor.map(write_to_tables, table, ctc.get_all_x(table, ctc.get_total_items(table)))
 
                 for result in results:
@@ -291,13 +291,16 @@ def write_tables_concurrent():
 
 def write_tables_sequential ():
     """Writes the base tables in sequence"""
-    for table in BASE_TABLES_LIST:
+    for table in base_tables_list:
         try:
             write_to_tables(table, ctc.get_all_x(table, ctc.get_total_items(table)))
         except Exception as err:
             print(err)
 
-# drop_database(db_name)
+"""Testing Section for code"""
+start_time = time.perf_counter()
+
+#drop_database(db_name)
 connect_to_database()
 create_tables()
 write_tables_sequential()
