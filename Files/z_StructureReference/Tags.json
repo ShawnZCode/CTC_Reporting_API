@@ -1,0 +1,15 @@
+{
+    "totalItems": 51,
+    "items": [
+        {
+            "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "addedAt": "2018-11-15T01:46:11.095",
+            "addedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "updatedAt": "2022-07-01T16:01:53.6833357",
+            "updatedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "name": "Tag - Something",
+            "organizationId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "description": null
+        }
+    ]
+}

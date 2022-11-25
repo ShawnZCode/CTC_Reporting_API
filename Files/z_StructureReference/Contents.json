@@ -1,0 +1,25 @@
+{
+    "totalItems": 5360,
+    "items": [
+        {
+            "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "averageRating": 0.0,
+            "displayUnit": null,
+            "fileExtension": ".docx",
+            "fileName": "!Revit Starter Project_Template_Project Review Template.docx",
+            "hasCustomPreviewImage": false,
+            "location": "Cloud",
+            "name": "!Revit Starter Project_Template_Project Review Template.docx",
+            "organizationId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "previewImageUri": "https://hivecmsstorage.blob...remainder of path",
+            "category": null,
+            "source": "Other",
+            "type": "Other",
+            "revitFamilyHostType": null,
+            "addedAt": "2018-03-30T16:10:49.794",
+            "addedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "updatedAt": "2018-03-30T16:10:49.794",
+            "updatedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+        }
+    ]
+}

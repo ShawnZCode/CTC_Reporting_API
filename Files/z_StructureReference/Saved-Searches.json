@@ -1,0 +1,55 @@
+{
+    "totalItems": 25,
+    "items": [
+        {
+            "name": "!Templates-Company",
+            "organizationId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "query": "*",
+            "description": null,
+            "scope": "Organization",
+            "sortBy": "Relevance",
+            "sortDirection": "Descending",
+            "fileVersions": null,
+            "displayUnits": null,
+            "minAvgRating": null,
+            "addedStartDate": null,
+            "addedEndDate": null,
+            "addedByUser": null,
+            "updateStartDate": null,
+            "updatedEndDate": null,
+            "updatedByUser": null,
+            "filterContentByNotTagged": false,
+            "fileExtensions": null,
+            "revitFamilyHostTypes": null,
+            "savedSearchTags": [],
+            "savedSearchLibraries": [
+                {
+                    "savedSearchId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+                    "libraryId": "7cc1dcd4-7806-4b2c-840a-847f07b77d8f",
+                    "library": null
+                }
+            ],
+            "permissions": [],
+            "sources": [
+                {
+                    "savedSearchId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+                    "contentSource": "Revit"
+                }
+            ],
+            "categories": [],
+            "addedAt": "2019-11-07T15:29:10.564",
+            "addedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "addedBy": {
+                "displayName": "Shawn Zirbes",
+                "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+            },
+            "updatedAt": "2022-10-13T14:46:53.2848016",
+            "updatedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "updatedBy": {
+                "displayName": "Shawn Zirbes",
+                "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+            },
+            "id": "4daa8335-d2c6-4b11-b505-df28f6360149"
+        }
+    ]
+}

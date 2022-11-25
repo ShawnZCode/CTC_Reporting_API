@@ -1,0 +1,107 @@
+{
+    "averageRating": 0.0,
+    "contentAttachments": [],
+    "contentLibraryIds": [
+        "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+    ],
+    "contentTagIds": [],
+    "displayUnit": "Imperial",
+    "downloads": [],
+    "fileExtension": ".rfa",
+    "fileName": "_HVAC Configurator.rfa",
+    "files": [
+        {
+            "addedAt": "2022-09-07T16:46:28.3055976",
+            "addedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "addedBy": {
+                "displayName": "Shawn Zirbes",
+                "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+            },
+            "updatedAt": "2022-09-08T20:51:51.4374336",
+            "updatedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "updatedBy": {
+                "displayName": "Shawn Zirbes",
+                "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+            },
+            "fileCreatedAt": "2022-09-08T14:13:00.6336741",
+            "fileExtension": ".rfa",
+            "fileModifiedAt": "2022-09-08T13:43:09.1089045",
+            "fileName": "_HVAC Configurator.rfa",
+            "filePath": "C:\\Temp\\MEPPP 20.1.1 (Beta)\\Metric\\Content\\Model\\Mechanical Equipment\\_HVAC Configurator.rfa",
+            "fileSizeInBytes": 4620288,
+            "fileVersion": 2020,
+            "organizationId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "hasRevitTypeCatalog": false,
+            "revitSourceProjectElementId": null,
+            "revitContainerProjectElementId": null,
+            "revitCentralProjectFilePath": null,
+            "revitProjectWorkSharingMode": null,
+            "location": "Cloud",
+            "components": [
+                {
+                    "name": "_Sample",
+                    "properties": [
+                        {
+                            "name": "Conduit Jam Ratio",
+                            "type": "RevitParameter",
+                            "isInstance": true,
+                            "isReadOnly": false,
+                            "revitParameterGroupId": -5000110,
+                            "revitParameterTypeId": 3,
+                            "revitSharedParameterGuid": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+                            "revitStorageTypeId": 2,
+                            "revitDisplayUnitTypeId": 17,
+                            "unitTypeIdVersionless": "autodesk.unit.unit:general",
+                            "value": "3.518362",
+                            "doubleValue": 3.5183621360983777,
+                            "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+                        },
+                    ],
+                    "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+                }
+            ],
+            "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+        }
+    ],
+    "hasCustomPreviewImage": false,
+    "loads": [],
+    "location": "Cloud",
+    "name": "_HVAC Configurator.rfa",
+    "organizationId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+    "previewImageUri": null,
+    "reviews": [],
+    "revisions": [
+        {
+            "contentId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "comment": null,
+            "revisedAt": "2022-09-08T20:52:20.4231739",
+            "revisedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "revisedBy": {
+                "displayName": "Shawn Zirbes",
+                "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+            },
+            "id": "280ecd94-3fc7-4301-b031-1f1e23861f0a"
+        }
+    ],
+    "category": {
+        "id": -2001140,
+        "name": "Mechanical Equipment"
+    },
+    "source": "Revit",
+    "type": "RevitFamily",
+    "revitFamilyHostType": "NA",
+    "favoritedUsers": [],
+    "addedAt": "2022-09-07T16:46:28.305597",
+    "addedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+    "addedBy": {
+        "displayName": "Shawn Zirbes",
+        "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+    },
+    "updatedAt": "2022-09-08T20:51:51.4374336",
+    "updatedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+    "updatedBy": {
+        "displayName": "Shawn Zirbes",
+        "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+    },
+    "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+}

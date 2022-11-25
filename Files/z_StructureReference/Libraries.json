@@ -1,0 +1,19 @@
+{
+    "totalItems": 9,
+    "items": [
+        {
+            "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "name": "AutoCAD Content (CTC)",
+            "organizationId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "type": "Private",
+            "defaultRole": "Consumer",
+            "description": "Corporate AutoCAD and Civil3D Content",
+            "uploadContent": true,
+            "imageUri": null,
+            "addedAt": "2021-05-26T17:21:29.5389125",
+            "addedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "updatedAt": "2022-10-12T16:23:15.5716861",
+            "updatedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x"
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+-2001140,Mechanical Equipment,.rfa,RevitFamily
+-2008013,Air Terminals,.rfa,RevitFamily
+-2001160,Plumbing Fixtures,.rfa,RevitFamily
+-2000280,Title Blocks,.rfa,RevitFamily
+-2001000,Casework,.rfa,RevitFamily
+1530,CIMLabelGenieTemplate,.lg,CIMLabelGenieTemplate
+-2000080,Furniture,.rfa,RevitFamily
+-2001350,Specialty Equipment,.rfa,RevitFamily
+-2001120,Lighting Fixtures,.rfa,RevitFamily
+-2008085,Fire Alarm Devices,.rfa,RevitFamily
+-2001040,Electrical Equipment,.rfa,RevitFamily
+-2008081,Communication Devices,.rfa,RevitFamily
+-2008079,Security Devices,.rfa,RevitFamily
+-2008087,Lighting Devices,.rfa,RevitFamily
+-2001060,Electrical Fixtures,.rfa,RevitFamily
+-2008083,Data Devices,.rfa,RevitFamily
+-2008077,Nurse Call Devices,.rfa,RevitFamily
+-2008075,Telephone Devices,.rfa,RevitFamily
+-2000023,Doors,.rfa,RevitFamily
+-2008016,Duct Accessories,.rfa,RevitFamily
+-2008010,Duct Fittings,.rfa,RevitFamily
+5080,AcadSheetSet,.dst,AcadSheetSet
+-2000011,Walls,.rvt,RevitProjectElement
+-2000279,Views,.rvt,RevitProjectElement
+-2000573,Schedules,.rvt,RevitProjectElement
+-2000095,IOS Model Groups,.rvt,RevitProjectElement
+-2,RevitProjectFile,.rvt,RevitProjectFile
+-2000120,Stairs,.rvt,RevitProjectElement
+-2000035,Roofs,.rvt,RevitProjectElement
+-2000032,Floors,.rvt,RevitProjectElement
+-2003100,Sheets,.rvt,RevitProjectElement
+-2000096,IOS Detail Groups,.rvt,RevitProjectElement
+-2000180,Ramps,.rvt,RevitProjectElement
+-2000126,Railings,.rvt,RevitProjectElement
+-2000038,Ceilings,.rvt,RevitProjectElement
+-1,INVALID,.rvt,RevitProjectFile
+5001,AcadDrawing,.dwg,AcadDrawing
+-2000151,Generic Models,.rfa,RevitFamily
+-2008055,Pipe Accessories,.rfa,RevitFamily
+-2008049,Pipe Fittings,.rfa,RevitFamily
+-2002000,Detail Items,.rfa,RevitFamily
+5002,AcadDrawingTemplate,.dwt,AcadDrawingTemplate
+-2000538,Callout Heads,.rfa,RevitFamily
+-2008126,Cable Tray Fittings,.rfa,RevitFamily
+-2008128,Conduit Fittings,.rfa,RevitFamily
+-2000150,Generic Annotations,.rfa,RevitFamily
+1526,CIMAutoGraderTemplate,.ag,CIMAutoGraderTemplate
+5011,AcadLisp,.lsp,AcadLisp
+1528,CIMDataWizardTemplate,.DWizTemplate,CIMDataWizardTemplate
+-2008082,Communication Device Tags,.rfa,RevitFamily
+-2008133,Conduit Tags,.rfa,RevitFamily
+-2008084,Data Device Tags,.rfa,RevitFamily
+-2005003,Electrical Equipment Tags,.rfa,RevitFamily
+-2005004,Electrical Fixture Tags,.rfa,RevitFamily
+-2008086,Fire Alarm Device Tags,.rfa,RevitFamily
+-2008088,Lighting Device Tags,.rfa,RevitFamily
+-2005008,Lighting Fixture Tags,.rfa,RevitFamily
+-2005009,Mechanical Equipment Tags,.rfa,RevitFamily
+-2008078,Nurse Call Device Tags,.rfa,RevitFamily
+-2008080,Security Device Tags,.rfa,RevitFamily
+-2008076,Telephone Device Tags,.rfa,RevitFamily
+-2008057,Wire Tags,.rfa,RevitFamily
+-2006045,Elevation Marks,.rfa,RevitFamily
+-2008100,Sprinkler Tags,.rfa,RevitFamily
+5005,AcadCommandMacro,.commandmacro,AcadCommandMacro
+-2008074,Wire Tick Marks,.rfa,RevitFamily
+-2005022,Multi-Category Tags,.RFA,RevitFamily
+-2008014,Air Terminal Tags,.rfa,RevitFamily
+-2005020,Area Tags,.rfa,RevitFamily
+-2005028,Detail Item Tags,.rfa,RevitFamily
+-2008017,Duct Accessory Tags,.rfa,RevitFamily
+-2008061,Duct Fitting Tags,.rfa,RevitFamily
+-2008003,Duct Tags,.rfa,RevitFamily
+-2008004,Flex Duct Tags,.rfa,RevitFamily
+-2008048,Flex Pipe Tags,.rfa,RevitFamily
+-2005013,Generic Model Tags,.rfa,RevitFamily
+-2008115,Zone Tags,.rfa,RevitFamily
+-2008056,Pipe Accessory Tags,.rfa,RevitFamily
+-2008060,Pipe Fitting Tags,.rfa,RevitFamily
+-2008047,Pipe Tags,.rfa,RevitFamily
+-2005010,Plumbing Fixture Tags,.rfa,RevitFamily
+5010,AcadScript,.scr,AcadScript
+-2008044,Pipes,.rvt,RevitProjectElement
+-2008132,Conduits,.rvt,RevitProjectElement
+-2008000,Ducts,.rvt,RevitProjectElement
+-2008130,Cable Trays,.rvt,RevitProjectElement
+-2000700,Materials,.rvt,RevitProjectElement
+-2008015,Duct Systems,.rvt,RevitProjectElement
+-2008043,Piping Systems,.rvt,RevitProjectElement
+5003,AcadAssembly,.dwg,AcadAssembly
+5000,AcadDrawing,.dwg,AcadDrawing
+-2003400,Mass,.rfa,RevitFamily
+-2003405,Mass Tags,.rfa,RevitFamily
+1531,CIMPipePlannerTemplate,.pp,CIMPipePlannerTemplate
+-2006080,Revision Cloud Tags,.rfa,RevitFamily
+-2000480,Room Tags,.rfa,RevitFamily
+1529,CIMEarthworkProcessorTemplate,.ep,CIMEarthworkProcessorTemplate
+-2000400,Section Marks,.rfa,RevitFamily
+-2000485,Space Tags,.rfa,RevitFamily
+-2005100,Spot Elevation Symbols,.rfa,RevitFamily
+-2008099,Sprinklers,.rfa,RevitFamily
+-2000197,View Reference Symbol,.rfa,RevitFamily
+-2000515,View Titles,.rfa,RevitFamily
+-2001330,Structural Columns,.rfa,RevitFamily

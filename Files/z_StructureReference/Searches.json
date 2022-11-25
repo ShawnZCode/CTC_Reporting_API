@@ -1,0 +1,32 @@
+// Searches
+{
+    "totalItems": 48,
+    "items": [
+        {
+            "id": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "addedByUser": null,
+            "addedEndDate": null,
+            "addedStartDate": null,
+            "executionTimeInMs": 125,
+            "hasExplicitLibraryFilter": true,
+            "minAvgRating": null,
+            "organizationId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "page": 1,
+            "pageSize": 50,
+            "query": "*",
+            "resultCount": 7,
+            "savedSearchId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "savedSearchName": "!Templates-Company",
+            "searchedAt": "2022-11-16T18:04:12.7926241",
+            "searchedById": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "searchId": "x0000000-x0xx-0000-000x-x0xx00xx0x0x",
+            "fileVersions": null,
+            "displayUnits": null,
+            "sortBy": "Relevance",
+            "sortDirection": "Descending",
+            "updatedByUser": null,
+            "updatedEndDate": null,
+            "updateStartDate": null
+        }
+    ]
+}
