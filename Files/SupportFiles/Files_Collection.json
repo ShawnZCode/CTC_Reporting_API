@@ -185,8 +185,7 @@
                 "parent": "",
                 "sql": "Users"
             }
-            }
-        ],
+        },
         "switches": ""
     }
 }
