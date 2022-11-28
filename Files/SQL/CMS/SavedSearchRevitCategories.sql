@@ -6,6 +6,7 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[SavedSearchRevitCategories](
 	[savedSearchId] [uniqueidentifier] NOT NULL,
 	[revitCategoryId] [int] NOT NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_SavedSearchRevitCategories] PRIMARY KEY CLUSTERED 
 	(
 		[savedSearchId] ASC,

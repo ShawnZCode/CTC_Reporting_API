@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[ContentFileComponentProperties](
 	[type] [int] NOT NULL,
 	[value] [nvarchar](2048) NULL,
 	[unitTypeIdVersionless] [nvarchar](100) NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_ContentFileComponentProperties] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

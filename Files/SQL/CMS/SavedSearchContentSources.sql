@@ -6,6 +6,7 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[SavedSearchContentSources](
 	[savedSearchId] [uniqueidentifier] NOT NULL,
 	[contentSource] [int] NOT NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_SavedSearchContentSources] PRIMARY KEY CLUSTERED 
 	(
 		[savedSearchId] ASC,

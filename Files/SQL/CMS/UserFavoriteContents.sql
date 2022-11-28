@@ -6,6 +6,7 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[UserFavoriteContents](
 	[userId] [uniqueidentifier] NOT NULL,
 	[contentId] [uniqueidentifier] NOT NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_UserFavoriteContents] PRIMARY KEY CLUSTERED 
 	(
 		[userId] ASC,

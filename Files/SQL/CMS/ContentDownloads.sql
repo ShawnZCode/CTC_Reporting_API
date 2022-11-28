@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[ContentDownloads](
 	[contentId] [uniqueidentifier] NOT NULL,
 	[downloadedAt] [datetime2](7) NOT NULL,
 	[downloadedById] [uniqueidentifier] NOT NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_ContentDownloads] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

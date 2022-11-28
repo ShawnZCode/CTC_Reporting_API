@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[Tags](
 	[name] [nvarchar](100) NOT NULL,
 	[organizationId] [uniqueidentifier] NOT NULL,
 	[description] [nvarchar](2048) NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Tags] PRIMARY KEY CLUSTERED 
 	(
 		[id] ASC
