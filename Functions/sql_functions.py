@@ -1,12 +1,15 @@
 """General functions to connect with SQL server"""
 
-import api_get_functions as ctc
 from asyncio.windows_events import NULL
-import pyodbc
+from datetime import datetime
 import time
 import json
 import concurrent.futures as cf
 from os import path
+from getpass import getuser
+import uuid
+import pyodbc
+import api_get_functions as ctc
 from read_file import read_file
 
 settings = read_file('Files\\SupportFiles\\Settings.json')
@@ -18,6 +21,7 @@ db_name = f'CTC Reporting {api_key}'
 database=db_name
 uid=settings['sql']['uid']
 pwd=settings['sql']['pwd']
+uuid_current = ''
 
 CONN_STR_1 = f'driver={driver};server={server};database={database};UID={uid};PWD={pwd};'
 CONN_STR_2 = f'driver={driver};server={server};database=master;UID={uid};PWD={pwd};'
@@ -103,8 +107,9 @@ IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'P
             print(f'database Connection Failure:\n {err}\n\n')
             return err
 
-QUERY_FILES_LIST = ['SQL\\CMS\\Categories'
-                ,'SQL\\CMS\\Categories_Data'
+QUERY_FILES_LIST = ['SQL\\!Base\\Updated'
+                ,'SQL\\CMS\\Categories'
+                #,'SQL\\CMS\\Categories_Data'
                 ,'SQL\\CMS\\ContentAttachments'
                 ,'SQL\\CMS\\ContentDownloads'
                 ,'SQL\\CMS\\ContentFileComponentProperties'
@@ -159,11 +164,11 @@ def query_builder_insert(table='Contents'):
     ##print(f_string)
     try:
         query = f'USE [{database}]\n \
-                    INSERT INTO [{table}] ({f_string})\n \
+                    INSERT INTO [{table}] ({f_string}, updatedId)\n \
                     VALUES ('
         items = len(fields[table])
         i=0
-        while i < items-1:
+        while i < items:
             i += 1
             query += '?, '
         query +='?);'
@@ -171,10 +176,10 @@ def query_builder_insert(table='Contents'):
     except Exception as err:
         print(err)
 
-def create_tables(conn1=CONN_STR_1, conn2=CONN_STR_2):
+def create_tables():
     """Creates the main tables needed for primary datafeed"""
     try:
-        with connect_to_database(conn1, conn2) as con:
+        with connect_to_database() as con:
             with con.cursor() as cur:
                 for file in QUERY_FILES_LIST:
                     query = query_builder_tables(db_name, file)
@@ -189,7 +194,25 @@ def create_tables(conn1=CONN_STR_1, conn2=CONN_STR_2):
 fields = read_file('Files\\SupportFiles\\Fields.json')
 temp_values = read_file('Files\\z_StructureReference\\Contents.json')
 
-def write_to_tables (table='Contents', stream=temp_values, depth=''):
+def generate_time_entry ():
+    """creates guid and time entry for association to all table write processes"""
+    uuid_current = str(uuid.uuid4())
+    user_current = getuser()
+    date_time_current = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+    values = [uuid_current, date_time_current, user_current]
+    try:
+        query = f'USE [{database}]\n \
+                    INSERT INTO [Updated] (id, updatedAt, updatedByComputerUser)\n \
+                    VALUES (?, ?, ?);'
+        with connect_to_database() as con:
+            with con.cursor() as cur:
+                cur.execute(query, values)
+                con.commit()
+        return uuid_current
+    except Exception as err:
+        return err
+
+def write_to_tables (uuid_current, table='Contents', stream=temp_values, depth=''):
     """Enables the writing of CTC API Json streamed data to a table"""
     with connect_to_database() as con:
         with con.cursor() as cur:
@@ -213,6 +236,7 @@ def write_to_tables (table='Contents', stream=temp_values, depth=''):
                             row.append (1)
                         else:
                             row.append(item[field])
+                row.append(uuid_current)
                 values.append(tuple(row))
                 #print(tuple(row))
                 cur.execute(query, row)
@@ -230,7 +254,6 @@ def write_ids (table='Contents', stream=temp_values, depth=''):
     """Enables the writing of CTC API Json streamed data to a table"""
     with connect_to_database() as con:
         with con.cursor() as cur:
-            #cur.fast_executemany = True
             query = query_builder_insert(table)
             #query = f'USE [{database}]\nINSERT INTO {table} (id)\nVALUES (?);'
             values = []
@@ -291,16 +314,17 @@ def write_tables_concurrent():
 
 def write_tables_sequential ():
     """Writes the base tables in sequence"""
+    uuid_current = generate_time_entry()
     for table in base_tables_list:
         try:
-            write_to_tables(table, ctc.get_all_x(table, ctc.get_total_items(table)))
+            write_to_tables(uuid_current, table, ctc.get_all_x(table, ctc.get_total_items(table)))
         except Exception as err:
             print(err)
 
 """Testing Section for code"""
 start_time = time.perf_counter()
 
-#drop_database(db_name)
+# drop_database(db_name)
 connect_to_database()
 create_tables()
 write_tables_sequential()
