@@ -21,6 +21,7 @@ CREATE TABLE [dbo].[Contents](
 	[previewImageUri] [nvarchar](2048) NULL,
 	[displayUnit] [nvarchar](10) NULL,
 	[revitFamilyHostType] [nvarchar](20) NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Contents] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

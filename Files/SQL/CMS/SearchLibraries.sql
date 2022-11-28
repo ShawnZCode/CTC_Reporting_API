@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[SearchLibraries](
 	[searchId] [uniqueidentifier] NOT NULL,
 	[libraryId] [uniqueidentifier] NOT NULL,
 	[libraryName] [nvarchar](100) NOT NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_SearchLibraries] PRIMARY KEY CLUSTERED 
 	(
 		[searchId] ASC,

@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[Libraries](
 	[uploadContent] [bit] NOT NULL,
 	[defaultRole] [nvarchar](15) NOT NULL,
 	[imageUri] [nvarchar](2048) NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Libraries] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

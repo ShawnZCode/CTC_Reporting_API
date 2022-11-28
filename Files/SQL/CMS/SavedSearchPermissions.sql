@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[SavedSearchPermissions](
 	[savedSearchId] [uniqueidentifier] NOT NULL,
 	[resourceId] [uniqueidentifier] NOT NULL,
 	[resourceType] [int] NOT NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_SavedSearchPermissions] PRIMARY KEY CLUSTERED 
 	(
 		[id] ASC

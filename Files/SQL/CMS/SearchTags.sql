@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[SearchTags](
 	[searchId] [uniqueidentifier] NOT NULL,
 	[tagId] [uniqueidentifier] NOT NULL,
 	[tagName] [nvarchar](100) NOT NULL,
+	[updatedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_SearchTags] PRIMARY KEY CLUSTERED 
 	(
 		[searchId] ASC,
