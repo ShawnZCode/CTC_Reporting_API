@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[ContentTags](
 	[tagId] [uniqueidentifier] NOT NULL,
 	[contentId] [uniqueidentifier] NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_ContentTags] PRIMARY KEY CLUSTERED 
 	(
 		[tagId] ASC,

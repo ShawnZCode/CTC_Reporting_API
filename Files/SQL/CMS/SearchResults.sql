@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[SearchResults](
 	[searchId] [uniqueidentifier] NOT NULL,
 	[contentId] [uniqueidentifier] NOT NULL,
 	[contentName] [nvarchar](150) NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_SearchResults] PRIMARY KEY CLUSTERED 
 	(
 		[searchId] ASC,

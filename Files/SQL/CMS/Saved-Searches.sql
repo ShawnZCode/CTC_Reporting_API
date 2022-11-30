@@ -28,7 +28,7 @@ CREATE TABLE [dbo].[Saved-Searches](
 	[filterContentByNotTagged] [bit] NOT NULL,
 	[fileExtensions] [nvarchar](100) NULL,
 	[revitFamilyHostTypes] [nvarchar](13) NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Saved-Searches] PRIMARY KEY CLUSTERED 
 	(
 		[id] ASC

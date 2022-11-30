@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[ContentRevisions](
 	[comment] [nvarchar](2048) NULL,
 	[revisedAt] [datetime2](7) NOT NULL,
 	[revisedById] [uniqueidentifier] NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_ContentRevisions] PRIMARY KEY CLUSTERED 
 	(
 		[id] ASC

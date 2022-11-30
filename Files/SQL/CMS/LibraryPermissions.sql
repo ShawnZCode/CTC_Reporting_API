@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[LibraryPermissions](
 	[role] [int] NOT NULL,
 	[librarySubscriptionId] [uniqueidentifier] NULL,
 	[resourceSource] [int] NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_LibraryPermissions] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

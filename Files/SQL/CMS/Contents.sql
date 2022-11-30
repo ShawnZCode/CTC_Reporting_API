@@ -17,11 +17,11 @@ CREATE TABLE [dbo].[Contents](
 	[source] [nvarchar](30) NOT NULL,
 	[location] [nvarchar](20) NOT NULL,
 	[averageRating] [float] NOT NULL,
-	[revitCategoryId] [int] NULL,
+	[categoryId] [int] NULL,
 	[previewImageUri] [nvarchar](2048) NULL,
 	[displayUnit] [nvarchar](10) NULL,
 	[revitFamilyHostType] [nvarchar](20) NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Contents] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

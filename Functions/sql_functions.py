@@ -30,7 +30,7 @@ CONN_STR_2 = f'driver={driver};server={server};database=master;UID={uid};PWD={pw
 # and accesses the core SQL execution commands for table creation and
 # Relationship building... Primarily used by 2 functions:
 #    query_builder_tables and create_tables
-QUERY_FILES_LIST = ['SQL\\!Base\\Updated'
+QUERY_FILES_LIST = ['SQL\\!Base\\Refreshed'
                 ,'SQL\\CMS\\Categories'
                 #,'SQL\\CMS\\Categories_Data'
                 ,'SQL\\CMS\\ContentAttachments'
@@ -48,22 +48,23 @@ QUERY_FILES_LIST = ['SQL\\!Base\\Updated'
                 ,'SQL\\CMS\\Feedbacks'
                 ,'SQL\\CMS\\Libraries'
                 ,'SQL\\CMS\\LibraryPermissions'
-                ,'SQL\\CMS\\SavedSearchContentSources'
+                ,'SQL\\CMS\\LibrarySubscriptions'
                 ,'SQL\\CMS\\Saved-Searches'
+                ,'SQL\\CMS\\SavedSearchCategories'
+                ,'SQL\\CMS\\SavedSearchContentSources'
                 ,'SQL\\CMS\\SavedSearchLibraries'
                 ,'SQL\\CMS\\SavedSearchPermissions'
-                ,'SQL\\CMS\\SavedSearchRevitCategories'
                 ,'SQL\\CMS\\SavedSearchTags'
                 ,'SQL\\CMS\\SearchContentSources'
                 ,'SQL\\CMS\\Searches'
                 ,'SQL\\CMS\\SearchLibraries'
                 ,'SQL\\CMS\\SearchResults'
-                ,'SQL\\CMS\\SearchRevitCategories'
+                ,'SQL\\CMS\\SearchCategories'
                 ,'SQL\\CMS\\SearchTags'
                 ,'SQL\\CMS\\Tags'
                 ,'SQL\\CMS\\UserFavoriteContents'
-                ,'SQL\\ORG\\Users']
-                #,'SQL\\UPDATE_REFERENCES\\UpdateTables']
+                ,'SQL\\ORG\\Users'
+                ,'SQL\\UPDATE_REFERENCES\\UpdateTables']
 
 # base_files_dict is a JSON Stream that contains many settings for
 # handling the data entry into SQL tables based on the nested sections
@@ -80,8 +81,8 @@ base_tables_list = base_file_dict.keys()
 # data population functions
 fields = read_file('Files\\SupportFiles\\Fields.json')
 
-"""Base data used to seed the categories table
-LIKELY DEPRECATED as base_file_dict is implemented """
+# Base data used to seed the categories table
+# LIKELY DEPRECATED as base_file_dict is implemented
 CSV = path.abspath('Files\\SupportFiles\\Categories.csv')
 BASE_DATA_ENTRY = f"""BULK INSERT Categories
   FROM '{CSV}'
@@ -107,8 +108,10 @@ def connect_to_database(con_str_1=CONN_STR_1, con_str_2=CONN_STR_2):
     RETURNS: Successful database connection or an error"""
     try:
         # First attempt to connect directly to the database
-        con = connect_to_server(con_str_1)
-        return con
+        with connect_to_server(con_str_1) as con:
+            with con.cursor() as cur:
+                print('success')
+            return con
     except Exception as err:
         # Second attempt to connect to server 'master' database
         # and create the the desired database
@@ -233,8 +236,8 @@ def create_all_tables():
                 con.commit()
                 # Populates the Categories with preliminary seed data
                 # Currently Fails after introduction of updatedId (Uncertain Why)
-                query = f'USE [{database}]\n{BASE_DATA_ENTRY}'
-                cur.execute(query)
+                #query = f'USE [{database}]\n{BASE_DATA_ENTRY}'
+                #cur.execute(query)
     except Exception as err:
         print(f'Potential error: \n{err}\n\n')
 
@@ -374,13 +377,13 @@ def drop_database(database):
 #                     print(result)
 '''
 
-"""Testing Section for code"""
+# Testing Section for code
 start_time = time.perf_counter()
 
 # drop_database(db_name)
 connect_to_database()
 create_all_tables()
-write_tables_sequential()
+# write_tables_sequential()
 #write_to_tables('Libraries', ctc.get_all_x('Libraries', ctc.get_total_items('Libraries')))
 
 finish_time = time.perf_counter()

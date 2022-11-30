@@ -28,7 +28,7 @@ CREATE TABLE [dbo].[Searches](
 	[hasExplicitLibraryFilter] [bit] NOT NULL,
 	[displayUnits] [nvarchar](100) NULL,
 	[fileVersions] [nvarchar](100) NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Searches] PRIMARY KEY CLUSTERED 
 	(
 		[id] ASC

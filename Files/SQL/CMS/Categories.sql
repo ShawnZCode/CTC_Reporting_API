@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[Categories](
 	[name] [nvarchar](100) NULL,
     [fileExtension] [nvarchar](20) NULL,
 	[type] [nvarchar](100) NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
-	CONSTRAINT [PK_ContentAttachments] PRIMARY KEY CLUSTERED 
+	[refreshedId] [uniqueidentifier] NOT NULL,
+	CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

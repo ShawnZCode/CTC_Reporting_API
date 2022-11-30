@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[ContentLibraries](
 	[libraryId] [uniqueidentifier] NOT NULL,
 	[contentId] [uniqueidentifier] NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_ContentLibraries] PRIMARY KEY CLUSTERED 
 	(
 		[contentId] ASC,

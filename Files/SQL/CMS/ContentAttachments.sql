@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[ContentAttachments](
 	[name] [nvarchar](2048) NOT NULL,
 	[path] [nvarchar](2048) NOT NULL,
 	[type] [int] NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_ContentAttachments] PRIMARY KEY CLUSTERED 
 		([Id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]

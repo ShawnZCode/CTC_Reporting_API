@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[SavedSearchTags](
 	[savedSearchId] [uniqueidentifier] NOT NULL,
 	[tagId] [uniqueidentifier] NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_SavedSearchTags] PRIMARY KEY CLUSTERED 
 	(
 		[savedSearchId] ASC,

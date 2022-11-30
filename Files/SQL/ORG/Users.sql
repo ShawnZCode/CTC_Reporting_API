@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Users](
 	[id] [uniqueidentifier] NOT NULL,
 	[displayName] [nvarchar](100) NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 	(
 		[id] ASC

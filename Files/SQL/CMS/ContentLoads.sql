@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[ContentLoads](
 	[loadedById] [uniqueidentifier] NOT NULL,
 	[documentId] [uniqueidentifier] NULL,
 	[searchId] [uniqueidentifier] NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_ContentLoads] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]

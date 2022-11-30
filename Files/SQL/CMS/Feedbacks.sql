@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[Feedbacks](
 	[submittedAt] [datetimeoffset](7) NOT NULL,
 	[submittedById] [uniqueidentifier] NOT NULL,
 	[logFileCount] [int] NOT NULL,
-	[updatedId] [uniqueidentifier] NOT NULL,
+	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Feedbacks] PRIMARY KEY CLUSTERED 
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
