@@ -1,0 +1,359 @@
+{
+    "Accounts":{
+        "Users": {
+            "isParent": true,
+            "children": {},
+            "jsonSource": "Users",
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "keysMap": {
+                "[id]": "[id]",
+                "[refreshedId]": ""
+            },
+            "apiSwitches": [""]
+        },
+        "Groups": {
+            "isParent": true,
+            "children": ["UserGroups"],
+            "jsonSource": "Groups",
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "keysMap": {
+                "[id]": "[id]",
+                "[refreshedId]": ""
+            },
+            "apiSwitches": [""]
+        },
+        "UserGroups": {
+            "isParent": false,
+            "children": [],
+            "jsonSource": "Groups",
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "keysMap": {
+                "[userId]": "[memberIds]",
+                "[groupId]": "[groupId]",
+                "[refreshedId]": ""
+            },
+            "apiSwitches": [""]
+        }
+    },
+    "CMS": {
+        "_Contents_": {
+            "isParent": true,
+            "hasParent": false,
+            "parent": "",
+            "children": ["Contents"],
+            "jsonSource": "Contents",
+            "apiSwitches": [
+                {
+                    "orderBy": {
+                        "value": "UpdatedAt"
+                    }
+                },
+                {
+                    "orderByDescending": {
+                        "value": true
+                    }
+                }
+            ],
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "keysMap": {
+                "[id]": "[id]",
+                "[addedAt]": "[addedAt]",
+                "[addedById]": "[addedById]",
+                "[updatedAt]": "[updatedAt]",
+                "[updatedById]": "[updatedById]",
+                "[name]": "[name]",
+                "[fileName]": "[fileName]",
+                "[fileExtension]": "[fileExtension]",
+                "[organizationId]": "[organizationId]",
+                "[hasCustomPreviewImage]": "[hasCustomPreviewImage]",
+                "[type]": "[type]",
+                "[source]": "[source]",
+                "[location]": "[location]",
+                "[averageRating]": "[averageRating]",
+                "[categoryId]": "[categoryId]",
+                "[previewImageUri]": "[previewImageUri]",
+                "[displayUnit]": "[displayUnit]",
+                "[revitFamilyHostType]": "[revitFamilyHostType]",
+                "[refreshedId]": ""
+            }
+        },
+        "Contents": {
+            "isParent": true,
+            "hasParent": true,
+            "parent": "_Contents_",
+            "children": ["ContentFiles"],
+            "jsonSource": "Content",
+            "apiSwitches": [
+                {
+                    "orderBy": {
+                        "value": "UpdatedAt"
+                    }
+                },
+                {
+                    "orderByDescending": {
+                        "value": true
+                    }
+                }
+            ],
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "keysMap": {
+                "[id]": "[id]",
+                "[addedAt]": "[addedAt]",
+                "[addedById]": "[addedById]",
+                "[updatedAt]": "[updatedAt]",
+                "[updatedById]": "[updatedById]",
+                "[name]": "[name]",
+                "[fileName]": "[fileName]",
+                "[fileExtension]": "[fileExtension]",
+                "[organizationId]": "[organizationId]",
+                "[hasCustomPreviewImage]": "[hasCustomPreviewImage]",
+                "[type]": "[type]",
+                "[source]": "[source]",
+                "[location]": "[location]",
+                "[averageRating]": "[averageRating]",
+                "[categoryId]": "[categoryId]",
+                "[previewImageUri]": "[previewImageUri]",
+                "[displayUnit]": "[displayUnit]",
+                "[revitFamilyHostType]": "[revitFamilyHostType]",
+                "[refreshedId]": ""
+            }
+        },
+        "ContentFiles": {
+            "isParent": true,
+            "hasParent": true,
+            "parent": "Contents",
+            "children": ["ContentFileComponents",""],
+            "apiSwitches": [
+                {
+                    "includeFiles": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeTypes": {
+                        "value": true,
+                        "_note": "forces includeFiles in api"
+                    }
+                },
+                {
+                    "includeTypeParameters": {
+                        "value": true,
+                        "_note": "forces includeTypes and includeFiles in api"
+                    }
+                },
+                {
+                    "includeLibraries": {
+                        "value": true,
+                        "_note": "unnecessary if Libraries has includeContents"
+                    }
+                },
+                {
+                    "includeAttachments": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeDownloads": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeLoads": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeDocuments": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeReviews": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeRevisions": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeTags": {
+                        "value": true,
+                        "_note": "unnecessary if Tags has includeContents"
+                    }
+                },
+                {
+                    "includeUsers": {
+                        "value": true,
+                        "_note": "unnecessary if pulling Accounts-Users"
+                    }
+                },
+                {
+                    "includeFavoritedUsers": {
+                        "value": true
+                    }
+                }
+            ],
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "hasSQLTable": true,
+            "keysMap": {
+                "[id]": "[id]",
+                "[addedAt]": "[addedAt]",
+                "[addedById]": "[addedById]",
+                "[updatedAt]": "[updatedAt]",
+                "[updatedById]": "[updatedById]",
+                "[name]": "[name]",
+                "[refreshedId]": ""
+            }
+        },
+        "Libraries": {
+            "isParent": true,
+            "hasParent": false,
+            "parent": "Library",
+            "children": ["LibraryById"],
+            "jsonSource": "Contents",
+            "apiSwitches": [
+                {
+                    "orderBy": {
+                        "value": "UpdatedAt"
+                    }
+                },
+                {
+                    "orderByDescending": {
+                        "value": true
+                    }
+                }
+            ],
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "hasSQLTable": true,
+            "keysMap": {
+                "[id]": "[id]",
+                "[addedAt]": "[addedAt]",
+                "[addedById]": "[addedById]",
+                "[updatedAt]": "[updatedAt]",
+                "[updatedById]": "[updatedById]",
+                "[name]": "[name]",
+                "[refreshedId]": ""
+            }
+        },
+        "LibraryById": {
+            "isParent": true,
+            "hasParent": false,
+            "parent": "Libraries",
+            "children": ["LibraryPermissions", "LibrarySubscriptions"],
+            "jsonSource": "Contents",
+            "apiSwitches": [
+                {
+                    "includePermissions": {
+                        "value": true
+                    }
+                },
+                {
+                    "includeContents": {
+                        "value": true,
+                        "_note": "unnecessary if Content has includeLibraries"
+                    }
+                },
+                {
+                    "includeUsers": {
+                        "value": true,
+                        "_note": "unnecessary if pulling Accounts-Users"
+                    }
+                }
+            ],
+            "_keysMapNote": {
+                "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+            },
+            "hasSQLTable": true,
+            "keysMap": {
+                "[id]": "[id]",
+                "[addedAt]": "[addedAt]",
+                "[addedById]": "[addedById]",
+                "[updatedAt]": "[updatedAt]",
+                "[updatedById]": "[updatedById]",
+                "[name]": "[name]",
+                "[refreshedId]": ""
+            }
+        },
+        "Saved-Searches": "",
+        "Searches": {
+            "nested": "Search",
+            "switches": {
+                "includeResults": {
+                    "value": true,
+                    "key": "results",
+                    "parent": "",
+                    "jsonSource": "SearchResults"
+                },
+                "includeCategories": {
+                    "value": true,
+                    "key": "categories",
+                    "parent": "",
+                    "jsonSource": "SearchCategories"
+                },
+                "includeLibraries": {
+                    "value": true,
+                    "key": "libraries",
+                    "parent": "",
+                    "jsonSource": "SearchLibraries"
+                },
+                "includeTags": {
+                    "value": true,
+                    "key": "tags",
+                    "parent": "",
+                    "jsonSource": "SearchTags"
+                },
+                "includeSources": {
+                    "value": true,
+                    "key": "",
+                    "parent": "",
+                    "jsonSource": ""
+                },
+                "includeUsers": {
+                    "value": true,
+                    "key": "",
+                    "parent": "",
+                    "jsonSource": ""
+                }
+            }
+        },
+        "Tags": {
+            "nested": "Tag",
+            "switches": {
+                "includeContents": {
+                    "value": true,
+                    "key": "contents",
+                    "parent": "",
+                    "jsonSource": "ContentTags"
+                },
+                "includeUsers": {
+                    "value": true,
+                    "key": "",
+                    "parent": "",
+                    "jsonSource": ""
+                }
+            }
+        }
+    },
+    "Projects": {
+
+    },
+    "Licensing":{
+
+    }
+}
