@@ -4,17 +4,15 @@ import os
 from datetime import datetime
 import time
 import json
-import api_get_functions as ctc
-from read_file import read_file
-
-start_time = time.perf_counter()
+from APICore_Connection.Classes import api_get_functions as ctc
+from JSON.read_file import read_file
 
 BASE_FILE_LIST = ['Contents', 'Libraries', 'Saved-Searches', 'Searches', 'Tags']
 
-settings = read_file('Files\\SupportFiles\\Settings.json')
-base_file_dict = read_file('Files\\SupportFiles\\Files_Collection.json')
+settings = read_file('APICore_Connection\\Settings.json')
+base_file_dict = read_file('SQL_Connection\\SupportFiles\\Files_Collection_Deprecated.json')
 
-def directory_create(current_date_time=datetime.now().strftime('%Y-%m-%d_%H-%M')):
+def directory_create(current_date_time):
     """Ensures a directory for current date time cache of files"""
     try:
         setting = settings['files']['storageCachePath']
@@ -24,12 +22,12 @@ def directory_create(current_date_time=datetime.now().strftime('%Y-%m-%d_%H-%M')
     except Exception as err:
         return err
 
-root_directory = directory_create()
+current_date_time=datetime.now().strftime('%Y-%m-%d_%H-%M')
 
 def write_json_file(stream, file_name, sub_directory='CMS'):
     """Writes a json file from streamed data"""
     try:
-        file_path = f'{root_directory}\\{sub_directory}'
+        file_path = f'{directory_create(current_date_time)}\\{sub_directory}'
         os.makedirs(file_path, exist_ok=True)
     except:
         pass
@@ -42,11 +40,11 @@ def write_json_file(stream, file_name, sub_directory='CMS'):
     except Exception as err:
         print(err)
 
-def get_base_jsons():
+def get_base_jsons(route='CMS'):
     """Writes the original Json Files"""
     try:
         for key in base_file_dict.keys():
-            write_json_file(ctc.get_all_x(key, ctc.get_total_items(key), ), key)
+            write_json_file(ctc.get_all_x(key, route, ctc.get_total_items(route, key)), key, route)
     except Exception as err:
         return err
     try:
@@ -57,7 +55,7 @@ def get_base_jsons():
 def get_ids(collection, sub_directory='CMS'):
     """Parse the Json file and returns a list of ids"""
     try:
-        file_path = f'{root_directory}\\{sub_directory}'
+        file_path = f'{directory_create(current_date_time)}\\{sub_directory}'
         file_path += f'\\{collection}.json'
         with open(file_path, 'r') as f:
             stream = json.loads(f.read())
@@ -88,8 +86,10 @@ def get_nested_jsons():
     except Exception as err:
         return err
 
-get_base_jsons()
+#start_time = time.perf_counter()
 
-finish_time = time.perf_counter()
-total_time = round(finish_time-start_time, 2)
-print(f'Json files finished in {total_time} seconds(s) or {total_time/60} minute(s)')
+# get_base_jsons()
+
+# finish_time = time.perf_counter()
+# total_time = round(finish_time-start_time, 2)
+# print(f'Json files finished in {total_time} seconds(s) or {total_time/60} minute(s)')

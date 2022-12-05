@@ -1,18 +1,19 @@
 """General functions to connect with SQL server"""
 
 #from asyncio.windows_events import NULL
+# import sys
+# sys.path.append('..')
 from datetime import datetime
-import time
 #import json
-import concurrent.futures as cf
+#import concurrent.futures as cf
 from os import path
 from getpass import getuser
 import uuid
 import pyodbc
-import api_get_functions as ctc
-from read_file import read_file
+from APICore_Connection.Classes import api_get_functions as ctc
+from JSON import read_file
 
-settings = read_file('Files\\SupportFiles\\Settings.json')
+settings = read_file('APICore_Connection\\Settings.json')
 
 driver=settings['sql']['driver']
 server=settings['sql']['server']
@@ -30,46 +31,46 @@ CONN_STR_2 = f'driver={driver};server={server};database=master;UID={uid};PWD={pw
 # and accesses the core SQL execution commands for table creation and
 # Relationship building... Primarily used by 2 functions:
 #    query_builder_tables and create_tables
-QUERY_FILES_LIST = ['SQL\\!Base\\Refreshed'
-                ,'SQL\\CMS\\Categories'
-                #,'SQL\\CMS\\Categories_Data'
-                ,'SQL\\CMS\\ContentAttachments'
-                ,'SQL\\CMS\\ContentDownloads'
-                ,'SQL\\CMS\\ContentFileComponentProperties'
-                ,'SQL\\CMS\\ContentFileComponents'
-                ,'SQL\\CMS\\ContentFiles'
-                ,'SQL\\CMS\\ContentLibraries'
-                ,'SQL\\CMS\\ContentLoads'
-                ,'SQL\\CMS\\ContentReviews'
-                ,'SQL\\CMS\\ContentRevisions'
-                ,'SQL\\CMS\\Contents'
-                ,'SQL\\CMS\\ContentTags'
-                ,'SQL\\CMS\\Documents'
-                ,'SQL\\CMS\\Feedbacks'
-                ,'SQL\\CMS\\Libraries'
-                ,'SQL\\CMS\\LibraryPermissions'
-                ,'SQL\\CMS\\LibrarySubscriptions'
-                ,'SQL\\CMS\\Saved-Searches'
-                ,'SQL\\CMS\\SavedSearchCategories'
-                ,'SQL\\CMS\\SavedSearchContentSources'
-                ,'SQL\\CMS\\SavedSearchLibraries'
-                ,'SQL\\CMS\\SavedSearchPermissions'
-                ,'SQL\\CMS\\SavedSearchTags'
-                ,'SQL\\CMS\\SearchContentSources'
-                ,'SQL\\CMS\\Searches'
-                ,'SQL\\CMS\\SearchLibraries'
-                ,'SQL\\CMS\\SearchResults'
-                ,'SQL\\CMS\\SearchCategories'
-                ,'SQL\\CMS\\SearchTags'
-                ,'SQL\\CMS\\Tags'
-                ,'SQL\\CMS\\UserFavoriteContents'
-                ,'SQL\\ORG\\Users'
-                ,'SQL\\UPDATE_REFERENCES\\UpdateTables']
+QUERY_FILES_LIST = ['SQL_Connection\\References\\SQL\\!Base\\Refreshed'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Categories'
+                #,'SQL_Connection\\References\\SQL\\CMS\\Categories_Data'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentAttachments'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentDownloads'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentFileComponentProperties'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentFileComponents'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentFiles'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentLibraries'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentLoads'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentReviews'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentRevisions'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Contents'
+                ,'SQL_Connection\\References\\SQL\\CMS\\ContentTags'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Documents'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Feedbacks'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Libraries'
+                ,'SQL_Connection\\References\\SQL\\CMS\\LibraryPermissions'
+                ,'SQL_Connection\\References\\SQL\\CMS\\LibrarySubscriptions'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Saved-Searches'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SavedSearchCategories'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SavedSearchContentSources'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SavedSearchLibraries'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SavedSearchPermissions'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SavedSearchTags'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SearchContentSources'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Searches'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SearchLibraries'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SearchResults'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SearchCategories'
+                ,'SQL_Connection\\References\\SQL\\CMS\\SearchTags'
+                ,'SQL_Connection\\References\\SQL\\CMS\\Tags'
+                ,'SQL_Connection\\References\\SQL\\CMS\\UserFavoriteContents'
+                ,'SQL_Connection\\References\\SQL\\ORG\\Users']
+                #,'SQL_Connection\\References\\SQL\\UPDATE_REFERENCES\\UpdateTables']
 
 # base_files_dict is a JSON Stream that contains many settings for
 # handling the data entry into SQL tables based on the nested sections
 # within the API returned JSON stream for records by ID
-base_file_dict = read_file('Files\\SupportFiles\\Files_Collection.json')
+base_file_dict = read_file('SQL_Connection\\SupportFiles\\Files_Collection_Deprecated.json')
 # base_tables_list is a list of the primary keys for the main tables
 # from the base_file_dict stream, used when populating data into the
 # primary tables
@@ -79,11 +80,11 @@ base_tables_list = base_file_dict.keys()
 # The order helps control the data entry order and is leveraged heavily
 # by query_builder_tables and write_to_tables in the query building and
 # data population functions
-fields = read_file('Files\\SupportFiles\\Fields.json')
+fields = read_file('SQL_Connection\\SupportFiles\\Fields.json')
 
 # Base data used to seed the categories table
 # LIKELY DEPRECATED as base_file_dict is implemented
-CSV = path.abspath('Files\\SupportFiles\\Categories.csv')
+CSV = path.abspath('SQL_Connection\\SupportFiles\\Categories.csv')
 BASE_DATA_ENTRY = f"""BULK INSERT Categories
   FROM '{CSV}'
   WITH (FORMAT = 'CSV')"""
@@ -193,7 +194,7 @@ def query_builder_tables(file):
     The list comes from the 'QUERY_FILES_LIST' Constant parameter
     RETURNS: an assembled query including a prefixing 'USE' statement"""
     try:
-        F_PATH = f'Files\\{file}.sql'
+        F_PATH = f'{file}.sql'
         with open(F_PATH) as open_file:
             query = f'USE [{database}]\n {open_file.read()}'
         return query
@@ -210,7 +211,7 @@ def query_builder_insert(table='Contents'):
         # builds the standard query string
         # INSERT INTO [TABLE] (Fields) VALUES (?s);
         query = f'USE [{database}]\n \
-                    INSERT INTO [{table}] ({f_string}, updatedId)\n \
+                    INSERT INTO [{table}] ({f_string}, refreshedId)\n \
                     VALUES ('
         items = len(fields[table])
         i=0
@@ -251,7 +252,7 @@ def generate_time_entry ():
     values = [uuid_current, date_time_current, user_current]
     try:
         query = f'USE [{database}]\n \
-                    INSERT INTO [Updated] (id, updatedAt, updatedByComputerUser)\n \
+                    INSERT INTO [Refreshed] (id, refreshedAt, refreshedByComputerUser)\n \
                     VALUES (?, ?, ?);'
         with connect_to_database() as con:
             with con.cursor() as cur:
@@ -273,7 +274,7 @@ def write_to_tables (uuid_current, table='Contents', stream=temp_values):
                 # values = item.values()
                 row = []
                 for field in fields[table]:
-                    if field == 'revitCategoryId':
+                    if field == 'categoryId':
                         try:
                             row.append(item['category']['id'])
                         except:
@@ -282,7 +283,9 @@ def write_to_tables (uuid_current, table='Contents', stream=temp_values):
                         if item[field] == False:
                             row.append(0)
                         elif item[field] == True:
-                            row.append (1)
+                            row.append(1)
+                        #elif item[field] == None:
+                        #    row.append('Null')
                         else:
                             row.append(item[field])
                 row.append(uuid_current)
@@ -307,11 +310,11 @@ def write_tables_sequential ():
     uuid_current = generate_time_entry()
     for table in base_tables_list:
         try:
-            write_to_tables(uuid_current, table, ctc.get_all_x(table, ctc.get_total_items(table)))
+            write_to_tables(uuid_current, table, ctc.get_all_x(table,'CMS', ctc.get_total_items('CMS', table)))
         except Exception as err:
             print(err)
 
-def drop_database(database):
+def drop_database(database=db_name):
     """Rapidly drops the listed database for cleanup and testing"""
     query = f"""USE [master]
     ALTER database [{database}] set single_user with rollback immediate
@@ -377,14 +380,3 @@ def drop_database(database):
 #                     print(result)
 '''
 
-# Testing Section for code
-start_time = time.perf_counter()
-
-# drop_database(db_name)
-connect_to_database()
-create_all_tables()
-# write_tables_sequential()
-#write_to_tables('Libraries', ctc.get_all_x('Libraries', ctc.get_total_items('Libraries')))
-
-finish_time = time.perf_counter()
-print(f'Finished in {round(finish_time-start_time, 2)} second(s)')

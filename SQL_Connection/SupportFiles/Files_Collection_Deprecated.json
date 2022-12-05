@@ -1,0 +1,20 @@
+{
+    "Contents": {
+        "nested":"Content",
+        "switches":"includeFiles=true&includeTypes=true&includeTypeParameters=true&includeLibraries=true&includeAttachments=true&includeDownloads=true&includeLoads=true&includeDocuments=true&includeReviews=true&includeRevisions=true&includeTags=true&includeUsers=true&includeFavoritedUsers=true",
+        "excludedSwitches": ""
+    },
+    "Libraries": {
+        "nested": "Library",
+        "switches":"includePermissions=true&includeContents=true&includeUsers=true"
+    },
+    "Saved-Searches": "",
+    "Searches": {
+        "nested": "Search",
+        "switches":"includeResults=true&includeCategories=true&includeLibraries=true&includeTags=true&includeSources=true&includeUsers=true"
+    },
+    "Tags": {
+        "nested": "Tag",
+        "switches":"includeContents=true&includeUsers=true"
+    }
+}
