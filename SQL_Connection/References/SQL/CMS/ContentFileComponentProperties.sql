@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[ContentFileComponentProperties]    Script Date: 11/17/2022 4:20:39 PM ******/
+/****** Object:  Table [CMS].[ContentFileComponentProperties]    Script Date: 11/17/2022 4:20:39 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[ContentFileComponentProperties](
+CREATE TABLE [CMS].[ContentFileComponentProperties](
 	[id] [uniqueidentifier] NOT NULL,
 	[contentFileComponentId] [uniqueidentifier] NOT NULL,
 	[isInstance] [bit] NULL,
@@ -23,4 +23,4 @@ CREATE TABLE [dbo].[ContentFileComponentProperties](
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 
-ALTER TABLE [dbo].[ContentFileComponentProperties] ADD  DEFAULT ((0)) FOR [type]
+ALTER TABLE [CMS].[ContentFileComponentProperties] ADD  DEFAULT ((0)) FOR [type]

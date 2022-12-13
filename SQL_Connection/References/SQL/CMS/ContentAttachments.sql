@@ -1,8 +1,8 @@
-/****** Object:  Table [dbo].[ContentAttachments]    Script Date: 11/17/2022 4:21:31 PM ******/
+/****** Object:  Table [CMS].[ContentAttachments]    Script Date: 11/17/2022 4:21:31 PM ******/
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[ContentAttachments](
+CREATE TABLE [CMS].[ContentAttachments](
 	[id] [uniqueidentifier] NOT NULL,
 	[addedAt] [datetime2](7) NOT NULL,
 	[addedById] [uniqueidentifier] NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[ContentAttachments](
 	CONSTRAINT [PK_ContentAttachments] PRIMARY KEY CLUSTERED 
 		([Id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
-ALTER TABLE [dbo].[ContentAttachments] ADD  DEFAULT (CONVERT([bit],(0))) FOR [IsLink]
-ALTER TABLE [dbo].[ContentAttachments] ADD  DEFAULT (N'') FOR [Name]
-ALTER TABLE [dbo].[ContentAttachments] ADD  DEFAULT (N'') FOR [Path]
-ALTER TABLE [dbo].[ContentAttachments] ADD  DEFAULT ((100)) FOR [Type]
+ALTER TABLE [CMS].[ContentAttachments] ADD  DEFAULT (CONVERT([bit],(0))) FOR [IsLink]
+ALTER TABLE [CMS].[ContentAttachments] ADD  DEFAULT (N'') FOR [Name]
+ALTER TABLE [CMS].[ContentAttachments] ADD  DEFAULT (N'') FOR [Path]
+ALTER TABLE [CMS].[ContentAttachments] ADD  DEFAULT ((100)) FOR [Type]

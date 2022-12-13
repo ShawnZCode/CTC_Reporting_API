@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[Searches]    Script Date: 11/17/2022 4:26:41 PM ******/
+/****** Object:  Table [CMS].[Searches]    Script Date: 11/17/2022 4:26:41 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[Searches](
+CREATE TABLE [CMS].[Searches](
 	[id] [uniqueidentifier] NOT NULL,
 	[organizationId] [uniqueidentifier] NOT NULL,
 	[savedSearchId] [uniqueidentifier] NULL,
@@ -35,14 +35,14 @@ CREATE TABLE [dbo].[Searches](
 	)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-ALTER TABLE [dbo].[Searches] ADD  DEFAULT (CONVERT([bigint],(0))) FOR [executionTimeInMs]
+ALTER TABLE [CMS].[Searches] ADD  DEFAULT (CONVERT([bigint],(0))) FOR [executionTimeInMs]
 
-ALTER TABLE [dbo].[Searches] ADD  DEFAULT ((0)) FOR [page]
+ALTER TABLE [CMS].[Searches] ADD  DEFAULT ((0)) FOR [page]
 
-ALTER TABLE [dbo].[Searches] ADD  DEFAULT ((0)) FOR [pageSize]
+ALTER TABLE [CMS].[Searches] ADD  DEFAULT ((0)) FOR [pageSize]
 
-ALTER TABLE [dbo].[Searches] ADD  DEFAULT ('00000000-0000-0000-0000-000000000000') FOR [searchId]
+ALTER TABLE [CMS].[Searches] ADD  DEFAULT ('00000000-0000-0000-0000-000000000000') FOR [searchId]
 
-ALTER TABLE [dbo].[Searches] ADD  DEFAULT ((0)) FOR [resultCount]
+ALTER TABLE [CMS].[Searches] ADD  DEFAULT ((0)) FOR [resultCount]
 
-ALTER TABLE [dbo].[Searches] ADD  DEFAULT (CONVERT([bit],(0))) FOR [hasExplicitLibraryFilter]
+ALTER TABLE [CMS].[Searches] ADD  DEFAULT (CONVERT([bit],(0))) FOR [hasExplicitLibraryFilter]

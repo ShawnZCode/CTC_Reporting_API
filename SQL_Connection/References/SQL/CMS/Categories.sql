@@ -1,7 +1,7 @@
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[Categories](
+CREATE TABLE [CMS].[Categories](
 	[id] [int] NOT NULL,
 	[name] [nvarchar](100) NULL,
     [fileExtension] [nvarchar](20) NULL,

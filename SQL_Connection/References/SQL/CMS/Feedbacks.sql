@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[Feedbacks]    Script Date: 11/17/2022 4:22:17 PM ******/
+/****** Object:  Table [CMS].[Feedbacks]    Script Date: 11/17/2022 4:22:17 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[Feedbacks](
+CREATE TABLE [CMS].[Feedbacks](
 	[id] [uniqueidentifier] NOT NULL,
 	[organizationId] [uniqueidentifier] NOT NULL,
 	[description] [nvarchar](2048) NULL,
@@ -18,4 +18,4 @@ CREATE TABLE [dbo].[Feedbacks](
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 
-ALTER TABLE [dbo].[Feedbacks] ADD  DEFAULT ((0)) FOR [logFileCount]
+ALTER TABLE [CMS].[Feedbacks] ADD  DEFAULT ((0)) FOR [logFileCount]

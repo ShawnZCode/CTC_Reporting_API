@@ -1,3 +1,1 @@
-"""Initialization import for nested references"""
-
-#from .Searches import Searches
+"""Initialization of parent folder as python module"""

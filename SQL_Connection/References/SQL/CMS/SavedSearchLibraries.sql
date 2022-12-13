@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[SavedSearchLibraries]    Script Date: 11/17/2022 4:24:17 PM ******/
+/****** Object:  Table [CMS].[SavedSearchLibraries]    Script Date: 11/17/2022 4:24:17 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[SavedSearchLibraries](
+CREATE TABLE [CMS].[SavedSearchLibraries](
 	[savedSearchId] [uniqueidentifier] NOT NULL,
 	[libraryId] [uniqueidentifier] NOT NULL,
 	[refreshedId] [uniqueidentifier] NOT NULL,

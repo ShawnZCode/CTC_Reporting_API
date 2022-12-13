@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[Libraries]    Script Date: 11/17/2022 4:22:34 PM ******/
+/****** Object:  Table [CMS].[Libraries]    Script Date: 11/17/2022 4:22:34 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[Libraries](
+CREATE TABLE [CMS].[Libraries](
 	[id] [uniqueidentifier] NOT NULL,
 	[addedAt] [datetime2](7) NOT NULL,
 	[addedById] [uniqueidentifier] NOT NULL,
@@ -21,4 +21,4 @@ CREATE TABLE [dbo].[Libraries](
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 
-ALTER TABLE [dbo].[Libraries] ADD  DEFAULT ((200)) FOR [defaultRole]
+ALTER TABLE [CMS].[Libraries] ADD  DEFAULT ((200)) FOR [defaultRole]

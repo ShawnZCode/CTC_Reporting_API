@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[ContentFiles]    Script Date: 11/17/2022 4:19:56 PM ******/
+/****** Object:  Table [CMS].[ContentFiles]    Script Date: 11/17/2022 4:19:56 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[ContentFiles](
+CREATE TABLE [CMS].[ContentFiles](
 	[id] [uniqueidentifier] NOT NULL,
 	[addedAt] [datetime2](7) NOT NULL,
 	[addedById] [uniqueidentifier] NOT NULL,
@@ -29,4 +29,4 @@ CREATE TABLE [dbo].[ContentFiles](
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 
-ALTER TABLE [dbo].[ContentFiles] ADD  DEFAULT ('cloud') FOR [location]
+ALTER TABLE [CMS].[ContentFiles] ADD  DEFAULT ('cloud') FOR [location]

@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[ContentLoads]    Script Date: 11/17/2022 4:19:20 PM ******/
+/****** Object:  Table [CMS].[ContentLoads]    Script Date: 11/17/2022 4:19:20 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[ContentLoads](
+CREATE TABLE [CMS].[ContentLoads](
 	[id] [uniqueidentifier] NOT NULL,
 	[contentId] [uniqueidentifier] NOT NULL,
 	[loadedAt] [datetime2](7) NOT NULL,
@@ -15,4 +15,4 @@ CREATE TABLE [dbo].[ContentLoads](
 		([id] ASC)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
-ALTER TABLE [dbo].[ContentLoads] ADD  DEFAULT ('00000000-0000-0000-0000-000000000000') FOR [loadedById]
+ALTER TABLE [CMS].[ContentLoads] ADD  DEFAULT ('00000000-0000-0000-0000-000000000000') FOR [loadedById]

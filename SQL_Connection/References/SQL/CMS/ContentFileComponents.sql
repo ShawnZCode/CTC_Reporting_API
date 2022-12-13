@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[ContentFileComponents]    Script Date: 11/17/2022 4:20:17 PM ******/
+/****** Object:  Table [CMS].[ContentFileComponents]    Script Date: 11/17/2022 4:20:17 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[ContentFileComponents](
+CREATE TABLE [CMS].[ContentFileComponents](
 	[id] [uniqueidentifier] NOT NULL,
 	[contentFileId] [uniqueidentifier] NOT NULL,
 	[name] [nvarchar](150) NOT NULL,

@@ -1,8 +1,8 @@
-/****** Object:  Table [dbo].[Contents]    Script Date: 11/17/2022 4:18:17 PM ******/
+/****** Object:  Table [CMS].[Contents]    Script Date: 11/17/2022 4:18:17 PM ******/
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[Contents](
+CREATE TABLE [CMS].[Contents](
 	[id] [uniqueidentifier] NOT NULL,
 	[addedAt] [datetime2](7) NOT NULL,
 	[addedById] [uniqueidentifier] NOT NULL,

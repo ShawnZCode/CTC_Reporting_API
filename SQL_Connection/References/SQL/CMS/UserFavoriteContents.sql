@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[UserFavoriteContents]    Script Date: 11/17/2022 4:28:45 PM ******/
+/****** Object:  Table [CMS].[UserFavoriteContents]    Script Date: 11/17/2022 4:28:45 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[UserFavoriteContents](
+CREATE TABLE [CMS].[UserFavoriteContents](
 	[userId] [uniqueidentifier] NOT NULL,
 	[contentId] [uniqueidentifier] NOT NULL,
 	[refreshedId] [uniqueidentifier] NOT NULL,

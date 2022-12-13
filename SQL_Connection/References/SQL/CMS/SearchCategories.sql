@@ -1,9 +1,9 @@
-/****** Object:  Table [dbo].[SearchCategories]    Script Date: 11/17/2022 4:27:45 PM ******/
+/****** Object:  Table [CMS].[SearchCategories]    Script Date: 11/17/2022 4:27:45 PM ******/
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
 
-CREATE TABLE [dbo].[SearchCategories](
+CREATE TABLE [CMS].[SearchCategories](
 	[searchId] [uniqueidentifier] NOT NULL,
 	[categoryId] [int] NOT NULL,
 	[refreshedId] [uniqueidentifier] NOT NULL,

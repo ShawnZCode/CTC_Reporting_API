@@ -2,17 +2,18 @@
 
 import time
 
-#APICore
-#from APICore_Connection.Functions import api_get_functions
-
 #JSON
 #from JSON import read_file
 from JSON.Functions import json_cache_files
-
 #SQL
 #from SQL_Connection.Functions import sql_functions as sql
 from SQL_Connection.Classes.ctc_data_object import CTCDataObject
 from SQL_Connection.Classes.ctc_database_connection import CTCDatabaseObject
+
+#APICore
+#from APICore_Connection.Functions import api_get_functions
+
+
 
 # Testing Section for code
 start_time = time.perf_counter()
@@ -21,15 +22,16 @@ start_time = time.perf_counter()
 #json_cache_files.get_base_jsons()
 
 # sql.drop_database()
-# with CTCDatabaseObject() as database_reset:
+with CTCDatabaseObject() as database_reset:
 #     #print(database)
-#     database_reset.database_delete()
+    database_reset.database_delete()
 #     #print(database)
 #     database_reset = None
 #     #print(database)
 with CTCDatabaseObject() as database:
     #EnterData
-    with CTCDataObject() as data:
+    #with CTCDataObject() as data:
+    print(database)
         # TODO: Get data run through data object(s)
     #print(database, '\n', database.connection)
 

@@ -6,12 +6,12 @@
         "pwd": "Py@dm1n"
     },
     "_DatabaseSettings_Structure_": {
-        "_Namespace_":{
+        "_Schema_": {
             "_TableName_": {
                 "isParent": true,
-                "children": {},
+                "children": [],
                 "jsonSource": "json call",
-                "sqlTableQuery": "Table.sql",
+                "sqlTableQuery": null,
                 "keysMap": {
                     "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
                 },
@@ -26,50 +26,58 @@
         }
     },
     "databaseSettings": {
-        "Core":{
+        "Core": {
             "Refreshed": {
                 "isParent": true,
                 "children": {},
                 "jsonSource": "",
-                "sqlTableQuery": "Refreshed.sql",
+                "sqlTableQuery": "Refreshed",
                 "keysMap": {},
                 "apiSwitches": []
             }
         },
-        "Accounts":{
+        "Accounts": {
             "Users": {
                 "isParent": true,
                 "children": {},
                 "jsonSource": "Users",
-                "sqlTableQuery": "Users.sql",
+                "sqlTableQuery": "Users",
                 "keysMap": {
                     "[id]": "[id]",
                     "[refreshedId]": ""
                 },
-                "apiSwitches": [""]
+                "apiSwitches": [
+                    ""
+                ]
             },
             "Groups": {
                 "isParent": true,
-                "children": ["UserGroups"],
+                "children": [
+                    "UserGroups"
+                ],
                 "jsonSource": "Groups",
-                "sqlTableQuery": "",
+                "sqlTableQuery": null,
                 "keysMap": {
                     "[id]": "[id]",
                     "[refreshedId]": ""
                 },
-                "apiSwitches": [""]
+                "apiSwitches": [
+                    ""
+                ]
             },
             "UserGroups": {
                 "isParent": false,
                 "children": [],
                 "jsonSource": "Groups",
-                "sqlTableQuery": "",
+                "sqlTableQuery": null,
                 "keysMap": {
                     "[userId]": "[memberIds]",
                     "[groupId]": "[groupId]",
                     "[refreshedId]": ""
                 },
-                "apiSwitches": [""]
+                "apiSwitches": [
+                    ""
+                ]
             }
         },
         "CMS": {
@@ -77,9 +85,11 @@
                 "isParent": true,
                 "hasParent": false,
                 "parent": "",
-                "children": ["Contents"],
+                "children": [
+                    "Contents"
+                ],
                 "jsonSource": "Contents",
-                "sqlTableQuery": "",
+                "sqlTableQuery": null,
                 "apiSwitches": [
                     {
                         "orderBy": {
@@ -118,9 +128,11 @@
                 "isParent": true,
                 "hasParent": true,
                 "parent": "@Contents",
-                "children": ["ContentFiles"],
+                "children": [
+                    "ContentFiles"
+                ],
                 "jsonSource": "Content",
-                "sqlTableQuery": "",
+                "sqlTableQuery": "Contents",
                 "apiSwitches": [
                     {
                         "orderBy": {
@@ -159,7 +171,10 @@
                 "isParent": true,
                 "hasParent": true,
                 "parent": "Contents",
-                "children": ["ContentFileComponents",""],
+                "children": [
+                    "ContentFileComponents",
+                    ""
+                ],
                 "apiSwitches": [
                     {
                         "includeFiles": {
@@ -232,7 +247,7 @@
                         }
                     }
                 ],
-                "hasSQLTable": true,
+                "sqlTableQuery": "ContentFiles",
                 "keysMap": {
                     "[id]": "[id]",
                     "[addedAt]": "[addedAt]",
@@ -247,8 +262,10 @@
                 "isParent": true,
                 "hasParent": false,
                 "parent": "Library",
-                "children": ["LibraryById"],
-                "jsonSource": "Contents",
+                "children": [
+                    "LibraryById"
+                ],
+                "jsonSource": "Library",
                 "apiSwitches": [
                     {
                         "orderBy": {
@@ -257,11 +274,11 @@
                     },
                     {
                         "orderByDescending": {
-                            "value": true
+                            "value": false
                         }
                     }
                 ],
-                "hasSQLTable": true,
+                "sqlTableQuery": null,
                 "keysMap": {
                     "[id]": "[id]",
                     "[addedAt]": "[addedAt]",
@@ -276,8 +293,11 @@
                 "isParent": true,
                 "hasParent": false,
                 "parent": "Libraries",
-                "children": ["LibraryPermissions", "LibrarySubscriptions"],
-                "jsonSource": "Contents",
+                "children": [
+                    "LibraryPermissions",
+                    "LibrarySubscriptions"
+                ],
+                "jsonSource": "library",
                 "apiSwitches": [
                     {
                         "includePermissions": {
@@ -297,7 +317,7 @@
                         }
                     }
                 ],
-                "hasSQLTable": true,
+                "sqlTableQuery": "Libraries",
                 "keysMap": {
                     "[id]": "[id]",
                     "[addedAt]": "[addedAt]",
@@ -308,7 +328,22 @@
                     "[refreshedId]": ""
                 }
             },
-            "Saved-Searches": "",
+            "SavedSearches": {
+                "isParent": true,
+                "children": [],
+                "jsonSource": "saved-searches",
+                "sqlTableQuery": "SavedSearches",
+                "keysMap": {
+                    "[SQL TABLE COLUMN NAME]": "[JSON][ROUTE]"
+                },
+                "apiSwitches": [
+                    {
+                        "apiSwitchName": {
+                            "value": true
+                        }
+                    }
+                ]
+            },
             "Searches": {
                 "nested": "Search",
                 "switches": {
@@ -368,11 +403,7 @@
                 }
             }
         },
-        "Projects": {
-
-        },
-        "Licensing":{
-
-        }
+        "Projects": {},
+        "Licensing": {}
     }
 }

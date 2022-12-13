@@ -1,92 +1,63 @@
 """Class used to create a database and return a database connection"""
 
 import json
+
 import pyodbc
+
 from JSON.Functions.read_file import read_file
 
-class CTCDatabaseObject():
-    """This is the core object which takes in:
-        SQL namespace,
-        SQL Table Name
-        JSON Data Stream"""
-    api_settings = read_file('APICore_Connection\\Settings.json')
-    sql_settings = read_file('SQL_Connection\\Settings.json')
 
-    driver=sql_settings['connectionSettings']['driver']
-    server=sql_settings['connectionSettings']['server']
-    api_key=api_settings['CTCAPI']['reportKey']
-    db_name = f'CTC Reporting {api_key}'
-    uid=sql_settings['connectionSettings']['uid']
-    pwd=sql_settings['connectionSettings']['pwd']
+class CTCDatabaseObject:
+    """This is the core object which takes in:"""
+
+    api_settings = read_file("APICore_Connection\\Settings.json")
+    sql_settings = read_file("SQL_Connection\\Settings.json")
+
+    driver = sql_settings["connectionSettings"]["driver"]
+    server = sql_settings["connectionSettings"]["server"]
+    api_key = api_settings["CTCAPI"]["reportKey"]
+    db_name = f"CTC Reporting {api_key}"
+    uid = sql_settings["connectionSettings"]["uid"]
+    pwd = sql_settings["connectionSettings"]["pwd"]
 
     connection = None
 
     def __init__(self):
-        """Initialization method (constructor), establishes database object, scopes, tables and relationships
+        """Initialization method (constructor), establishes database object, schema, tables
+        and relationships
         SETS database connection"""
 
-        """ vvv Deprecated initialization
-        try:
-            self.db_name = f'CTC Reporting {self.api_key}'
-            conn_str = f'driver={self.driver};server={self.server};database={self.db_name};UID={self.uid};PWD={self.pwd};'
-            #self.connection.close()
-            #self.connection = None
-            self.connection = pyodbc.connect(conn_str, autocommit=True)
-        except:
-            try:
-                temp_db_name = 'master'
-                conn_str = f'driver={self.driver};server={self.server};database={temp_db_name};UID={self.uid};PWD={self.pwd};'
-                self.connection = pyodbc.connect(conn_str, autocommit=True)
-            except Exception as err:
-                print(err)
-        finally:
-            pass
-        """
-        
         # Initial server connection
         try:
-            with self.__database_connect('master') as temp_connection:
-            # List databases
-                try:
-                    database_list = self.__database_list(temp_connection)
+            with self.__database_connect("master") as temp_connection:
+                # List databases
+                database_list = self.__database_list(temp_connection)
                     # Create or connect to desired database
-                    try:
-                        if self.db_name not in database_list:
-                            self.__database_create(temp_connection)
-                            self.__scopes_create()
-                            self.__tables_create()
-                            self.__tables_relationships_create()
-                        else:
-                            self.connection = self.__database_connect(self.db_name)
-                    except Exception as err:
-                        print(f'Database List Error2: {err}')
-                except Exception as err:
-                    print(f'Database List Error: {err}')
+                if self.db_name not in database_list:
+                    self.__database_create(temp_connection)
+                    schemas = self.__schema_create()
+                    self.__tables_create(schemas)
+                    self.__tables_relationships_create()
+            self.connection = self.__database_connect(self.db_name)
         except Exception as err:
-            print(f'Initial Connection Error: {err}')
-
-        # Check scopes and create missing scopes
-
-        # Check tables and create missing tables
-
-        # Alter relationships
+            print(f"Connection Error: {err}")
 
     def __enter__(self):
+        """Context manager entry point"""
         return self
 
     def __exit__(self, *args):
-        #print(args)
-        self.connection.close()
+        """Context manager exit point"""
         self.__del__
-        del self
 
     def __del__(self):
+        """Self destruction to close out everything and clean up after the class"""
         output = str(self)
         try:
             self.connection.close()
             del self
         finally:
-            return f'{output} has been deleted'
+            return f"{output} has been deleted"
 
     def __repr__(self):
         """Stock object representation method
@@ -100,7 +71,7 @@ class CTCDatabaseObject():
     def __database_list(self, connection):
         """RETURNS a list of databases
         Used to determine if a database needs to be created or can be deleted"""
-        query = 'SELECT name FROM sys.databases'
+        query = "SELECT name FROM sys.databases"
         try:
             with connection.cursor() as cursor:
                 table = cursor.execute(query)
@@ -110,7 +81,7 @@ class CTCDatabaseObject():
                     table_list.append(table[0])
                 return table_list
         except:
-            return 'no valid connection available'
+            return "no valid connection available"
 
     def __database_connect(self, database):
         """Connection to database
@@ -118,11 +89,11 @@ class CTCDatabaseObject():
         SETS: self.connection"""
         try:
             db_name = database
-            conn_str = f'driver={self.driver};server={self.server};database={db_name};UID={self.uid};PWD={self.pwd};'
+            conn_str = f"driver={self.driver};server={self.server};database={db_name};UID={self.uid};PWD={self.pwd};"
             connection = pyodbc.connect(conn_str, autocommit=True)
             return connection
         except Exception as err:
-            print(f'Database Connection Error: {err}')
+            print(f"Database Connection Error: {err}")
             return err
 
     def __database_create(self, connection=connection):
@@ -185,7 +156,7 @@ class CTCDatabaseObject():
                 connection.commit()
                 self.connection = self.__database_connect(self.db_name)
             except Exception as err:
-                print(f'Database Creation Failure:\n {err}\n\n')
+                print(f"Database Creation Failure:\n {err}\n\n")
                 return err
 
     def database_delete(self):
@@ -195,21 +166,22 @@ class CTCDatabaseObject():
     ALTER database [{self.db_name}] set single_user with rollback immediate
     DROP database [{self.db_name}]
     """
-        #print(query)
+        # print(query)
         try:
             with self.connection.cursor() as cursor_delete:
                 cursor_delete.execute(query)
                 self.connection.commit()
-                print(f'\nSuccessfully removed database {self.db_name}\n')
+                print(f"\nSuccessfully removed database {self.db_name}\n")
         except Exception as err:
             return print(err)
 
-    def __scopes_create(self):
-        """Creates the scope listings needed by tables create"""
-        scopes = self.sql_settings['databaseSettings'].keys()
-        for scope in scopes:
-            query_1 = f'USE [{self.db_name}]'
-            query_2 = f'CREATE SCHEMA [{scope}]'
+    def __schema_create(self):
+        """Creates the scope listings needed by tables create
+        RETURNS list of schemas to facilitate table creation by schema"""
+        schemas_list = self.sql_settings["databaseSettings"].keys()
+        for schema in schemas_list:
+            query_1 = f"USE [{self.db_name}]"
+            query_2 = f"CREATE SCHEMA [{schema}]"
             try:
                 with self.connection.cursor() as cursor:
                     cursor.execute(query_1)
@@ -218,30 +190,45 @@ class CTCDatabaseObject():
                 self.connection.commit()
             except Exception as err:
                 return err
+        return schemas_list
 
-    def __tables_create_query(self):
+    def __tables_create_query(self, file):
         """Builds query to build the required tables
         ACCEPTS: the file name that contains the primary query
         files are found in the 'Files\\SQL sub-directories
         The list comes from the 'QUERY_FILES_LIST' Constant parameter
         RETURNS: an assembled query including a prefixing 'USE' statement"""
         try:
-            F_PATH = f'{file}.sql'
+            F_PATH = f"{file}.sql"
             with open(F_PATH) as open_file:
-                query = f'USE [{database}]\n {open_file.read()}'
+                query = f"USE [{self.db_name}]\n {open_file.read()}"
             return query
         except Exception as err:
             return err
 
-    def __tables_create(self):
+    def __tables_create(self, schemas):
         """Generates all tables listed in the SQL_Settings.json file"""
-        # TODO: Author the entirety of the tables_create method
-        pass
+        connection = self.connection
+        settings = self.sql_settings
+        try:
+            with connection.cursor() as cursor:
+                for schema in schemas:
+                    tables = settings['databaseSettings'][schema].keys()
+                    for table in tables:
+                        sql_file = settings['databaseSettings'][schema][table]['sqlTableQuery']
+                        if sql_file is None:
+                            continue
+                        file = f'SQL_Connection\\References\\SQL\\{schema}\\{sql_file}'
+                        query = self.__tables_create_query(file)
+                        cursor.execute(query)
+                        connection.commit()
+        except Exception as err:
+            print(f'Potential error: \n{err}\n\n')
 
     def tables_list(self):
         """Simple method intended to list all tables in the database"""
         # TODO: Author the entirety of the tables_list method
-        query = 'SELECT * FROM information_schema.tables;'
+        query = "SELECT * FROM information_schema.tables;"
         try:
             with self.connection.cursor() as cursor:
                 result = cursor.execute(query)
