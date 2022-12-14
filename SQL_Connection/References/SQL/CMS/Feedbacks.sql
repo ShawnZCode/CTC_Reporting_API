@@ -5,7 +5,6 @@ SET QUOTED_IDENTIFIER ON
 
 CREATE TABLE [CMS].[Feedbacks](
 	[id] [uniqueidentifier] NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[description] [nvarchar](2048) NULL,
 	[type] [int] NOT NULL,
 	[screenshotCount] [int] NOT NULL,

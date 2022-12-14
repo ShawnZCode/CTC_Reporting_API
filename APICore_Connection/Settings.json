@@ -1,14 +1,200 @@
 {
-    "CTCAPI":
-    {
+    "apiConnection": {
         "rowsPerPage": 1000,
-        "apiEnv":
-        {
+        "apiEnv": {
             "Prod": "api",
             "Stage": "api-stage",
             "Dev": "api-dev"
         },
         "reportKey": "37CE1DF4-4D8F-4A10-8E4A-4D3FCAA76350",
         "dayOffset": 30
+    },
+    "_scopeTemplate": {
+        "_ScopeName": {
+            "_CollectionName": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            }
+        }
+    },
+    "scopes": {
+        "Accounts": {
+            "users": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "displayName"
+                    },
+                    {
+                        "orderDescending": false
+                    }
+                ]
+            },
+            "groups": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "Name"
+                    },
+                    {
+                        "orderDescending": false
+                    }
+                ]
+            }
+        },
+        "CMS": {
+            "contents": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "content": {
+                "optionalSwitches": [
+                    {
+                        "includeFiles": true
+                    },
+                    {
+                        "includeTypes": true
+                    },
+                    {
+                        "includeTypeParameters": true
+                    },
+                    {
+                        "includeLibraries": true
+                    },
+                    {
+                        "includeAttachments": true
+                    },
+                    {
+                        "includeDownloads": true
+                    },
+                    {
+                        "includeLoads": true
+                    },
+                    {
+                        "includeDocuments": true
+                    },
+                    {
+                        "includeReviews": true
+                    },
+                    {
+                        "includeRevisions": true
+                    },
+                    {
+                        "includeTags": true
+                    },
+                    {
+                        "includeUsers": true
+                    },
+                    {
+                        "includeFavoritedUsers": true
+                    }
+                ]
+            },
+            "libraries": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "library": {
+                "optionalSwitches": [
+                    {
+                        "includePermissions": true
+                    },
+                    {
+                        "includeContents": true
+                    },
+                    {
+                        "includeUsers": true
+                    }
+                ]
+            },
+            "subscribed-libraries": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "subscribedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "tags": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "tag": {
+                "optionalSwitches": [
+                    {
+                        "includeContents": true
+                    },
+                    {
+                        "includeUsers": true
+                    }
+                ]
+            },
+            "saved-searches": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "searches": {
+                "optionalSwitches": [
+                    {
+                        "orderBy": "searchedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "search": {
+                "optionalSwitches": [
+                    {
+                        "includeResults": true
+                    },
+                    {
+                        "includeCategories": true
+                    },
+                    {
+                        "includeLibraries": true
+                    },
+                    {
+                        "includeTags": true
+                    },
+                    {
+                        "includeSources": true
+                    },
+                    {
+                        "includeUsers": true
+                    }
+                ]
+            }
+        }
     }
 }

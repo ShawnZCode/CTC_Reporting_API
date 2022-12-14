@@ -11,7 +11,6 @@ CREATE TABLE [CMS].[Contents](
 	[name] [nvarchar](150) NOT NULL,
 	[fileName] [nvarchar](150) NOT NULL,
 	[fileExtension] [nvarchar](13) NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[hasCustomPreviewImage] [bit] NOT NULL,
 	[type] [nvarchar](30) NOT NULL,
 	[source] [nvarchar](30) NOT NULL,

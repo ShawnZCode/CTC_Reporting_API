@@ -15,7 +15,7 @@ class CTCDatabaseObject:
 
     driver = sql_settings["connectionSettings"]["driver"]
     server = sql_settings["connectionSettings"]["server"]
-    api_key = api_settings["CTCAPI"]["reportKey"]
+    api_key = api_settings["apiConnection"]["reportKey"]
     db_name = f"CTC Reporting {api_key}"
     uid = sql_settings["connectionSettings"]["uid"]
     pwd = sql_settings["connectionSettings"]["pwd"]
@@ -192,7 +192,7 @@ class CTCDatabaseObject:
                 return err
         return schemas_list
 
-    def __tables_create_query(self, file):
+    def __create_query(self, file):
         """Builds query to build the required tables
         ACCEPTS: the file name that contains the primary query
         files are found in the 'Files\\SQL sub-directories
@@ -219,7 +219,7 @@ class CTCDatabaseObject:
                         if sql_file is None:
                             continue
                         file = f'SQL_Connection\\References\\SQL\\{schema}\\{sql_file}'
-                        query = self.__tables_create_query(file)
+                        query = self.__create_query(file)
                         cursor.execute(query)
                         connection.commit()
         except Exception as err:
@@ -239,8 +239,15 @@ class CTCDatabaseObject:
 
     def __tables_relationships_create(self):
         """Creates all needed (Hardcoded) table relationships"""
-        # TODO: Author the entirety of the create_relationships method
-        pass
+        connection = self.connection
+        try:
+            with connection.cursor() as cursor:
+                file = 'SQL_Connection\\References\\SQL\\UPDATE_REFERENCES\\UpdateTables'
+                query = self.__create_query(file)
+                cursor.execute(query)
+                connection.commit()
+        except ValueError as err:
+            return err
 
     def __tables_relationships_delete(self):
         """Removes all table relationships"""

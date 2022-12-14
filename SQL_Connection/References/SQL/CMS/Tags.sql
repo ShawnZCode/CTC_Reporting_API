@@ -10,7 +10,6 @@ CREATE TABLE [CMS].[Tags](
 	[updatedAt] [datetime2](7) NOT NULL,
 	[updatedById] [uniqueidentifier] NOT NULL,
 	[name] [nvarchar](100) NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[description] [nvarchar](2048) NULL,
 	[refreshedId] [uniqueidentifier] NOT NULL,
 	CONSTRAINT [PK_Tags] PRIMARY KEY CLUSTERED 

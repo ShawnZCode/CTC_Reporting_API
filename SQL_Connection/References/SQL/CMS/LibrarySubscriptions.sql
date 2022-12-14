@@ -4,12 +4,11 @@ SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 
 CREATE TABLE [CMS].[LibrarySubscriptions](
-	[Id] [uniqueidentifier] NOT NULL,
-	[OrganizationId] [uniqueidentifier] NOT NULL,
-	[LibraryId] [uniqueidentifier] NOT NULL,
-	[SubscribedAt] [datetime2](7) NOT NULL,
-	[SubscribedById] [uniqueidentifier] NOT NULL,
-	[ExpirationDate] [datetime2](7) NULL,
+	[id] [uniqueidentifier] NOT NULL,
+	[libraryId] [uniqueidentifier] NOT NULL,
+	[subscribedAt] [datetime2](7) NOT NULL,
+	[subscribedById] [uniqueidentifier] NOT NULL,
+	[expirationDate] [datetime2](7) NULL,
     [refreshedId] [uniqueidentifier] NOT NULL,
  CONSTRAINT [PK_LibrarySubscriptions] PRIMARY KEY CLUSTERED 
 (

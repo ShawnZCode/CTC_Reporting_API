@@ -17,7 +17,6 @@ CREATE TABLE [CMS].[ContentFiles](
 	[fileModifiedAt] [datetime2](7) NOT NULL,
 	[fileVersion] [int] NOT NULL,
 	[contentId] [uniqueidentifier] NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[hasRevitTypeCatalog] [bit] NULL,
 	[revitSourceProjectElementId] [int] NULL,
 	[revitContainerProjectElementId] [int] NULL,

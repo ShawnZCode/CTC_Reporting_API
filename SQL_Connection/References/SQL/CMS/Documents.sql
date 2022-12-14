@@ -5,7 +5,6 @@ SET QUOTED_IDENTIFIER ON
 
 CREATE TABLE [CMS].[Documents](
 	[id] [uniqueidentifier] NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[fileName] [nvarchar](100) NOT NULL,
 	[filePath] [nvarchar](255) NOT NULL,
 	[type] [int] NOT NULL,

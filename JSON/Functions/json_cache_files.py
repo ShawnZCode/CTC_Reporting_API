@@ -1,9 +1,10 @@
 """Routines to generate the local cache files from the CTC API"""
 
-import os
-from datetime import datetime
 #import time
 import json
+import os
+from datetime import datetime
+
 from APICore_Connection.Functions import api_get_functions as ctc
 from JSON.Functions.read_file import read_file
 

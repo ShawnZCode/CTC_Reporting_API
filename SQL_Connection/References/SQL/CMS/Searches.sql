@@ -5,7 +5,6 @@ SET QUOTED_IDENTIFIER ON
 
 CREATE TABLE [CMS].[Searches](
 	[id] [uniqueidentifier] NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[savedSearchId] [uniqueidentifier] NULL,
 	[query] [nvarchar](100) NULL,
 	[sortBy] [nvarchar](10) NOT NULL,

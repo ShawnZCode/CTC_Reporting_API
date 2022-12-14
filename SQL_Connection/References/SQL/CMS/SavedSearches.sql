@@ -10,7 +10,6 @@ CREATE TABLE [CMS].[SavedSearches](
 	[updatedAt] [datetime2](7) NOT NULL,
 	[updatedById] [uniqueidentifier] NOT NULL,
 	[name] [nvarchar](100) NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[scope] [nvarchar](20) NOT NULL,
 	[description] [nvarchar](2048) NULL,
 	[query] [nvarchar](100) NULL,

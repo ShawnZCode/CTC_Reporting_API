@@ -10,7 +10,6 @@ CREATE TABLE [CMS].[Libraries](
 	[updatedAt] [datetime2](7) NOT NULL,
 	[updatedById] [uniqueidentifier] NOT NULL,
 	[name] [nvarchar](100) NOT NULL,
-	[organizationId] [uniqueidentifier] NOT NULL,
 	[type] [nvarchar](15) NOT NULL,
 	[description] [nvarchar](2048) NULL,
 	[uploadContent] [bit] NOT NULL,

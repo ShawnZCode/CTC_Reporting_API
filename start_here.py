@@ -2,6 +2,8 @@
 
 import time
 
+#APICore
+#from APICore_Connection.Functions import api_get_functions
 #JSON
 #from JSON import read_file
 from JSON.Functions import json_cache_files
@@ -10,13 +12,9 @@ from JSON.Functions import json_cache_files
 from SQL_Connection.Classes.ctc_data_object import CTCDataObject
 from SQL_Connection.Classes.ctc_database_connection import CTCDatabaseObject
 
-#APICore
-#from APICore_Connection.Functions import api_get_functions
-
-
-
 # Testing Section for code
 start_time = time.perf_counter()
+
 
 #JSON Testing
 #json_cache_files.get_base_jsons()
