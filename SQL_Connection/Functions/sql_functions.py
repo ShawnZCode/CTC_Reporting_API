@@ -3,13 +3,15 @@
 #from asyncio.windows_events import NULL
 # import sys
 # sys.path.append('..')
+import uuid
 from datetime import datetime
+from getpass import getuser
 #import json
 #import concurrent.futures as cf
 from os import path
-from getpass import getuser
-import uuid
+
 import pyodbc
+
 from APICore_Connection.Functions import api_get_functions as ctc
 from JSON.Functions.read_file import read_file
 
@@ -90,6 +92,79 @@ BASE_DATA_ENTRY = f"""BULK INSERT Categories
   FROM '{CSV}'
   WITH (FORMAT = 'CSV')"""
 
+def generate_time_entry ():
+    """creates guid and time entry for association to all table write/update processes
+    ACCEPTS: No parameters
+    RETURNS: current uuid for future tables"""
+    uuid_current = str(uuid.uuid4())
+    user_current = getuser()
+    date_time_current = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+    values = [uuid_current, date_time_current, user_current]
+    try:
+        query = f'USE [{database}]\n \
+                    INSERT INTO [Refreshed] (id, refreshedAt, refreshedByComputerUser)\n \
+                    VALUES (?, ?, ?);'
+        with connect_to_database() as con:
+            with con.cursor() as cur:
+                cur.execute(query, values)
+                con.commit()
+        return uuid_current
+    except Exception as err:
+        return err
+
+def write_to_tables (uuid_current, table='Contents', stream=''):
+    """Enables the writing of CTC API Json streamed data to a table
+    ACCEPTS: UUID for the current process, destination SQL table, and the data stream
+    RETURNS: Success string or error"""
+    with connect_to_database() as con:
+        with con.cursor() as cur:
+            query = query_builder_insert(table)
+            values = []
+            for item in stream['items']:
+                # values = item.values()
+                row = []
+                for field in fields[table]:
+                    if field == 'categoryId':
+                        try:
+                            row.append(item['category']['id'])
+                        except:
+                            row.append(item['category'])
+                    else:
+                        if item[field] == False:
+                            row.append(0)
+                        elif item[field] == True:
+                            row.append(1)
+                        #elif item[field] == None:
+                        #    row.append('Null')
+                        else:
+                            row.append(item[field])
+                row.append(uuid_current)
+                values.append(tuple(row))
+                # print(tuple(row))
+                cur.execute(query, row)
+                con.commit()
+            try:
+                # print(len(values[0][15]))
+                values = tuple(values)
+                cur.executemany(query, values)
+                con.commit()
+            except Exception as err:
+                print(err)
+    return f'completed table {table}'
+
+def write_tables_sequential ():
+    """Calls write_to_tables recursively to write the base tables in sequence
+    ACCEPTS: nothing
+    RETURNS: error if there is an issue in the flow"""
+    # Creates a unique time entry for the current process
+    uuid_current = generate_time_entry()
+    for table in base_tables_list:
+        try:
+            write_to_tables(uuid_current, table, ctc.get_all_x(table,'CMS', ctc.get_total_items('CMS', table)))
+        except Exception as err:
+            print(err)
+
+''' DEPRECATED FUNCTIONS
 def connect_to_server(connect_string=None):
     """Initiates the server connection using credentials
     ACCEPTS: connection string (Likely CONN_STR_1 or 2)
@@ -240,78 +315,6 @@ def create_all_tables():
     except Exception as err:
         print(f'Potential error: \n{err}\n\n')
 
-def generate_time_entry ():
-    """creates guid and time entry for association to all table write/update processes
-    ACCEPTS: No parameters
-    RETURNS: current uuid for future tables"""
-    uuid_current = str(uuid.uuid4())
-    user_current = getuser()
-    date_time_current = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
-    values = [uuid_current, date_time_current, user_current]
-    try:
-        query = f'USE [{database}]\n \
-                    INSERT INTO [Refreshed] (id, refreshedAt, refreshedByComputerUser)\n \
-                    VALUES (?, ?, ?);'
-        with connect_to_database() as con:
-            with con.cursor() as cur:
-                cur.execute(query, values)
-                con.commit()
-        return uuid_current
-    except Exception as err:
-        return err
-
-def write_to_tables (uuid_current, table='Contents', stream=''):
-    """Enables the writing of CTC API Json streamed data to a table
-    ACCEPTS: UUID for the current process, destination SQL table, and the data stream
-    RETURNS: Success string or error"""
-    with connect_to_database() as con:
-        with con.cursor() as cur:
-            query = query_builder_insert(table)
-            values = []
-            for item in stream['items']:
-                # values = item.values()
-                row = []
-                for field in fields[table]:
-                    if field == 'categoryId':
-                        try:
-                            row.append(item['category']['id'])
-                        except:
-                            row.append(item['category'])
-                    else:
-                        if item[field] == False:
-                            row.append(0)
-                        elif item[field] == True:
-                            row.append(1)
-                        #elif item[field] == None:
-                        #    row.append('Null')
-                        else:
-                            row.append(item[field])
-                row.append(uuid_current)
-                values.append(tuple(row))
-                # print(tuple(row))
-                cur.execute(query, row)
-                con.commit()
-            try:
-                # print(len(values[0][15]))
-                values = tuple(values)
-                cur.executemany(query, values)
-                con.commit()
-            except Exception as err:
-                print(err)
-    return f'completed table {table}'
-
-def write_tables_sequential ():
-    """Calls write_to_tables recursively to write the base tables in sequence
-    ACCEPTS: nothing
-    RETURNS: error if there is an issue in the flow"""
-    # Creates a unique time entry for the current process
-    uuid_current = generate_time_entry()
-    for table in base_tables_list:
-        try:
-            write_to_tables(uuid_current, table, ctc.get_all_x(table,'CMS', ctc.get_total_items('CMS', table)))
-        except Exception as err:
-            print(err)
-
 def drop_database(database=db_name):
     """Rapidly drops the listed database for cleanup and testing"""
     query = f"""USE [master]
@@ -328,53 +331,51 @@ def drop_database(database=db_name):
     except Exception as err:
         return print(err)
 
-''' DEPRECATED FUNCTION
-# def write_ids (table='Contents', stream=temp_values, depth=''):
-#     """Enables the writing of CTC API Json streamed data to a table"""
-#     with connect_to_database() as con:
-#         with con.cursor() as cur:
-#             query = query_builder_insert(table)
-#             #query = f'USE [{database}]\nINSERT INTO {table} (id)\nVALUES (?);'
-#             values = []
-#             for item in stream['items']:
-#                 #values = item.values()
-#                 row = []
-#                 for field in fields[table]:
-#                     if field == 'revitCategoryId':
-#                         try:
-#                             row.append(item['category']['id'])
-#                         except:
-#                             row.append(item['category'])
-#                     else:
-#                         if item[field] == False:
-#                             row.append(0)
-#                         elif item[field] == True:
-#                             row.append (1)
-#                         else:
-#                             row.append(item[field])
-#                 values.append(tuple(row))
-#                 #print(tuple(row))
-#                 cur.execute(query, row)
-#                 con.commit()
-#             try:
-#                 #print(len(values[0][15]))
-#                 values = tuple(values)
-#                 cur.executemany(query, values)
-#                 con.commit()
-#             except Exception as err:
-#                 print(err)
-'''
 
-''' DEPRECATED FUNCTION
-# def write_tables_concurrent():
-#     """Used to mutithread the writing of data to tables
-#     Currently not working as expected"""
-#     with cf.ProcessPoolExecutor() as executor:
-#         if __name__ == '__main__':
-#             for table in base_tables_list:
-#                 results = executor.map(write_to_tables, table, ctc.get_all_x(table, ctc.get_total_items(table)))
+def write_ids (table='Contents', stream=temp_values, depth=''):
+    """Enables the writing of CTC API Json streamed data to a table"""
+    with connect_to_database() as con:
+        with con.cursor() as cur:
+            query = query_builder_insert(table)
+            #query = f'USE [{database}]\nINSERT INTO {table} (id)\nVALUES (?);'
+            values = []
+            for item in stream['items']:
+                #values = item.values()
+                row = []
+                for field in fields[table]:
+                    if field == 'revitCategoryId':
+                        try:
+                            row.append(item['category']['id'])
+                        except:
+                            row.append(item['category'])
+                    else:
+                        if item[field] == False:
+                            row.append(0)
+                        elif item[field] == True:
+                            row.append (1)
+                        else:
+                            row.append(item[field])
+                values.append(tuple(row))
+                #print(tuple(row))
+                cur.execute(query, row)
+                con.commit()
+            try:
+                #print(len(values[0][15]))
+                values = tuple(values)
+                cur.executemany(query, values)
+                con.commit()
+            except Exception as err:
+                print(err)
 
-#                 for result in results:
-#                     print(result)
+def write_tables_concurrent():
+    """Used to mutithread the writing of data to tables
+    Currently not working as expected"""
+    with cf.ProcessPoolExecutor() as executor:
+        if __name__ == '__main__':
+            for table in base_tables_list:
+                results = executor.map(write_to_tables, table, ctc.get_all_x(table, ctc.get_total_items(table)))
+
+                for result in results:
+                    print(result)
 '''
 

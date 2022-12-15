@@ -46,7 +46,7 @@ class CTCDatabaseObject:
         """Context manager entry point"""
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, type, value, traceback):
         """Context manager exit point"""
         self.__del__
 
