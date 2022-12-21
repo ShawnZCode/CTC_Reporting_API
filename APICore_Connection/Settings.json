@@ -53,6 +53,11 @@
                         "orderDescending": false
                     }
                 ]
+            },
+            "role-values": {
+                "parent": null,
+                "mandatorySwitches": [],
+                "optionalSwitches": []
             }
         },
         "CMS": {
