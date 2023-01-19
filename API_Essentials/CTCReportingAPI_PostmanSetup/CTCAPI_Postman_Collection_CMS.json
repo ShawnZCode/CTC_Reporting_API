@@ -38,7 +38,8 @@
 							"query": [
 								{
 									"key": "reportsKey",
-									"value": "{{reportsKey}}"
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
 								},
 								{
 									"key": "page",
@@ -129,7 +130,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/cms/reports/v1/reports/content?reportsKey={{reportsKey}}&contentId=GUID",
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/content?reportsKey={{reportsKey}}&contentId=<guid>",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -148,7 +149,7 @@
 								},
 								{
 									"key": "contentId",
-									"value": "GUID",
+									"value": "<guid>",
 									"description": "(Required) Id of content to return record for"
 								},
 								{
@@ -365,6 +366,112 @@
 								{
 									"key": "orderBy",
 									"value": "UpdatedAt",
+									"description": "Field by which to order the results",
+									"disabled": true
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/reports/libraries?reportsKey=<uuid>&orderBy=UpdatedAt&page=1&pageSize=1000&orderByDescending=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reports",
+										"libraries"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>"
+										},
+										{
+											"key": "orderBy",
+											"value": "UpdatedAt"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"totalItems\": -12065186,\n  \"items\": [\n    {\n      \"id\": \"1ea26d0f-d649-3a32-ac93-4f5f1b7753bb\",\n      \"name\": \"ut commodo Ut in\",\n      \"organizationId\": \"urn:uuid:13c5499d-535f-2e46-6e30-10fc53021077\",\n      \"type\": \"sed tempor\",\n      \"defaultRole\": \"et officia esse magna Ut\",\n      \"description\": \"qui nisi ad cupidatat\",\n      \"uploadContent\": true,\n      \"imageUri\": \"dolore culpa ipsum\",\n      \"addedAt\": \"2013-03-13T06:33:53.346Z\",\n      \"addedById\": \"186e1cbb-8acd-5e2b-953e-21a79ce78633\",\n      \"updatedAt\": \"1944-06-22T10:37:16.594Z\",\n      \"updatedById\": \"71010fe9-2c3f-1c55-4042-c0ea7b033952\"\n    },\n    {\n      \"id\": \"urn:uuid:f1984f45-5eff-9a8c-564d-b4121dbf76a1\",\n      \"name\": \"amet id aute\",\n      \"organizationId\": \"804b8308-79ce-4456-79e7-852f64fd83be\",\n      \"type\": \"et\",\n      \"defaultRole\": \"amet nisi ullamco\",\n      \"description\": \"ipsum fugiat minim\",\n      \"uploadContent\": false,\n      \"imageUri\": \"labore magna\",\n      \"addedAt\": \"1975-12-20T13:42:16.838Z\",\n      \"addedById\": \"urn:uuid:d021fe4f-457a-f193-cd70-232b2cf24ac0\",\n      \"updatedAt\": \"1985-06-12T05:50:02.654Z\",\n      \"updatedById\": \"urn:uuid:8d2b46af-ca19-35d7-4cd0-3cdfec997d59\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get subscribed-libraries by organization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/subscribed-libraries?reportsKey={{reportsKey}}&page=1&pageSize=1000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cms",
+								"reports",
+								"v1",
+								"reports",
+								"subscribed-libraries"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page"
+								},
+								{
+									"key": "orderBy",
+									"value": "subscribedAt",
 									"description": "Field by which to order the results",
 									"disabled": true
 								},
