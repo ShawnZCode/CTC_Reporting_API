@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime
 
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from APICore_Connection.Functions import api_get_functions as ctc
 from JSON.Functions.read_file import read_file
@@ -53,34 +53,35 @@ def write_json_file(stream, file_name, sub_directory="CMS"):
 def get_base_jsons():
     """Writes the original Json Files"""
     try:
-        scopes_pbar = tqdm(
-            api_settings_scopes, desc="Fetching base scopes: ", ncols=140
-        )
-        for scope in scopes_pbar:
-            scopes_pbar.set_description(f"Fetching base collections from {scope}: ")
-            collections_pbar = tqdm(
-                api_settings_scopes[scope],
-                desc=f"Base collections: ",
-                ncols=140,
-            )
-            for collection in collections_pbar:
-                collections_pbar.set_description(
-                    f"Fetching base details for {collection} in {scope}"
-                )
-                count = api_settings_scopes[scope][collection]["mandatorySwitches"]
-                if len(count) == 0:
-                    collection_total = ctc.get_total_items(scope, collection)
-                    collection_stream = ctc.get_all_x(
-                        scope, collection, collection_total
-                    )
-                    write_json_file(collection_stream, collection, scope)
-                collections_pbar.set_description(
-                    f"Fetched base details for {collection} in {scope}"
-                )
-            scopes_pbar.set_description(f"Fetched base collections from {scope}: ")
+        with tqdm(
+            api_settings_scopes, desc="Fetching base scopes", ncols=130
+        ) as scopes_pbar:
+            for scope in scopes_pbar:
+                scopes_pbar.set_description(f"Fetching base collections from {scope}")
+                with tqdm(
+                    api_settings_scopes[scope], desc="Base collections", ncols=130
+                ) as collections_pbar:
+                    for collection in collections_pbar:
+                        collections_pbar.set_description(
+                            f"Fetching base details for {collection} in {scope}"
+                        )
+                        count = api_settings_scopes[scope][collection][
+                            "mandatorySwitches"
+                        ]
+                        if len(count) == 0:
+                            collection_total = ctc.get_total_items(scope, collection)
+                            collection_stream = ctc.get_all_x(
+                                scope, collection, collection_total
+                            )
+                            write_json_file(collection_stream, collection, scope)
+                        collections_pbar.set_description(
+                            f"Fetched base details for {collection} in {scope}"
+                        )
+                scopes_pbar.set_description(f"Fetched base collections from {scope}")
     except Exception as err:
         CTC_Log("JSON").error(str(err))
     try:
+        tqdm._instances.clear()
         get_nested_jsons()
     except Exception as err:
         CTC_Log("JSON").error(str(err))
@@ -99,7 +100,10 @@ def get_ids(scope: str, collection: str):
     try:
         ids = []
         for i in stream["items"]:
-            ids.append(i["id"])
+            if collection != "search":
+                ids.append(i["id"])
+            else:
+                ids.append(i["searchId"])
         return ids
     except Exception as err:
         CTC_Log("JSON").error(str(err))
@@ -108,32 +112,40 @@ def get_ids(scope: str, collection: str):
 def get_nested_jsons():
     """Writes the nested Json files by id"""
     try:
+
         for scope in api_settings_scopes:
-            collections_pbar = tqdm(
-                api_settings_scopes[scope], desc="Collections: ", ncols=140
-            )
-            for collection in collections_pbar:
-                collections_pbar.set_description(
-                    f"{collection} item details in {scope}: "
-                )
-                if len(api_settings_scopes[scope][collection]["mandatorySwitches"]) > 0:
-                    # fetches a list of ids from main dump
-                    ids = get_ids(
-                        scope, api_settings_scopes[scope][collection]["parent"]
+            with tqdm(
+                api_settings_scopes[scope], desc="Collections", ncols=130
+            ) as collections_pbar:
+                for collection in collections_pbar:
+                    collections_pbar.set_description(
+                        f"{collection} item details in {scope}"
                     )
-                    ids_pbar = tqdm(ids, desc="Item Details: ", ncols=160)
-                    for xId in ids_pbar:
-                        ids_pbar.set_description(
-                            f"Currently fetching {xId.lower()} from {scope}.{collection}: "
+                    if (
+                        len(api_settings_scopes[scope][collection]["mandatorySwitches"])
+                        > 0
+                    ):
+                        # fetches a list of ids from main dump
+                        ids = get_ids(
+                            scope, api_settings_scopes[scope][collection]["parent"]
                         )
-                        file_name = f"{collection}_{xId}"
-                        item_stream = ctc.get_x_by_id(scope, collection, xId)
-                        write_json_file(
-                            item_stream, file_name, f"{scope}\\{collection}"
-                        )
-                        ids_pbar.set_description(
-                            f"Currently fetched {len(ids)} ids from {scope}.{collection}: "
-                        )
+                        with tqdm(
+                            ids,
+                            desc=f"Currently fetching {scope} {collection} ids",
+                            ncols=130,
+                        ) as ids_pbar:
+                            for xId in ids_pbar:
+                                ids_pbar.set_description(
+                                    f"Currently fetching {xId.lower()} from {scope}.{collection}"
+                                )
+                                file_name = f"{collection}_{xId}"
+                                item_stream = ctc.get_x_by_id(scope, collection, xId)
+                                write_json_file(
+                                    item_stream, file_name, f"{scope}\\{collection}"
+                                )
+                                ids_pbar.set_description(
+                                    f"Currently fetched {len(ids)} ids from {scope}.{collection}"
+                                )
 
     except Exception as err:
         CTC_Log("JSON").error(str(err))

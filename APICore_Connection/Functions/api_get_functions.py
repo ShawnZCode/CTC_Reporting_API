@@ -24,10 +24,6 @@ def add_switches(scope, collection):
     RETURNS: list of switches"""
     switches = ""
     try:
-        if collection.lower() == "searches":
-            current_date = date.today() - timedelta(day_offset)
-            date_str = current_date.strftime("%Y-%m-%d")
-            switches += f"&searchedAt={date_str}"
         switches_list = api_settings["scopes"][scope][collection.lower()][
             "optionalSwitches"
         ]
@@ -43,16 +39,103 @@ def add_switches(scope, collection):
         return switches
 
 
+def gen_url(
+    scope,
+    collection,
+    item_id=None,
+    page_number=None,
+    rowsPerPage=None,
+    start_date=None,
+    end_date=None,
+    switches=None,
+):
+    """generates the URL needed for navigation"""
+    url_pre = f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}"
+
+    ##Collection handling
+    if collection == "app-sessions":
+        col = "product"
+    elif collection == "doc-session":
+        col = "session"
+    else:
+        col = collection
+
+    ##Id handling
+    if item_id != None:
+        url_id = f"&{col}Id={item_id}"
+    else:
+        url_id = ""
+
+    ##Page handling
+    if rowsPerPage != None:
+        rpp = str(rowsPerPage)
+    else:
+        rpp = str(rows_per_page)
+
+    if page_number != None:
+        if collection != "app_sessions":
+            url_page = f"&page={str(page_number)}&pageSize={rpp}"
+        else:
+            url_page = ""
+    else:
+        url_page = ""
+
+    ##Date handling
+    col = collection.lower()
+    if (
+        col == "searches"
+        or col == "app-sessions"
+        or col == "doc-sessions"
+        or col == "sessions"
+    ) and start_date == None:
+        current_date = date.today() - timedelta(day_offset)
+        date_str = current_date.strftime("%Y-%m-%d")
+        start_date = date_str
+
+    if (
+        col == "app-sessions" or col == "doc-sessions" or col == "sessions"
+    ) and end_date == None:
+        current_date = date.today() + timedelta(1)
+        date_str = current_date.strftime("%Y-%m-%d")
+        end_date = date_str
+
+    if col == "searches":
+        url_date = f"&searchedAt={start_date}"
+    elif col == "app-sessions" or col == "doc-sessions" or col == "sessions":
+        if start_date != None and end_date != None:
+            url_date = f"&startDate={start_date}&endDate={end_date}"
+        elif start_date != None and end_date == None:
+            url_date = f"&startDate={start_date}"
+        elif start_date == None and end_date != None:
+            url_date = f"&endDate={end_date}"
+        else:
+            url_date = ""
+    else:
+        url_date = ""
+
+    ##Switches handling
+    if switches != None:
+        url_switches = f"&{switches}"
+    else:
+        url_switches = ""
+
+    url = f"{url_pre}{url_id}{url_date}{url_page}{url_switches}"
+
+    return url
+
+
 def get_x_by_id(scope, collection, item_id, added_data=None):
     """retrieves an item record based on the item's id value"""
     try:
         switches = add_switches(scope, collection)
-        url = f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}&{collection.lower()}Id={item_id}{switches}"
+        url = gen_url(
+            scope=scope, collection=collection, item_id=item_id, switches=switches
+        )
         response_start = perf_counter()
         response = requests.get(url).text
         data = json.loads(response)
         response_end = perf_counter()
-        sleep(response_end - response_start)
+        # sleep(response_end - response_start)
     except Exception as err:
         data = {}
     finally:
@@ -62,14 +145,20 @@ def get_x_by_id(scope, collection, item_id, added_data=None):
 def get_total_items(scope, collection):
     """Retrieves total count of items by category"""
     switches = add_switches(scope, collection.lower())
-    url = f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}&page=1&pageSize=1{switches}"
+    url = gen_url(
+        scope=scope,
+        collection=collection,
+        page_number=1,
+        rowsPerPage=1,
+        switches=switches,
+    )
     try:
         response_start = perf_counter()
         response = requests.get(url).text
         base_data = json.loads(response)
         total_items = int(base_data["totalItems"])
         response_end = perf_counter()
-        sleep(response_end - response_start)
+        # sleep(response_end - response_start)
     except Exception as err:
         total_items = None
     finally:
@@ -79,13 +168,15 @@ def get_total_items(scope, collection):
 def get_next_x(scope, collection, page_number):
     """Retrieves next X items"""
     switches = add_switches(scope, collection)
-    url = f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}&page={str(page_number).lower()}&pageSize={str(rows_per_page)}{switches}"
+    url = gen_url(
+        scope=scope, collection=collection, page_number=page_number, switches=switches
+    )  # f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}&page={str(page_number).lower()}&pageSize={str(rows_per_page)}{switches}"
     try:
         response_start = perf_counter()
         response = requests.get(url).text
         next_json = json.loads(response)
         response_end = perf_counter()
-        sleep(response_end - response_start)
+        # sleep(response_end - response_start)
     except Exception as err:
         next_json = None
     return next_json

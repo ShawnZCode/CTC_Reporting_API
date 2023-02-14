@@ -7,6 +7,7 @@
             "Dev": "api-dev"
         },
         "reportKey": "37CE1DF4-4D8F-4A10-8E4A-4D3FCAA76350",
+        "reportKey_pw": "B4422F4B-8138-4A96-8146-4222A7968351",
         "dayOffset": 30
     },
     "_scopeTemplate": {
@@ -83,10 +84,10 @@
                         "includeFiles": true
                     },
                     {
-                        "includeTypes": true
+                        "includeTypes": false
                     },
                     {
-                        "includeTypeParameters": true
+                        "includeTypeParameters": false
                     },
                     {
                         "includeLibraries": true
@@ -236,6 +237,48 @@
                         "includeUsers": false
                     }
                 ]
+            }
+        },
+        "CSL": {
+            "licenses": {
+                "parent": null,
+                "mandatorySwitches": [],
+                "optionalSwitches": [
+                    {
+                        "includePermissions": true
+                    },
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "app-sessions": {
+                "parent": "products",
+                "mandatorySwitches": [
+                    "productId"
+                ],
+                "optionalSwitches": [
+                    {
+                        "orderBy": "startDate"
+                    },
+                    {
+                        "orderBy": "endDate"
+                    },
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "products": {
+                "parent": null,
+                "mandatorySwitches": [],
+                "optionalSwitches": []
             }
         }
     }

@@ -4,11 +4,11 @@ import time
 
 # APICore
 # from APICore_Connection.Functions import api_get_functions
-from JSON.Functions import json_cache_files
 
 # JSON
-# from JSON.Functions import json_cache_files
-from JSON.Functions.read_file import read_file
+from JSON.Functions import json_cache_files
+
+# from JSON.Functions.read_file import read_file
 
 # from SQL_Connection.Classes.ctc_database_connection import CTCDatabaseObject
 
