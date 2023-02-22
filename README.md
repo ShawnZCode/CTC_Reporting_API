@@ -7,9 +7,9 @@ The CTC_Report_API is a fairly new development in the HIVE Product line
 #### The API allows connection to, and extraction of:
 
 - (Current) CMS Data
-- (Future) Users and Group Data
-- (future) Project Activity Data
-- (Future) License Usage Data
+- (Current) Users and Group Data
+- (Current) Project Activity Data
+- (Current) License Usage Data
 
 This access replaces the need to download the Excel files on some interval
 Instead, it is now possible to directly connect to the data and either efficient, or inefficiently access the resulting data

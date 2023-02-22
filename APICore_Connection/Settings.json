@@ -90,7 +90,7 @@
                         "includeTypeParameters": false
                     },
                     {
-                        "includeLibraries": true
+                        "includeLibraries": false
                     },
                     {
                         "includeAttachments": true
@@ -111,7 +111,7 @@
                         "includeRevisions": true
                     },
                     {
-                        "includeTags": true
+                        "includeTags": false
                     },
                     {
                         "includeUsers": false
@@ -262,12 +262,6 @@
                 ],
                 "optionalSwitches": [
                     {
-                        "orderBy": "startDate"
-                    },
-                    {
-                        "orderBy": "endDate"
-                    },
-                    {
                         "orderBy": "updatedAt"
                     },
                     {
@@ -279,6 +273,99 @@
                 "parent": null,
                 "mandatorySwitches": [],
                 "optionalSwitches": []
+            }
+        },
+        "PAL": {
+            "doc-sessions": {
+                "parent": null,
+                "mandatorySwitches": [],
+                "optionalSwitches": [
+                    {
+                        "orderBy": "updatedAt"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "doc-session": {
+                "parent": "doc-sessions",
+                "mandatorySwitches": [
+                    "sessionId"
+                ],
+                "optionalSwitches": [
+                    {
+                        "includeAddIns": true
+                    },
+                    {
+                        "includeCrashes": true
+                    },
+                    {
+                        "includeDocumentProjChanges": true
+                    },
+                    {
+                        "includeEvents": true
+                    },
+                    {
+                        "includeLinks": true
+                    },
+                    {
+                        "includeMachines": true
+                    },
+                    {
+                        "includePrints": true
+                    },
+                    {
+                        "includeSummaries": true
+                    },
+                    {
+                        "includeViewTypes": true
+                    },
+                    {
+                        "includeWarningSummaries": true
+                    },
+                    {
+                        "includeWarnings": false
+                    }
+                ]
+            },
+            "sessions": {
+                "parent": null,
+                "mandatorySwitches": [],
+                "optionalSwitches": [
+                    {
+                        "orderBy": "logDate"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "projects": {
+                "parent": null,
+                "mandatorySwitches": [],
+                "optionalSwitches": [
+                    {
+                        "orderBy": "projectNumber"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
+            },
+            "project": {
+                "parent": "projects",
+                "mandatorySwitches": [
+                    "projectId"
+                ],
+                "optionalSwitches": [
+                    {
+                        "orderBy": "logDate"
+                    },
+                    {
+                        "orderDescending": true
+                    }
+                ]
             }
         }
     }

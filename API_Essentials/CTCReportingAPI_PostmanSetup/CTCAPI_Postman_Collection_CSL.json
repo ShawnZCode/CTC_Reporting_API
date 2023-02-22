@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "69f31d9c-920c-409a-9350-ac97b00cba22",
+		"_postman_id": "c5ab8ddb-1ee5-4e0d-9a6b-4d42d8ed4ac7",
 		"name": "CSL Reporting API v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24009820"
@@ -112,8 +112,8 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
 							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"productName\": \"string\",\r\n      \"serialNumber\": \"string\",\r\n      \"subscriptionStartDate\": \"2023-01-18T15:04:51.989Z\",\r\n      \"subscriptionEndDate\": \"2023-01-18T15:04:51.989Z\",\r\n      \"licenseCount\": 0,\r\n      \"licenseType\": \"string\",\r\n      \"autorenew\": true,\r\n      \"autorenewLicenseCount\": 0,\r\n      \"createdBy\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"createdAt\": \"2023-01-18T15:04:51.989Z\",\r\n      \"updatedBy\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"updatedAt\": \"2023-01-18T15:04:51.989Z\",\r\n      \"permissions\": [\r\n        {\r\n          \"resourceId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"resourceType\": \"string\",\r\n          \"assignedBy\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"assignedAt\": \"2023-01-18T15:04:51.989Z\",\r\n          \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n        }\r\n      ],\r\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n    }\r\n  ]\r\n}"
 						}

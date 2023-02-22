@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2639ddfa-1c72-46ef-ac43-fc08f479715e",
+		"_postman_id": "e7464c2c-917b-442d-84f9-721c1064db4f",
 		"name": "PAL Reporting API v1",
 		"description": "PAL Reporting API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -321,7 +321,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/pal/reports/v1/reports/sessions?reportsKey={{reportsKey}}&orderBy=LogDate&page=1&pageSize=1000&orderByDescending=true",
+							"raw": "{{baseUrl}}/pal/reports/v1/reports/sessions?reportsKey={{reportsKey}}&page=1&pageSize=1000&orderBy=LogDate&orderByDescending=true",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -351,11 +351,6 @@
 									"disabled": true
 								},
 								{
-									"key": "orderBy",
-									"value": "LogDate",
-									"description": "Field by which to order the results"
-								},
-								{
 									"key": "page",
 									"value": "1",
 									"description": "Page of results"
@@ -364,6 +359,11 @@
 									"key": "pageSize",
 									"value": "1000",
 									"description": "Number of results per page"
+								},
+								{
+									"key": "orderBy",
+									"value": "LogDate",
+									"description": "Field by which to order the results"
 								},
 								{
 									"key": "orderByDescending",

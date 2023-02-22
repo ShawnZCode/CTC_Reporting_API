@@ -115,7 +115,7 @@ def get_nested_jsons():
 
         for scope in api_settings_scopes:
             with tqdm(
-                api_settings_scopes[scope], desc="Collections", ncols=130
+                api_settings_scopes[scope], desc="Collections", ncols=180
             ) as collections_pbar:
                 for collection in collections_pbar:
                     collections_pbar.set_description(
@@ -132,7 +132,7 @@ def get_nested_jsons():
                         with tqdm(
                             ids,
                             desc=f"Currently fetching {scope} {collection} ids",
-                            ncols=130,
+                            ncols=180,
                         ) as ids_pbar:
                             for xId in ids_pbar:
                                 ids_pbar.set_description(

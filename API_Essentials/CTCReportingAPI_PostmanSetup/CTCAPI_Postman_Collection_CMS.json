@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a03c4111-fe2c-42cd-8e95-2004aa878b5c",
+		"_postman_id": "3e27be31-37ab-4a75-a9d5-5d21cf01925b",
 		"name": "CMS Reporting API v1",
 		"description": "HIVE CMS Reporting API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -130,7 +130,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/cms/reports/v1/reports/content?reportsKey={{reportsKey}}&contentId=<guid>",
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/content?reportsKey={{reportsKey}}&contentId=<guid>&includeFiles=true&includeTypes=true&includeTypeParameters=true&includeLibraries=true&includeAttachments=true&includeDownloads=true&includeLoads=true&includeDocuments=true&includeReviews=true&includeRevisions=true&includeTags=true&includeFavoritedUsers=true",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -155,78 +155,66 @@
 								{
 									"key": "includeFiles",
 									"value": "true",
-									"description": "Whether to include content files",
-									"disabled": true
+									"description": "Whether to include content files"
 								},
 								{
 									"key": "includeTypes",
 									"value": "true",
-									"description": "Whether to include family types - Requires: 'includeFiles'",
-									"disabled": true
+									"description": "Whether to include family types - Requires: 'includeFiles'"
 								},
 								{
 									"key": "includeTypeParameters",
 									"value": "true",
-									"description": "Whether to include family type parameters - Requires: 'includeFiles', 'includeTypes'",
-									"disabled": true
+									"description": "Whether to include family type parameters - Requires: 'includeFiles', 'includeTypes'"
 								},
 								{
 									"key": "includeLibraries",
 									"value": "true",
-									"description": "Whether to include libraries",
-									"disabled": true
+									"description": "Whether to include libraries"
 								},
 								{
 									"key": "includeAttachments",
 									"value": "true",
-									"description": "Whether to include attachments",
-									"disabled": true
+									"description": "Whether to include attachments"
 								},
 								{
 									"key": "includeDownloads",
 									"value": "true",
-									"description": "Whether to include downloads",
-									"disabled": true
+									"description": "Whether to include downloads"
 								},
 								{
 									"key": "includeLoads",
 									"value": "true",
-									"description": "Whether to include content loads",
-									"disabled": true
+									"description": "Whether to include content loads"
 								},
 								{
 									"key": "includeDocuments",
 									"value": "true",
-									"description": "Whether to include documents - Requires: 'includeLoads'",
-									"disabled": true
+									"description": "Whether to include documents - Requires: 'includeLoads'"
 								},
 								{
 									"key": "includeReviews",
 									"value": "true",
-									"description": "Whether to include content reviews",
-									"disabled": true
+									"description": "Whether to include content reviews"
 								},
 								{
 									"key": "includeRevisions",
 									"value": "true",
-									"description": "Whether to include content revisions",
-									"disabled": true
+									"description": "Whether to include content revisions"
 								},
 								{
 									"key": "includeTags",
 									"value": "true",
-									"description": "Whether to include content tags",
-									"disabled": true
+									"description": "Whether to include content tags"
+								},
+								{
+									"key": "includeFavoritedUsers",
+									"value": "true"
 								},
 								{
 									"key": "includeUsers",
 									"value": "true",
 									"description": "Whether to include content added/updated-by-user info",
-									"disabled": true
-								},
-								{
-									"key": "includeFavoritedUsers",
-									"value": "true",
 									"disabled": true
 								}
 							]
@@ -239,7 +227,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/reports/content?reportsKey=<uuid>&contentId=<uuid>&includeFiles=false&includeTypes=false&includeTypeParameters=false&includeLibraries=false&includeAttachments=false&includeDownloads=false&includeLoads=false&includeDocuments=false&includeReviews=false&includeRevisions=false&includeTags=false&includeUsers=false&includeFavoritedUsers=false",
+									"raw": "{{baseUrl}}/reports/content?reportsKey=<uuid>&contentId=<uuid>&includeFiles=true&includeTypes=true&includeTypeParameters=true&includeLibraries=true&includeAttachments=true&includeDownloads=true&includeLoads=true&includeDocuments=true&includeReviews=true&includeRevisions=true&includeTags=true&includeUsers=true&includeFavoritedUsers=true",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -258,55 +246,55 @@
 										},
 										{
 											"key": "includeFiles",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeTypes",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeTypeParameters",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeLibraries",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeAttachments",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeDownloads",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeLoads",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeDocuments",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeReviews",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeRevisions",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeTags",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeUsers",
-											"value": "false"
+											"value": "true"
 										},
 										{
 											"key": "includeFavoritedUsers",
-											"value": "false"
+											"value": "true"
 										}
 									]
 								}
@@ -548,7 +536,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/cms/reports/v1/reports/library?reportsKey={{reportsKey}}&libraryId=<guid>",
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/library?reportsKey={{reportsKey}}&libraryId=<guid>&includePermissions=true&includeContents=true",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -573,14 +561,12 @@
 								{
 									"key": "includePermissions",
 									"value": "true",
-									"description": "Whether to include library permissions",
-									"disabled": true
+									"description": "Whether to include library permissions"
 								},
 								{
 									"key": "includeContents",
 									"value": "true",
-									"description": "Whether to include associated contents",
-									"disabled": true
+									"description": "Whether to include associated contents"
 								},
 								{
 									"key": "includeUsers",
@@ -761,7 +747,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/cms/reports/v1/reports/tag?reportsKey={{reportsKey}}&tagId=<guid>",
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/tag?reportsKey={{reportsKey}}&tagId=<guid>&includeContents=true",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -786,8 +772,7 @@
 								{
 									"key": "includeContents",
 									"value": "true",
-									"description": "Whether to include associated contents",
-									"disabled": true
+									"description": "Whether to include associated contents"
 								},
 								{
 									"key": "includeUsers",
@@ -964,7 +949,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/cms/reports/v1/reports/searches?reportsKey={{reportsKey}}&searchedAt=<yyyy-mm-dd>&page=1&pageSize=1000",
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/searches?reportsKey={{reportsKey}}&searchedAt=<yyyy-mm-dd>&page=1&pageSize=1000&orderBy=SearchedAt&orderByDescending=true",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -999,14 +984,12 @@
 								{
 									"key": "orderBy",
 									"value": "SearchedAt",
-									"description": "Field by which to order the results",
-									"disabled": true
+									"description": "Field by which to order the results"
 								},
 								{
 									"key": "orderByDescending",
 									"value": "true",
-									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter",
-									"disabled": true
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter"
 								}
 							]
 						}
@@ -1079,7 +1062,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/cms/reports/v1/reports/search?reportsKey={{reportsKey}}&searchId=<guid>",
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/search?reportsKey={{reportsKey}}&searchId=<guid>&includeResults=true&includeCategories=true&includeLibraries=true&includeTags=true&includeSources=true",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1104,32 +1087,27 @@
 								{
 									"key": "includeResults",
 									"value": "true",
-									"description": "Whether to include search results",
-									"disabled": true
+									"description": "Whether to include search results"
 								},
 								{
 									"key": "includeCategories",
 									"value": "true",
-									"description": "Whether to include Revit categories",
-									"disabled": true
+									"description": "Whether to include Revit categories"
 								},
 								{
 									"key": "includeLibraries",
 									"value": "true",
-									"description": "Whether to include libraries",
-									"disabled": true
+									"description": "Whether to include libraries"
 								},
 								{
 									"key": "includeTags",
 									"value": "true",
-									"description": "Whether to include tags",
-									"disabled": true
+									"description": "Whether to include tags"
 								},
 								{
 									"key": "includeSources",
 									"value": "true",
-									"description": "Whether to include sources",
-									"disabled": true
+									"description": "Whether to include sources"
 								},
 								{
 									"key": "includeUsers",
