@@ -73,9 +73,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/reports/users?reportsKey=<uuid>&orderBy=FirstName&page=1&pageSize=1000&orderByDescending=false",
+									"raw": "https://api.ctcsoftware.com/reports/users?reportsKey=<uuid>&orderBy=FirstName&page=1&pageSize=1000&orderByDescending=false",
+									"protocol": "https",
 									"host": [
-										"{{baseUrl}}"
+										"api",
+										"ctcsoftware",
+										"com"
 									],
 									"path": [
 										"reports",
@@ -115,7 +118,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"totalItems\": -21503669,\n  \"items\": [\n    {\n      \"email\": \"do officia adipisicing voluptate\",\n      \"displayName\": \"tempor et deserunt\",\n      \"firstName\": \"magna quis Ut eu\",\n      \"lastName\": \"ad\",\n      \"organization\": {\n        \"type\": \"veniam labore commodo Lorem\",\n        \"name\": \"eiusmod\",\n        \"id\": \"urn:uuid:9d3482d6-1155-727d-50c1-c1cecb483f5f\"\n      },\n      \"status\": \"aliquip et laboris Excepteur\",\n      \"description\": \"id\",\n      \"office\": \"deserunt\",\n      \"department\": \"culpa irure\",\n      \"lastLoggedInAt\": \"1945-06-15T15:40:43.315Z\",\n      \"createdAt\": \"1962-07-29T02:13:40.670Z\",\n      \"updatedAt\": \"1993-07-31T02:01:38.706Z\",\n      \"createdById\": \"urn:uuid:12c75acb-d6f6-cc47-73e2-f30c65cbd3c7\",\n      \"createdByName\": \"non\",\n      \"updatedById\": \"66dac273-387b-0b6b-ea0c-e46a5cff4437\",\n      \"updatedByName\": \"laborum\",\n      \"auth0Id\": \"sint exercitation\",\n      \"isSSOUser\": true,\n      \"roles\": [\n        \"culpa cupidatat consectetur consequat\",\n        \"ex qui sint velit\"\n      ],\n      \"id\": \"8c14038c-f71b-e51c-c458-e64a6d342cb3\"\n    },\n    {\n      \"email\": \"aliqua minim enim deserunt\",\n      \"displayName\": \"non ut\",\n      \"firstName\": \"mollit\",\n      \"lastName\": \"in dolore\",\n      \"organization\": {\n        \"type\": \"officia qui eu in\",\n        \"name\": \"exercitation esse ad\",\n        \"id\": \"urn:uuid:aa478f4a-9d39-d5fb-1c62-98e4b3e5600e\"\n      },\n      \"status\": \"labore magna nisi dolor do\",\n      \"description\": \"Lorem aliquip\",\n      \"office\": \"dolor\",\n      \"department\": \"in\",\n      \"lastLoggedInAt\": \"1966-11-29T14:49:28.878Z\",\n      \"createdAt\": \"1956-04-26T17:13:49.273Z\",\n      \"updatedAt\": \"1952-09-20T21:42:20.966Z\",\n      \"createdById\": \"8267c02d-57d9-6641-7987-8dcaf0b9dcbd\",\n      \"createdByName\": \"Excepteur et eiusmod quis minim\",\n      \"updatedById\": \"urn:uuid:34ed7303-4a80-e5ec-73c5-68ce885e9891\",\n      \"updatedByName\": \"et\",\n      \"auth0Id\": \"ad irure do sed\",\n      \"isSSOUser\": false,\n      \"roles\": [\n        \"pariatur\",\n        \"ea id anim adipisicing\"\n      ],\n      \"id\": \"37483196-7bb5-1098-8dd4-012b0caf8342\"\n    }\n  ]\n}"
+							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"email\": \"string\",\n      \"displayName\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"status\": \"string\",\n      \"description\": \"string\",\n      \"office\": \"string\",\n      \"department\": \"string\",\n      \"adSystemId\": \"string\",\n      \"adDomainSystemId\": \"string\",\n      \"adSamAccountName\": \"string\",\n      \"lastLoggedInAt\": \"2023-03-07T22:02:59.153Z\",\n      \"createdAt\": \"2023-03-07T22:02:59.153Z\",\n      \"updatedAt\": \"2023-03-07T22:02:59.153Z\",\n      \"createdById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"createdByName\": \"string\",\n      \"updatedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"updatedByName\": \"string\",\n      \"auth0Id\": \"string\",\n      \"isSSOUser\": true,\n      \"roleAssignments\": [\n        100\n      ],\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n    }\n  ]\n}"
 						}
 					]
 				},
@@ -189,9 +192,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/reports/groups?reportsKey=<uuid>&orderBy=Name&page=1&pageSize=1000&orderByDescending=false&includeRoles=false&includeMembers=false",
+									"raw": "https://api.ctcsoftware.com/reports/groups?reportsKey=<uuid>&orderBy=Name&page=1&pageSize=1000&orderByDescending=false&includeRoles=false&includeMembers=false",
+									"protocol": "https",
 									"host": [
-										"{{baseUrl}}"
+										"api",
+										"ctcsoftware",
+										"com"
 									],
 									"path": [
 										"reports",
@@ -239,7 +245,112 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"totalItems\": -95992043,\n  \"items\": [\n    {\n      \"name\": \"adipisicing cillum eu\",\n      \"description\": \"dolore\",\n      \"organizationId\": \"47976535-dc0b-c456-b9a9-07ab708c1465\",\n      \"organization\": {\n        \"type\": \"magna\",\n        \"name\": \"incidid\",\n        \"id\": \"48cc014f-6fe2-59d9-c675-a20074cae68a\"\n      },\n      \"adSystemId\": \"est nulla in\",\n      \"adDomainSystemId\": \"ut ut nisi\",\n      \"adSamAccountName\": \"Excepteur et\",\n      \"createdAt\": \"1985-10-29T10:29:06.802Z\",\n      \"createdByUserId\": \"urn:uuid:e8c45076-789e-87cc-8ec3-22f01397e65c\",\n      \"createdByUserName\": \"sunt do amet\",\n      \"updatedAt\": \"1991-02-16T21:41:13.680Z\",\n      \"updatedByUserId\": \"a3298671-cec3-78a8-244a-3e7f54bacaa0\",\n      \"updatedByUserName\": \"eu occaecat est non\",\n      \"isDefaultGroup\": true,\n      \"roles\": [\n        \"qui cillum com\",\n        \"ea sit dolor\"\n      ],\n      \"memberIds\": [\n        \"aac7ae7c-8cd8-bdce-fdba-0d439ff3b16f\",\n        \"1d23c33a-272c-97f3-73ea-d5d62e2ffc01\"\n      ],\n      \"id\": \"urn:uuid:b71c9849-4c1d-2068-61eb-644cc259ca34\"\n    },\n    {\n      \"name\": \"laboris et\",\n      \"description\": \"esse ad cillum\",\n      \"organizationId\": \"urn:uuid:b3ef18e9-45c6-56cc-450c-728046e2c5bf\",\n      \"organization\": {\n        \"type\": \"irure fugiat\",\n        \"name\": \"dolore aliquip sint nulla\",\n        \"id\": \"urn:uuid:838e6491-83d5-5928-6a53-a3dc04cec722\"\n      },\n      \"adSystemId\": \"laboris elit incididunt labore\",\n      \"adDomainSystemId\": \"dolor tempor veniam eiusmod\",\n      \"adSamAccountName\": \"sunt nostrud velit ad\",\n      \"createdAt\": \"1956-06-03T05:36:09.348Z\",\n      \"createdByUserId\": \"ee23e089-6089-6a6f-c3ec-ab7993f8e3e8\",\n      \"createdByUserName\": \"laborum consequat aliquip cupidatat\",\n      \"updatedAt\": \"1977-11-21T13:53:33.052Z\",\n      \"updatedByUserId\": \"urn:uuid:dece4c3f-1f34-b159-e88d-9789cc94a463\",\n      \"updatedByUserName\": \"qui eu dolor\",\n      \"isDefaultGroup\": false,\n      \"roles\": [\n        \"qui cillum exercitation voluptat\",\n        \"exercitation irure cil\"\n      ],\n      \"memberIds\": [\n        \"urn:uuid:ad6afa65-1e5d-d427-f0da-85a51352c324\",\n        \"429fefcb-258e-eae3-11af-05a1facb6cc9\"\n      ],\n      \"id\": \"urn:uuid:816ea672-6015-bfb9-333d-25cd4a3b5930\"\n    }\n  ]\n}"
+							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"adSystemId\": \"string\",\n      \"adDomainSystemId\": \"string\",\n      \"adSamAccountName\": \"string\",\n      \"createdAt\": \"2023-03-07T22:02:05.620Z\",\n      \"createdByUserId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"createdByUserName\": \"string\",\n      \"updatedAt\": \"2023-03-07T22:02:05.620Z\",\n      \"updatedByUserId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"updatedByUserName\": \"string\",\n      \"isDefaultGroup\": true,\n      \"roleAssignments\": [\n        100\n      ],\n      \"memberIds\": [\n        \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n      ],\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get invited users by organization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}&page=1&pageSize=1000&includeInvLibraries=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"reports",
+								"v1",
+								"reports",
+								"invited-users"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page"
+								},
+								{
+									"key": "includeInvLibraries",
+									"value": "true"
+								},
+								{
+									"key": "orderBy",
+									"value": "UserName",
+									"description": "Field by which to order the results",
+									"disabled": true
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={uuid}&page=1&pageSize=1000&includeInvLibraries=true&orderBy=name&orderByDescending=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accounts",
+										"reports",
+										"v1",
+										"reports",
+										"invited-users"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "{uuid}"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "includeInvLibraries",
+											"value": "true"
+										},
+										{
+											"key": "orderBy",
+											"value": "name"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"userName\": \"string\",\r\n      \"email\": \"string\",\r\n      \"isEnabled\": true,\r\n      \"invitationExpiration\": \"2023-03-22T13:49:12.486Z\",\r\n      \"invitedLibraryPermissions\": [\r\n        {\r\n          \"libraryId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
 						}
 					]
 				},
@@ -281,9 +392,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/reports/users?reportsKey=<uuid>&orderBy=FirstName&page=1&pageSize=1000&orderByDescending=false",
+									"raw": "https://api.ctcsoftware.com/reports/users?reportsKey=<uuid>&orderBy=FirstName&page=1&pageSize=1000&orderByDescending=false",
+									"protocol": "https",
 									"host": [
-										"{{baseUrl}}"
+										"api",
+										"ctcsoftware",
+										"com"
 									],
 									"path": [
 										"reports",
@@ -323,7 +437,71 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"totalItems\": -21503669,\n  \"items\": [\n    {\n      \"email\": \"do officia adipisicing voluptate\",\n      \"displayName\": \"tempor et deserunt\",\n      \"firstName\": \"magna quis Ut eu\",\n      \"lastName\": \"ad\",\n      \"organization\": {\n        \"type\": \"veniam labore commodo Lorem\",\n        \"name\": \"eiusmod\",\n        \"id\": \"urn:uuid:9d3482d6-1155-727d-50c1-c1cecb483f5f\"\n      },\n      \"status\": \"aliquip et laboris Excepteur\",\n      \"description\": \"id\",\n      \"office\": \"deserunt\",\n      \"department\": \"culpa irure\",\n      \"lastLoggedInAt\": \"1945-06-15T15:40:43.315Z\",\n      \"createdAt\": \"1962-07-29T02:13:40.670Z\",\n      \"updatedAt\": \"1993-07-31T02:01:38.706Z\",\n      \"createdById\": \"urn:uuid:12c75acb-d6f6-cc47-73e2-f30c65cbd3c7\",\n      \"createdByName\": \"non\",\n      \"updatedById\": \"66dac273-387b-0b6b-ea0c-e46a5cff4437\",\n      \"updatedByName\": \"laborum\",\n      \"auth0Id\": \"sint exercitation\",\n      \"isSSOUser\": true,\n      \"roles\": [\n        \"culpa cupidatat consectetur consequat\",\n        \"ex qui sint velit\"\n      ],\n      \"id\": \"8c14038c-f71b-e51c-c458-e64a6d342cb3\"\n    },\n    {\n      \"email\": \"aliqua minim enim deserunt\",\n      \"displayName\": \"non ut\",\n      \"firstName\": \"mollit\",\n      \"lastName\": \"in dolore\",\n      \"organization\": {\n        \"type\": \"officia qui eu in\",\n        \"name\": \"exercitation esse ad\",\n        \"id\": \"urn:uuid:aa478f4a-9d39-d5fb-1c62-98e4b3e5600e\"\n      },\n      \"status\": \"labore magna nisi dolor do\",\n      \"description\": \"Lorem aliquip\",\n      \"office\": \"dolor\",\n      \"department\": \"in\",\n      \"lastLoggedInAt\": \"1966-11-29T14:49:28.878Z\",\n      \"createdAt\": \"1956-04-26T17:13:49.273Z\",\n      \"updatedAt\": \"1952-09-20T21:42:20.966Z\",\n      \"createdById\": \"8267c02d-57d9-6641-7987-8dcaf0b9dcbd\",\n      \"createdByName\": \"Excepteur et eiusmod quis minim\",\n      \"updatedById\": \"urn:uuid:34ed7303-4a80-e5ec-73c5-68ce885e9891\",\n      \"updatedByName\": \"et\",\n      \"auth0Id\": \"ad irure do sed\",\n      \"isSSOUser\": false,\n      \"roles\": [\n        \"pariatur\",\n        \"ea id anim adipisicing\"\n      ],\n      \"id\": \"37483196-7bb5-1098-8dd4-012b0caf8342\"\n    }\n  ]\n}"
+							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"intValue\": 0,\n      \"displayName\": \"string\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get invited users by organization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}&includeInvLibraries=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"reports",
+								"v1",
+								"reports",
+								"invited-users"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "includeInvLibraries",
+									"value": "true",
+									"description": "Whether to include library invitations in this call"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accounts",
+										"reports",
+										"v1",
+										"reports",
+										"invited-users"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "{{reportsKey}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"userName\": \"string\",\r\n      \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"email\": \"string\",\r\n      \"invitedLibraryPermissions\": [\r\n        {\r\n          \"libraryId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\",\r\n          \"isEnabled\": true,\r\n          \"invitationExpiration\": \"2023-03-07T22:01:07.141Z\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
 						}
 					]
 				}

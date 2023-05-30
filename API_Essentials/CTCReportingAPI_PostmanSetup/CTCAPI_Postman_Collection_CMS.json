@@ -626,7 +626,97 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"name\": \"qui\",\n  \"organizationId\": \"a2dc60ec-03dc-15f9-814a-77ab19999a8f\",\n  \"type\": \"consequat\",\n  \"defaultRole\": \"qui aute culpa\",\n  \"description\": \"proident eu\",\n  \"uploadContent\": true,\n  \"imageUri\": \"deserunt officia laborum ad\",\n  \"requirePurchase\": true,\n  \"subscriptionPrice\": -59000769.46115589,\n  \"permissions\": [\n    {\n      \"libraryId\": \"ae27148f-f72a-8854-652c-e6c6f730b27f\",\n      \"librarySubscriptionId\": \"fe3149af-2874-be2a-aef3-7d77e72e223e\",\n      \"resourceId\": \"urn:uuid:0efb8caa-e633-7420-afd9-b8ead888711f\",\n      \"resourceType\": \"magna irure\",\n      \"resourceSource\": \"elit non est\",\n      \"role\": \"culpa esse dolor sit\",\n      \"addedAt\": \"1943-06-28T22:15:08.352Z\",\n      \"addedById\": \"urn:uuid:aac46ec6-d90e-855c-0b91-27ec57f5eaf9\",\n      \"addedBy\": {\n        \"displayName\": \"exercitation consectetur\",\n        \"id\": \"urn:uuid:ab4f4fe7-0c7f-d782-2bb1-67adcca0a54a\"\n      },\n      \"updatedAt\": \"1979-09-10T02:20:45.710Z\",\n      \"updatedById\": \"urn:uuid:4a92dd66-341e-c323-4823-27997d6154af\",\n      \"updatedBy\": {\n        \"displayName\": \"elit irure nisi labore cillum\",\n        \"id\": \"3ba1294f-af42-c6c7-8e27-80db37f2f5a8\"\n      },\n      \"id\": \"933c2cf1-b6f9-2bec-d398-f489c61aa6a7\"\n    },\n    {\n      \"libraryId\": \"90ef1503-f29d-87bd-147e-864ae6749155\",\n      \"librarySubscriptionId\": \"b26ff29b-da80-bbf7-390b-c885c016ebad\",\n      \"resourceId\": \"8f6d3206-5412-65bc-9e78-bd1d5363bc7f\",\n      \"resourceType\": \"voluptate commodo\",\n      \"resourceSource\": \"et Excepteur\",\n      \"role\": \"ullamco eu occaecat\",\n      \"addedAt\": \"1973-07-06T16:01:43.833Z\",\n      \"addedById\": \"urn:uuid:250ad26f-9247-040a-742e-ef882f1a07b7\",\n      \"addedBy\": {\n        \"displayName\": \"adipi\",\n        \"id\": \"6e60cd87-2b19-e715-dbf5-a87c573d9376\"\n      },\n      \"updatedAt\": \"2012-04-04T02:52:53.980Z\",\n      \"updatedById\": \"urn:uuid:87409e0f-7488-8a9d-17b4-933211906a80\",\n      \"updatedBy\": {\n        \"displayName\": \"tempor voluptate veniam Duis laborum\",\n        \"id\": \"93306c9d-3b45-9707-c0e6-270a416c36bc\"\n      },\n      \"id\": \"urn:uuid:ad294c93-bd8f-c15c-d58e-9b28517ac9d7\"\n    }\n  ],\n  \"contentIds\": [\n    \"6fb8b05e-6df8-f373-bc46-dff83bef2336\",\n    \"301a625d-becd-9fd9-fda5-d29f118329be\"\n  ],\n  \"addedAt\": \"1964-05-30T01:38:58.293Z\",\n  \"addedById\": \"urn:uuid:fdd42681-4933-4a8f-995d-2753ffd03624\",\n  \"addedBy\": {\n    \"displayName\": \"in\",\n    \"id\": \"1b2d150c-22a0-e759-de33-269dfe077f9f\"\n  },\n  \"updatedAt\": \"2005-04-24T19:19:06.345Z\",\n  \"updatedById\": \"0d5387c2-8398-3c80-e763-3b15772ef295\",\n  \"updatedBy\": {\n    \"displayName\": \"fugiat cupidatat magna\",\n    \"id\": \"00947fc9-7aef-0874-2419-d06fb44ea584\"\n  },\n  \"id\": \"urn:uuid:beaccd38-5408-daaa-9eca-f5c2f17d15cb\"\n}"
+							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"name\": \"string\",\n      \"organizationId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"type\": \"string\",\n      \"defaultRole\": \"string\",\n      \"description\": \"string\",\n      \"uploadContent\": true,\n      \"imageUri\": \"string\",\n      \"addedAt\": \"2023-03-07T22:04:27.789Z\",\n      \"addedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"updatedAt\": \"2023-03-07T22:04:27.789Z\",\n      \"updatedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get library invitations by organization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/library-invitations?reportsKey={{reportsKey}}&page=1&pageSize=1000&orderBy=updatedAt&orderByDescending=false",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cms",
+								"reports",
+								"v1",
+								"reports",
+								"library-invitations"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000"
+								},
+								{
+									"key": "orderBy",
+									"value": "updatedAt"
+								},
+								{
+									"key": "orderByDescending",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cms/reports/v1/reports/library-invitations?reportsKey={{reportsKey}}&orderBy=UpdatedAt&page=1&pageSize=1000&orderByDescending=false",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cms",
+										"reports",
+										"v1",
+										"reports",
+										"library-invitations"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "{{reportsKey}}"
+										},
+										{
+											"key": "orderBy",
+											"value": "UpdatedAt"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"ownerOrganizationName\": \"string\",\r\n      \"libraryName\": \"string\",\r\n      \"userPermissions\": [\r\n        {\r\n          \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\",\r\n          \"isEnabled\": true,\r\n          \"invitationExpiration\": \"2023-03-07T22:03:57.428Z\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
 						}
 					]
 				},
