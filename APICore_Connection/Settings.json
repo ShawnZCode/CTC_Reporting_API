@@ -6,8 +6,7 @@
             "Stage": "api-stage",
             "Dev": "api-dev"
         },
-        "reportKey": "37CE1DF4-4D8F-4A10-8E4A-4D3FCAA76350",
-        "reportKey_pw": "B4422F4B-8138-4A96-8146-4222A7968351",
+        "reportKey": "<YourReportingAPIKey>",
         "dayOffset": 30
     },
     "_scopeTemplate": {
