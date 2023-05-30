@@ -1,0 +1,518 @@
+{
+	"info": {
+		"_postman_id": "d60ac2da-def8-49f5-b400-0259bba511a0",
+		"name": "Accounts Reporting API v1",
+		"description": "Accounts Reporting API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24009820"
+	},
+	"item": [
+		{
+			"name": "reports",
+			"item": [
+				{
+					"name": "Get users by organization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/accounts/reports/v1/reports/users?reportsKey={{reportsKey}}&page=1&pageSize=1000&includeRoles=true&orderBy=lastName&orderByDescending=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"reports",
+								"v1",
+								"reports",
+								"users"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page"
+								},
+								{
+									"key": "includeRoles",
+									"value": "true",
+									"description": "Whether to include user roles"
+								},
+								{
+									"key": "orderBy",
+									"value": "lastName",
+									"description": "Field by which to order the results"
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.ctcsoftware.com/reports/users?reportsKey=<uuid>&orderBy=FirstName&page=1&pageSize=1000&orderByDescending=false",
+									"protocol": "https",
+									"host": [
+										"api",
+										"ctcsoftware",
+										"com"
+									],
+									"path": [
+										"reports",
+										"users"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>"
+										},
+										{
+											"key": "orderBy",
+											"value": "FirstName"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"email\": \"string\",\n      \"displayName\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"status\": \"string\",\n      \"description\": \"string\",\n      \"office\": \"string\",\n      \"department\": \"string\",\n      \"adSystemId\": \"string\",\n      \"adDomainSystemId\": \"string\",\n      \"adSamAccountName\": \"string\",\n      \"lastLoggedInAt\": \"2023-03-07T22:02:59.153Z\",\n      \"createdAt\": \"2023-03-07T22:02:59.153Z\",\n      \"updatedAt\": \"2023-03-07T22:02:59.153Z\",\n      \"createdById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"createdByName\": \"string\",\n      \"updatedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"updatedByName\": \"string\",\n      \"auth0Id\": \"string\",\n      \"isSSOUser\": true,\n      \"roleAssignments\": [\n        100\n      ],\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get groups by organization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/accounts/reports/v1/reports/groups?reportsKey={{reportsKey}}&page=1&pageSize=1000&includeRoles=true&includeMembers=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"reports",
+								"v1",
+								"reports",
+								"groups"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page"
+								},
+								{
+									"key": "includeRoles",
+									"value": "true",
+									"description": "Whether to include group roles"
+								},
+								{
+									"key": "includeMembers",
+									"value": "true",
+									"description": "Whether to include group member ids"
+								},
+								{
+									"key": "orderBy",
+									"value": "Name",
+									"description": "Field by which to order the results",
+									"disabled": true
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.ctcsoftware.com/reports/groups?reportsKey=<uuid>&orderBy=Name&page=1&pageSize=1000&orderByDescending=false&includeRoles=false&includeMembers=false",
+									"protocol": "https",
+									"host": [
+										"api",
+										"ctcsoftware",
+										"com"
+									],
+									"path": [
+										"reports",
+										"groups"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>"
+										},
+										{
+											"key": "orderBy",
+											"value": "Name"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "false"
+										},
+										{
+											"key": "includeRoles",
+											"value": "false"
+										},
+										{
+											"key": "includeMembers",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"adSystemId\": \"string\",\n      \"adDomainSystemId\": \"string\",\n      \"adSamAccountName\": \"string\",\n      \"createdAt\": \"2023-03-07T22:02:05.620Z\",\n      \"createdByUserId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"createdByUserName\": \"string\",\n      \"updatedAt\": \"2023-03-07T22:02:05.620Z\",\n      \"updatedByUserId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"updatedByUserName\": \"string\",\n      \"isDefaultGroup\": true,\n      \"roleAssignments\": [\n        100\n      ],\n      \"memberIds\": [\n        \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n      ],\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get invited users by organization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}&page=1&pageSize=1000&includeInvLibraries=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"reports",
+								"v1",
+								"reports",
+								"invited-users"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page"
+								},
+								{
+									"key": "includeInvLibraries",
+									"value": "true"
+								},
+								{
+									"key": "orderBy",
+									"value": "UserName",
+									"description": "Field by which to order the results",
+									"disabled": true
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={uuid}&page=1&pageSize=1000&includeInvLibraries=true&orderBy=name&orderByDescending=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accounts",
+										"reports",
+										"v1",
+										"reports",
+										"invited-users"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "{uuid}"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "includeInvLibraries",
+											"value": "true"
+										},
+										{
+											"key": "orderBy",
+											"value": "name"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"userName\": \"string\",\r\n      \"email\": \"string\",\r\n      \"isEnabled\": true,\r\n      \"invitationExpiration\": \"2023-03-22T13:49:12.486Z\",\r\n      \"invitedLibraryPermissions\": [\r\n        {\r\n          \"libraryId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get role-values by organization Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/accounts/reports/v1/reports/role-values?reportsKey={{reportsKey}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"reports",
+								"v1",
+								"reports",
+								"role-values"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.ctcsoftware.com/reports/users?reportsKey=<uuid>&orderBy=FirstName&page=1&pageSize=1000&orderByDescending=false",
+									"protocol": "https",
+									"host": [
+										"api",
+										"ctcsoftware",
+										"com"
+									],
+									"path": [
+										"reports",
+										"users"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>"
+										},
+										{
+											"key": "orderBy",
+											"value": "FirstName"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"intValue\": 0,\n      \"displayName\": \"string\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get invited users by organization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}&includeInvLibraries=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								"reports",
+								"v1",
+								"reports",
+								"invited-users"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "(Required) Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "includeInvLibraries",
+									"value": "true",
+									"description": "Whether to include library invitations in this call"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accounts",
+										"reports",
+										"v1",
+										"reports",
+										"invited-users"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "{{reportsKey}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"userName\": \"string\",\r\n      \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"email\": \"string\",\r\n      \"invitedLibraryPermissions\": [\r\n        {\r\n          \"libraryId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\",\r\n          \"isEnabled\": true,\r\n          \"invitationExpiration\": \"2023-03-07T22:01:07.141Z\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/",
+			"type": "string"
+		}
+	]
+}
