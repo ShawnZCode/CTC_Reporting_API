@@ -103,7 +103,7 @@ Most pulls of files will take an hour or more for an established company using H
 ## SQL Server Connection
 
 The connection to SQL server is the most efficient data storage option long term, as the refreshing can be done using a comparison to existing data
-
+# Section Currently Incomplete
 - Only the delta needs to be retrieved, speeding refreshes for the deeper data
 - Additional convenience is this code can be run in the background to refresh the database leaving the BI tool free to use throughout the refresh
 - BI data and relationships can be read directly `<Direct Query>` from the SQL server, saving time in managing the BI data structure
