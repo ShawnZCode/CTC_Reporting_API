@@ -355,7 +355,7 @@
 					]
 				},
 				{
-					"name": "Get role-values by organization Copy",
+					"name": "Get role-values by organization",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -438,70 +438,6 @@
 							],
 							"cookie": [],
 							"body": "{\n  \"totalItems\": 0,\n  \"items\": [\n    {\n      \"intValue\": 0,\n      \"displayName\": \"string\"\n    }\n  ]\n}"
-						}
-					]
-				},
-				{
-					"name": "Get invited users by organization",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}&includeInvLibraries=true",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"accounts",
-								"reports",
-								"v1",
-								"reports",
-								"invited-users"
-							],
-							"query": [
-								{
-									"key": "reportsKey",
-									"value": "{{reportsKey}}",
-									"description": "(Required) Organization-specific key obtained from CTC"
-								},
-								{
-									"key": "includeInvLibraries",
-									"value": "true",
-									"description": "Whether to include library invitations in this call"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Success",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/accounts/reports/v1/reports/invited-users?reportsKey={{reportsKey}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"accounts",
-										"reports",
-										"v1",
-										"reports",
-										"invited-users"
-									],
-									"query": [
-										{
-											"key": "reportsKey",
-											"value": "{{reportsKey}}"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"userName\": \"string\",\r\n      \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"email\": \"string\",\r\n      \"invitedLibraryPermissions\": [\r\n        {\r\n          \"libraryId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\",\r\n          \"isEnabled\": true,\r\n          \"invitationExpiration\": \"2023-03-07T22:01:07.141Z\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
 						}
 					]
 				}
