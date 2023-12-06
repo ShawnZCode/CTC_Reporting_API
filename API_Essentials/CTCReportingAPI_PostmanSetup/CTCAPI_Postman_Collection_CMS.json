@@ -1272,6 +1272,222 @@
 							"body": "[\n  {\n    \"addedByUser\": \"ut dolore\",\n    \"addedEndDate\": \"1978-05-16T18:21:46.675Z\",\n    \"addedStartDate\": \"2011-10-18T23:06:19.755Z\",\n    \"executionTimeInMs\": 41847855,\n    \"hasExplicitLibraryFilter\": true,\n    \"minAvgRating\": 57747480,\n    \"organizationId\": \"urn:uuid:effd074c-d8c0-4a51-aa4c-ab9b708efde0\",\n    \"page\": -6893113,\n    \"pageSize\": 27662761,\n    \"query\": \"veniam ea nulla do\",\n    \"resultCount\": 29279608,\n    \"results\": [\n      {\n        \"searchId\": \"1f5cee82-f324-8c12-c423-3554b02c2c19\",\n        \"contentId\": \"9374f20f-63eb-4b41-4682-d99af6fb9832\",\n        \"contentName\": \"et in\"\n      },\n      {\n        \"searchId\": \"urn:uuid:b3f75bf7-86ad-1383-1446-cfda5923ed4e\",\n        \"contentId\": \"72065a90-0c3b-d77a-5d1f-cc6e5b9ad8f3\",\n        \"contentName\": \"fugiat ut sunt\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"searchId\": \"47a4a53e-de8e-6dd7-cce0-b9151a8f94c8\",\n        \"category\": {\n          \"id\": -57208567,\n          \"name\": \"ut irure nulla\"\n        }\n      },\n      {\n        \"searchId\": \"f5bb7351-9641-4dcc-c922-12c916dd7401\",\n        \"category\": {\n          \"id\": 49182387,\n          \"name\": \"in\"\n        }\n      }\n    ],\n    \"savedSearchId\": \"10367789-fe2c-f8f7-bdb2-3db7b304dad2\",\n    \"savedSearchName\": \"pariatur quis Duis enim cupidatat\",\n    \"searchedAt\": \"2005-02-21T08:56:33.692Z\",\n    \"searchedBy\": {\n      \"displayName\": \"ut minim velit\",\n      \"id\": \"urn:uuid:9c521a4f-d502-4b29-f0e5-a2d507914587\"\n    },\n    \"searchedById\": \"f874c428-2be2-0069-8123-bf16de731d4d\",\n    \"searchId\": \"48bebd6f-ea67-f128-03e4-ca71077d49eb\",\n    \"fileVersions\": \"fugiat\",\n    \"displayUnits\": \"quis velit\",\n    \"searchLibraries\": [\n      {\n        \"searchId\": \"urn:uuid:87504390-8865-546d-da31-1f5029170ce0\",\n        \"libraryId\": \"urn:uuid:894d05c8-81ec-0095-5093-61a6a27d4a13\",\n        \"libraryName\": \"est consectetur\"\n      },\n      {\n        \"searchId\": \"bcbb4767-53cc-edcd-db3e-b75b71fbbf14\",\n        \"libraryId\": \"urn:uuid:5ff44c4b-a169-fec6-d6d2-5668ce6019e1\",\n        \"libraryName\": \"laboris adipisicing cillum\"\n      }\n    ],\n    \"searchTags\": [\n      {\n        \"searchId\": \"urn:uuid:2cad5292-e497-1eef-761b-ffd61502d854\",\n        \"tagId\": \"821e319c-2108-0a5f-c71c-60f495659d00\",\n        \"tagName\": \"sunt\"\n      },\n      {\n        \"searchId\": \"urn:uuid:396fd47b-8adf-7394-3f4b-c6f09fe7eaf2\",\n        \"tagId\": \"urn:uuid:2b10b555-1c13-4fa0-a3ea-2bb89703473e\",\n        \"tagName\": \"in magna pariatur reprehenderit Ut\"\n      }\n    ],\n    \"sortBy\": \"ipsum ut pariatur veniam f\",\n    \"sortDirection\": \"deserunt velit reprehenderit Excepteur\",\n    \"sources\": [\n      {\n        \"searchId\": \"b4c987bc-a1d1-ec93-50f7-631b18a680e6\",\n        \"contentSource\": \"reprehenderit\"\n      },\n      {\n        \"searchId\": \"57d52148-d2bc-a567-3ae2-5a3ef92b8464\",\n        \"contentSource\": \"sunt\"\n      }\n    ],\n    \"updatedByUser\": \"ullamco in\",\n    \"updatedEndDate\": \"2004-08-07T01:02:29.352Z\",\n    \"updateStartDate\": \"1996-02-03T02:06:31.966Z\",\n    \"id\": \"a5c7caaa-40d9-9267-e50b-5a14579006f7\"\n  },\n  {\n    \"addedByUser\": \"ad est\",\n    \"addedEndDate\": \"2019-11-23T22:57:37.022Z\",\n    \"addedStartDate\": \"1977-08-21T00:50:03.610Z\",\n    \"executionTimeInMs\": -77954652,\n    \"hasExplicitLibraryFilter\": false,\n    \"minAvgRating\": 92765657,\n    \"organizationId\": \"7bb97dee-899b-40f1-f380-80ed88c20de0\",\n    \"page\": -91026711,\n    \"pageSize\": -43814145,\n    \"query\": \"irure ipsum commodo\",\n    \"resultCount\": -76009949,\n    \"results\": [\n      {\n        \"searchId\": \"urn:uuid:df350dac-73b9-aae1-a25f-800fd3a68fe3\",\n        \"contentId\": \"0a17446f-3a6b-493b-8dca-eaedfa1b6aab\",\n        \"contentName\": \"ad qui nostrud\"\n      },\n      {\n        \"searchId\": \"5957772a-10be-cd3c-87e4-0d9bf0c951ef\",\n        \"contentId\": \"urn:uuid:ca44263b-d907-3c2f-1ac7-3577f552d54e\",\n        \"contentName\": \"qui ad amet aute\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"searchId\": \"urn:uuid:ac7cad7c-95d2-285a-4f97-0a577f1ecb5c\",\n        \"category\": {\n          \"id\": -81473503,\n          \"name\": \"laborum eu\"\n        }\n      },\n      {\n        \"searchId\": \"b302cefe-d986-dd64-d5d7-4a6646c5683e\",\n        \"category\": {\n          \"id\": 63921449,\n          \"name\": \"et temp\"\n        }\n      }\n    ],\n    \"savedSearchId\": \"dcab845a-f2d8-71d1-6da1-9ae4e871877d\",\n    \"savedSearchName\": \"nisi laborum\",\n    \"searchedAt\": \"1957-11-15T13:37:54.197Z\",\n    \"searchedBy\": {\n      \"displayName\": \"sunt\",\n      \"id\": \"urn:uuid:99eac191-71b0-b4a4-ba4a-f49d729f8713\"\n    },\n    \"searchedById\": \"e0092e61-6c7a-afa4-4a30-68c8204473ac\",\n    \"searchId\": \"urn:uuid:8ddae977-3add-e037-7ed0-802ee394b928\",\n    \"fileVersions\": \"et irure sint dolore dolore\",\n    \"displayUnits\": \"aute\",\n    \"searchLibraries\": [\n      {\n        \"searchId\": \"c545ab35-8a52-bffa-3169-0c98a67c6737\",\n        \"libraryId\": \"25afe81a-d417-10a9-8af1-36422fdd4361\",\n        \"libraryName\": \"qui sit pariatur\"\n      },\n      {\n        \"searchId\": \"urn:uuid:6e3e51d5-35ed-2734-a352-6acfdfd50e86\",\n        \"libraryId\": \"af99fd56-c34f-819e-96a5-497235ed3add\",\n        \"libraryName\": \"cupidatat\"\n      }\n    ],\n    \"searchTags\": [\n      {\n        \"searchId\": \"urn:uuid:689f6851-1a8c-61ab-9989-51a4472c5105\",\n        \"tagId\": \"urn:uuid:3ac9a9f7-51c2-459e-5bf8-771cb65f5793\",\n        \"tagName\": \"minim elit labore voluptate\"\n      },\n      {\n        \"searchId\": \"956c7676-a721-0828-d159-c86a6e658420\",\n        \"tagId\": \"urn:uuid:e14d6036-dfcc-4232-f02b-56022ab5cd1e\",\n        \"tagName\": \"consequat dolore ad\"\n      }\n    ],\n    \"sortBy\": \"\",\n    \"sortDirection\": \"cillum in\",\n    \"sources\": [\n      {\n        \"searchId\": \"000306f2-fa8b-d341-66d0-4db42af8ae62\",\n        \"contentSource\": \"est Duis dolore\"\n      },\n      {\n        \"searchId\": \"59b23c4f-b8b5-1bb2-a7ad-0235f8f1d77b\",\n        \"contentSource\": \"nostrud\"\n      }\n    ],\n    \"updatedByUser\": \"incididunt proident et sint\",\n    \"updatedEndDate\": \"1995-05-08T19:20:25.790Z\",\n    \"updateStartDate\": \"2015-07-14T11:09:30.692Z\",\n    \"id\": \"urn:uuid:2af43c12-1574-f043-7144-239f5adf866d\"\n  }\n]"
 						}
 					]
+				},
+				{
+					"name": "content-file-checks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/content-file-checks?reportsKey={{reportsKey}}&contentId=<guid>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cms",
+								"reports",
+								"v1",
+								"reports",
+								"content-file-checks"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "contentId",
+									"value": "<guid>",
+									"description": "Id of content to return record for"
+								},
+								{
+									"key": "orderBy",
+									"value": "fileName",
+									"description": "Field by which to order the results. Default value : FileName",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results. Default Value : 1",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page. Default value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "content-file-checks",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cms/reports/v1/reports/content-file-checks?reportsKey=<uuid>&contentId=<uuid>&orderBy=fileName&page=1&pageSize=1000&orderByDescending=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cms",
+										"reports",
+										"v1",
+										"reports",
+										"content-file-checks"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>"
+										},
+										{
+											"key": "contentId",
+											"value": "<uuid>"
+										},
+										{
+											"key": "orderBy",
+											"value": "fileName"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"totalItems\": 0,\n    \"items\": [\n        {\n            \"contentOrganizationName\": \"string\",\n            \"originalPath\": \"string\",\n            \"revitCategoryId\": 0,\n            \"familyVersion\": 0,\n            \"reviewDate\": \"2023-12-06T14:27:12.207Z\",\n            \"detailLevel\": 0,\n            \"detailLevel_3D\": 0,\n            \"elementPlanVisibility\": 0,\n            \"contentId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n            \"contentFileId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n            \"isAnnotationFamily\": true,\n            \"model\": true,\n            \"familyFileCreatable\": true,\n            \"familyCategoryName\": \"string\",\n            \"filePath\": \"string\",\n            \"fileName\": \"string\",\n            \"familyType\": \"string\",\n            \"partType\": \"string\",\n            \"reviewNumber\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n            \"identityData\": 0,\n            \"omniClassNumber\": 0,\n            \"assemblyCode\": 0,\n            \"warnings\": 0,\n            \"visibilityGeneral\": 0,\n            \"importedContent\": 0,\n            \"geometryFlex\": 0,\n            \"typeFlex\": 0,\n            \"hostFlex\": 0,\n            \"mepConnectors\": 0,\n            \"mepConnectorDescription\": 0,\n            \"mepConnectorMapping\": 0,\n            \"mepConnectorDirection\": 0,\n            \"mepConnectorLinking\": 0,\n            \"materialApplication\": 0,\n            \"structuralMaterial\": 0,\n            \"materialPhysicalProperties\": 0,\n            \"materialThermalProperties\": 0,\n            \"typeCatalogUsage\": 0,\n            \"masterSharedParameter\": 0,\n            \"customParameter\": 0,\n            \"parameterGrouping\": 0,\n            \"hiveFileSize\": 0,\n            \"fileSize\": 0,\n            \"subCategoryStandard\": 0,\n            \"subCategoryUnused\": 0,\n            \"approvedParameter\": 0,\n            \"parameterName\": 0,\n            \"preview\": 0,\n            \"referencePlaneName\": 0,\n            \"reviewGlobalProcessingTime\": 0,\n            \"reviewCorporateProcessingTime\": 0,\n            \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "family-checker-settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/family-checker-settings?reportsKey={{reportsKey}}&orderBy=addedAt&page=1&pageSize=1000&orderByDescending=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cms",
+								"reports",
+								"v1",
+								"reports",
+								"family-checker-settings"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "orderBy",
+									"value": "addedAt",
+									"description": "Field by which to order the results. Default value : AddedAt"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results. Default value : 1"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page. Default value : 1000"
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter. Default value : false"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "family-checker-settings",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cms/reports/v1/reports/family-checker-settings?reportsKey=<uuid>&orderBy=addedAt&page=1&pageSize=1000&orderByDescending=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cms",
+										"reports",
+										"v1",
+										"reports",
+										"family-checker-settings"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>",
+											"description": "Organization-specific key obtained from CTC"
+										},
+										{
+											"key": "orderBy",
+											"value": "addedAt",
+											"description": "Field by which to order the results. Default value : AddedAt"
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Page of results. Default value : 1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000",
+											"description": "Number of results per page. Default value : 1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "true",
+											"description": "Whether results should be returned in descending order based on the 'orderBy' parameter. Default value : false"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"organizationId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"fileSizeMB\": 0,\r\n      \"includeSharedParameter\": true,\r\n      \"includeCustomParameter\": true,\r\n      \"includeCategoryMapping\": true,\r\n      \"includeCustomParameterName\": true,\r\n      \"includeFileSize\": true,\r\n      \"includeParameterGrouping\": true,\r\n      \"includeUnusedCategory\": true,\r\n      \"includeReferencePlane\": true,\r\n      \"characters\": [\r\n        {\r\n          \"settingId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"isValid\": true,\r\n          \"value\": \"string\",\r\n          \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n        }\r\n      ],\r\n      \"specTypeGroupings\": [\r\n        {\r\n          \"settingId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"specTypeIdVersionless\": \"string\",\r\n          \"groupTypeIdVersionless\": \"string\",\r\n          \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n        }\r\n      ],\r\n      \"subCategories\": [\r\n        {\r\n          \"settingId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"categoryId\": 0,\r\n          \"name\": \"string\",\r\n          \"isSelected\": true,\r\n          \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n        }\r\n      ],\r\n      \"addedAt\": \"2023-12-06T14:39:34.276Z\",\r\n      \"addedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"addedBy\": {\r\n        \"displayName\": \"string\",\r\n        \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n      },\r\n      \"updatedAt\": \"2023-12-06T14:39:34.276Z\",\r\n      \"updatedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"updatedBy\": {\r\n        \"displayName\": \"string\",\r\n        \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n      },\r\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n    }\r\n  ]\r\n}"
+						}
+					]
 				}
 			]
 		}
