@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d60ac2da-def8-49f5-b400-0259bba511a0",
+		"_postman_id": "ab4fee86-7e02-4811-ace2-a8270c4c7545",
 		"name": "Accounts Reporting API v1",
 		"description": "Accounts Reporting API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -347,8 +347,8 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
 							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"userName\": \"string\",\r\n      \"email\": \"string\",\r\n      \"isEnabled\": true,\r\n      \"invitationExpiration\": \"2023-03-22T13:49:12.486Z\",\r\n      \"invitedLibraryPermissions\": [\r\n        {\r\n          \"libraryId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
 						}
