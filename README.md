@@ -10,6 +10,7 @@ The CTC_Report_API is a fairly new development in the HIVE Product line
 - (Current) Users and Group Data
 - (Current) Project Activity Data
 - (Current) License Usage Data
+- (Future) Project Standards Data
 
 This access replaces the need to download the Excel files on some interval
 Instead, it is now possible to directly connect to the data and either efficient, or inefficiently access the resulting data
