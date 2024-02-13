@@ -6,7 +6,7 @@ import time
 # from APICore_Connection.Functions import api_get_functions
 
 # JSON
-from JSON.Functions import json_cache_files
+from JSON import create_json_cache_files
 
 # from JSON.Functions.read_file import read_file
 
@@ -20,7 +20,7 @@ start_time = time.perf_counter()
 
 
 # JSON Testing
-json_cache_files.get_base_jsons()
+create_json_cache_files.get_base_jsons()
 
 # sql.drop_database()
 # with CTCDatabaseObject() as database_reset:

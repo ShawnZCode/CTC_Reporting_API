@@ -1,19 +1,16 @@
 """A Series of functions allowing the retrieval of data from the CTC CMS API"""
 
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import json
 import math
 from datetime import date, datetime, timedelta
 from time import perf_counter, sleep
-from JSON.Functions.read_file import read_file
-
+from JSON.read_file import read_file
 import requests
 
+#load_dotenv()
 
-load_dotenv()
-
-
-# Current list of constants before settings file is implemented
+## Current list of constants before settings file is implemented
 api_settings = read_file("APICore_Connection\\Settings.json")
 
 rows_per_page = api_settings["apiConnection"]["rowsPerPage"]
@@ -21,7 +18,7 @@ api_env = api_settings["apiConnection"]["apiEnv"]["Prod"]
 api_key = api_settings["apiConnection"]["reportKey"]
 day_offset = api_settings["apiConnection"]["dayOffset"]
 
-
+## Switch Builder used to assemble the Connection URL
 def add_switches(scope, collection):
     """Adds relevant switches sourced from api_settings
     REQUIRES: valid api scope and valid collection from scope
@@ -44,14 +41,14 @@ def add_switches(scope, collection):
 
 ## Define the URL generator
 def gen_url(
-    scope,
-    collection,
-    item_id=None,
-    page_number=None,
-    rowsPerPage=None,
-    start_date=None,
-    end_date=None,
-    switches=None,
+    scope: str,
+    collection: str,
+    item_id: str=None,
+    page_number: int=None,
+    rowsPerPage: int=None,
+    start_date: str=None,
+    end_date: str=None,
+    switches: str=None,
 ):
     """generates the URL needed for navigation"""
     url_pre = f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}"
@@ -139,7 +136,7 @@ def get_x_by_id(scope, collection, item_id, added_data=None):
         response = requests.get(url).text
         data = json.loads(response)
         response_end = perf_counter()
-        # sleep(response_end - response_start)
+        #sleep(response_end - response_start)
     except Exception as err:
         data = {}
     finally:
@@ -150,7 +147,7 @@ def get_total_items(scope, collection):
     """Retrieves total count of items by category"""
     switches = add_switches(scope, collection.lower())
     url = gen_url(
-        scope=scope,
+        scope = scope,
         collection=collection,
         page_number=1,
         rowsPerPage=1,
@@ -174,7 +171,7 @@ def get_next_x(scope, collection, page_number):
     switches = add_switches(scope, collection)
     url = gen_url(
         scope=scope, collection=collection, page_number=page_number, switches=switches
-    )  # f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}&page={str(page_number).lower()}&pageSize={str(rows_per_page)}{switches}"
+    )
     try:
         response_start = perf_counter()
         response = requests.get(url).text
