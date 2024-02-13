@@ -60,13 +60,7 @@ I also want to be very clear about the following:
 
 ## Includes leveraged
 
-The list below will only indicate imports that need to be 'pip install'ed as they may not be included in the default install of python
-
-- requests (for retrieving data from the CTC Api)
-- logging (for generating the process logs)
-- tqdm (enables progress bar display)
-- json (eases parsing the json stream from the API)
-- pyodbc (facilitates connecting to and updating data in the SQL server)
+The requirements.txt will list all imports that need to be 'pip install'ed as they may not be included in the default install of python
 
 ## Updating the settings file
 
