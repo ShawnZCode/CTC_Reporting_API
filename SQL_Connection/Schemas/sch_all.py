@@ -2,28 +2,33 @@
 
 ## Import the needed libraries
 from sqlalchemy import MetaData
-from sqlalchemy.schema import CreateSchema
+from sqlalchemy.schema import CreateSchema, MetaData as MD
+from sqlalchemy.orm import declarative_base
 from SQL_Connection.db_connection import engine, get_db, session_local
+from Logging.ctc_logging import CTC_Log
 
 ## Create the 'core' schema for the database
-core_schema_list = ['core', 'accounts', 'csl', 'cms', 'pal']
-#metadata = MetaData()
-#metadata.create_all(create_engine, checkfirst=True)
-with engine.connect() as connection:
-    try:
-        for core_schema in core_schema_list:
-            connection.execute(CreateSchema(core_schema, if_not_exists=True))
-            connection.commit()
-    finally:
-        connection.close()
+core_schemas = ['core', 'accounts', 'csl', 'cms', 'pal']
 
-## Create the 'accounts' schema for the database
+## Create Schema Function
+def create_schema(schema_name):
+    
+    with engine.connect() as connection:
+        try:
+            new_base = declarative_base()
+            reflect = new_base.metadata.reflect(schema=schema_name, bind=connection)
+            if reflect == None:
+                connection.execute(CreateSchema(schema_name, if_not_exists=False))
+                connection.commit()
+                CTC_Log("JSON").info(f'Schema: "{schema_name}" cuccessfully created')
+            else:
+                pass
+        except Exception as err:
+            CTC_Log("JSON").info(f'Schema: "{schema_name}" already exists')
+            CTC_Log("JSON").error(str(err))
+        finally:
+            connection.close()
 
-
-## Create the 'csl' schema for the database
-
-
-## Create the 'cms' schema for the database
-
-
-## Create the 'pal' schema for the database
+if __name__ == '__main__':
+    for core_schema in core_schemas:
+        create_schema(core_schema)

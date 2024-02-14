@@ -1,8 +1,7 @@
 """Class used to create a database and return a database connection"""
 import json
 from sqlalchemy import create_engine, URL
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeBase, sessionmaker, declarative_base
 
 ## Establish the async connection to the database for both postgres and mssql
 
@@ -21,7 +20,7 @@ conn_url_mssql = URL.create(
     host= 'CTCLTMNShawnZ',
 #    port= '1433' 
     database= 'CTC_ReportingDB',
-    query={"driver":"ODBC+Driver+18+for+SQL+Server","trusted_connection":"yes"}
+    query={"driver":"ODBC Driver 18 for SQL Server","TrustServerCertificate":"yes"}
 )
 
 ## PostgreSQL COnnection Settings
