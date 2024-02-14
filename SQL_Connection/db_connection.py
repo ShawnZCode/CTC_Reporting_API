@@ -13,16 +13,19 @@ class Base(DeclarativeBase):
     pass
 
 ## MSSQL Connection settings
+    ## Requires pyodbc to be installed
 conn_url_mssql = URL.create(
-    drivername= 'mssql',
+    drivername= 'mssql+pyodbc',
     username= 'sa',
     password= 'T3$t!ngSA',
-    host= 'CTCLTShawnZ',
-##    port= '' 
+    host= 'CTCLTMNShawnZ',
+#    port= '1433' 
     database= 'CTC_ReportingDB',
+    query={"driver":"ODBC+Driver+18+for+SQL+Server","trusted_connection":"yes"}
 )
 
 ## PostgreSQL COnnection Settings
+    ## Requires psycopg2 to be installed
 conn_url_postgresql = URL.create(
     drivername= 'postgresql+psycopg2',
     username= 'postgres',
@@ -33,7 +36,7 @@ conn_url_postgresql = URL.create(
 )
 
 ## Create the database engine and session
-engine = create_engine(conn_url_postgresql)
+engine = create_engine(conn_url_mssql)
 session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Dependency to get the database session
