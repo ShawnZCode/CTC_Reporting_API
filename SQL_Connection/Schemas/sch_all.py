@@ -7,9 +7,6 @@ from sqlalchemy.orm import declarative_base
 from SQL_Connection.db_connection import engine, get_db, session_local
 from Logging.ctc_logging import CTC_Log
 
-## Create the 'core' schema for the database
-core_schemas = ['core', 'accounts', 'csl', 'cms', 'pal']
-
 ## Create Schema Function
 def create_schema(schema_name):
     
@@ -28,6 +25,9 @@ def create_schema(schema_name):
             CTC_Log("JSON").error(str(err))
         finally:
             connection.close()
+
+## List of schemas for the database
+core_schemas = ['core', 'accounts', 'csl', 'cms', 'pal']
 
 if __name__ == '__main__':
     for core_schema in core_schemas:

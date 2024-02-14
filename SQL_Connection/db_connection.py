@@ -35,7 +35,7 @@ conn_url_postgresql = URL.create(
 )
 
 ## Create the database engine and session
-engine = create_engine(conn_url_mssql)
+engine = create_engine(conn_url_postgresql)
 session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Dependency to get the database session
