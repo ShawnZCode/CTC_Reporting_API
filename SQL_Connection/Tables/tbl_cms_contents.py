@@ -1,13 +1,13 @@
 from sqlalchemy import DateTime, Uuid, String, Boolean, Float, Integer, ForeignKey
 from uuid import UUID, uuid4
 from datetime import datetime
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, Session
 from SQL_Connection.db_connection import Base
 from pydantic import BaseModel
 from typing import Optional
 
 
-## creating the 'refreshed' pydantic BaseModel
+## creating the pydantic BaseModel
 class CMS_Contents(BaseModel):
     id: UUID
     addedAt: datetime
@@ -29,7 +29,7 @@ class CMS_Contents(BaseModel):
     refreshedId: UUID
 
 
-## Using SQLAlchemy2.0 generate 'refreshed' Table Creation with association to the 'cms' schema
+## Using SQLAlchemy2.0 generate Table with association to the correct schema
 class Tbl_CMS_Contents(Base):
     __tablename__ = 'contents'
     __table_args__ = {"schema": "cms"}
@@ -53,20 +53,22 @@ class Tbl_CMS_Contents(Base):
     revitFamilyHostType: Mapped[str] = mapped_column(String(20), nullable=True)
     refreshedId: Mapped[uuid4] = mapped_column(ForeignKey('core.refreshed.id'), nullable=False)
 
+## function to write to create a new entry item in the table
+def create_new_entry(item: CMS_Contents, session: Session) -> Tbl_CMS_Contents:
+    new_entry = Tbl_CMS_Contents(**item.model_dump())
+    session.add(new_entry)
+    session.commit()
+    session.refresh(new_entry)
+    return new_entry
 
-
-## function to write to create a new entry item in the contents table
-def create_new_contents_entry():
+## function to read from the table
+def get_all_items():
     pass
 
-## function to read from the contents table
-def get_all_contents():
+## function to update the table
+def update_entry():
     pass
 
-## function to update the contents table
-def update_contents_entry():
-    pass
-
-## function to delete from the contents table
-def delete_contents_entry():
+## function to delete from the table
+def delete_entry():
     pass
