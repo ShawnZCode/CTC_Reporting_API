@@ -1,30 +1,48 @@
-from sqlalchemy import DateTime, Uuid
-from uuid import UUID, uuid4
 from datetime import datetime
-from sqlalchemy.orm import mapped_column, Mapped, Session
-from SQL_Connection.db_connection import Base, get_db
+from uuid import UUID, uuid4
+
 from pydantic import BaseModel
+from sqlalchemy import DateTime, Uuid
+from sqlalchemy.orm import Mapped, Session, mapped_column
+
+from SQL_Connection.db_connection import Base
+
 
 ## creating the pydantic BaseModel
 class Refreshed(BaseModel):
     id: UUID = uuid4()
     refreshedAt: datetime = datetime.now()
 
+
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
 class Tbl_Core_Refreshed(Base):
-    __tablename__ = 'refreshed'
+    __tablename__ = "refreshed"
     __table_args__ = {"schema": "core"}
 
-    id: Mapped[uuid4] = mapped_column(Uuid(), primary_key=True, index=True, nullable=False)
-    refreshedAt: Mapped[datetime] = mapped_column(DateTime(), default=datetime.now(), index=True, nullable=False)
+    id: Mapped[uuid4] = mapped_column(
+        Uuid(), primary_key=True, index=True, nullable=False
+    )
+    refreshedAt: Mapped[datetime] = mapped_column(
+        DateTime(), default=datetime.now(), index=True, nullable=False
+    )
 
 
 ## function to write to create a new entry item in the table
-def create_new_entry(entry: Refreshed, db_session: Session):
-    entry = Refreshed(id: uuid4(), refreshedAt: datetime.now())
-    db_item = Tbl_Core_Refreshed()
+def create_new_refreshed(session: Session) -> Refreshed:
+    # pass
+    entry = Refreshed()
+    new_entry = Tbl_Core_Refreshed(**entry.model_dump())
+    session.add(new_entry)
+    session.commit()
+    session.refresh(new_entry)
+    return new_entry
 
 
 ## function to read from the table
-def get_last_item():
-    pass
+def get_last_refreshed(session: Session) -> Refreshed:
+    item = (
+        session.query(Tbl_Core_Refreshed)
+        .order_by(Tbl_Core_Refreshed.refreshedAt.desc())
+        .first()
+    )
+    return item

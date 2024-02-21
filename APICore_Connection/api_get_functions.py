@@ -1,14 +1,16 @@
 """A Series of functions allowing the retrieval of data from the CTC CMS API"""
 
-#from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import json
 import math
 from datetime import date, datetime, timedelta
 from time import perf_counter, sleep
-from JSON.read_file import read_file
+
 import requests
 
-#load_dotenv()
+from JSON.read_file import read_file
+
+# load_dotenv()
 
 ## Current list of constants before settings file is implemented
 api_settings = read_file("APICore_Connection\\Settings.json")
@@ -17,6 +19,7 @@ rows_per_page = api_settings["apiConnection"]["rowsPerPage"]
 api_env = api_settings["apiConnection"]["apiEnv"]["Prod"]
 api_key = api_settings["apiConnection"]["reportKey"]
 day_offset = api_settings["apiConnection"]["dayOffset"]
+
 
 ## Switch Builder used to assemble the Connection URL
 def add_switches(scope, collection):
@@ -39,16 +42,17 @@ def add_switches(scope, collection):
     finally:
         return switches
 
+
 ## Define the URL generator
 def gen_url(
     scope: str,
     collection: str,
-    item_id: str=None,
-    page_number: int=None,
-    rowsPerPage: int=None,
-    start_date: str=None,
-    end_date: str=None,
-    switches: str=None,
+    item_id: str = None,
+    page_number: int = None,
+    rowsPerPage: int = None,
+    start_date: str = None,
+    end_date: str = None,
+    switches: str = None,
 ):
     """generates the URL needed for navigation"""
     url_pre = f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}"
@@ -124,6 +128,7 @@ def gen_url(
 
     return url
 
+
 ## Calls CTC Reporting API to get items by ID
 def get_x_by_id(scope, collection, item_id, added_data=None):
     """retrieves an item record based on the item's id value"""
@@ -136,18 +141,19 @@ def get_x_by_id(scope, collection, item_id, added_data=None):
         response = requests.get(url).text
         data = json.loads(response)
         response_end = perf_counter()
-        #sleep(response_end - response_start)
+        # sleep(response_end - response_start)
     except Exception as err:
         data = {}
     finally:
         return data
+
 
 ## Calls CTC Reporting API to get total items for a given collection
 def get_total_items(scope, collection):
     """Retrieves total count of items by category"""
     switches = add_switches(scope, collection.lower())
     url = gen_url(
-        scope = scope,
+        scope=scope,
         collection=collection,
         page_number=1,
         rowsPerPage=1,
@@ -164,6 +170,7 @@ def get_total_items(scope, collection):
         total_items = None
     finally:
         return total_items
+
 
 ## Calls CTC Reporting API to get next X items
 def get_next_x(scope, collection, page_number):
@@ -195,8 +202,9 @@ def get_keys(scope: str, collection: str):
 
 # test_keys = get_keys('CMS','Contents')
 
+
 ## Calls the CTC Reporting API to get all items in a collection
-    ## Uses the get_next_x function to recursively call the API to get all items
+## Uses the get_next_x function to recursively call the API to get all items
 def get_all_x(
     scope: str,
     collection: str,

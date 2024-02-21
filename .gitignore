@@ -1,10 +1,4 @@
 z_TestingCode/multiprocessing_playground.py
-Functions/__pycache__/api_get_functions.cpython-38.pyc
-Functions/__pycache__/json_cache_files.cpython-38.pyc
-Functions/__pycache__/read_file.cpython-38.pyc
 *.pyc
-*.pyc
-API_Essentials/CTC_Reporting_V1.0_(CTC).pbix
-*.pyc
-*.pyc
-API_Essentials/Sample Data Pull (SCZ).pbix
+API_Essentials/CTC_Reporting_V2.x_(CTC).pbix
+.vscode/settings.json
