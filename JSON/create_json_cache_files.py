@@ -20,11 +20,11 @@ api_settings_scopes = api_settings["scopes"]
 current_date_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 
-def directory_create(current_date_time: str = current_date_time):
+def directory_create(container: str = current_date_time):
     """Ensures a directory for current date time cache of files"""
     try:
-        setting = json_settings["files"]["storageCachePath"]
-        root_directory = f"{setting}\\{current_date_time}"
+        root = json_settings["files"]["storageCachePath"]
+        root_directory = f"{root}\\{container}"
         if not os.path.isdir(root_directory):
             os.makedirs(root_directory, exist_ok=True)
             CTC_Log("JSON").info(f"successfully made {root_directory}")
@@ -36,12 +36,12 @@ def directory_create(current_date_time: str = current_date_time):
 def write_json_file(
     stream: dict,
     file_name: str,
-    root: str = current_date_time,
+    container: str = current_date_time,
     sub_directory: str = "CMS",
 ):
     """Writes a json file from streamed data"""
     try:
-        file_path = f"{directory_create(root)}\\{sub_directory}"
+        file_path = f"{directory_create(container)}\\{sub_directory}"
         os.makedirs(file_path, exist_ok=True)
     except:
         pass
@@ -55,7 +55,7 @@ def write_json_file(
         CTC_Log("JSON").error(str(err))
 
 
-def get_base_jsons(root: str = current_date_time):
+def get_base_jsons(container: str = current_date_time):
     """Writes the original Json Files"""
     try:
         with tqdm(
@@ -74,14 +74,18 @@ def get_base_jsons(root: str = current_date_time):
                             "mandatorySwitches"
                         ]
                         if len(count) == 0:
-                            collection_total = ctc.get_total_items(scope, collection)
+                            collection_total = ctc.get_total_items(
+                                scope=scope, collection=collection
+                            )
                             collection_stream = ctc.get_all_x(
-                                scope, collection, collection_total
+                                scope=scope,
+                                collection=collection,
+                                total_rows=collection_total,
                             )
                             write_json_file(
                                 stream=collection_stream,
                                 file_name=collection,
-                                root=root,
+                                container=container,
                                 sub_directory=scope,
                             )
                         collections_pbar.set_description(
@@ -90,18 +94,16 @@ def get_base_jsons(root: str = current_date_time):
                 scopes_pbar.set_description(f"Fetched base collections from {scope}")
     except Exception as err:
         CTC_Log("JSON").error(str(err))
-    try:
+    finally:
+        CTC_Log("JSON").info("Finished fetching base collections")
         tqdm._instances.clear()
-        get_nested_jsons()
-    except Exception as err:
-        CTC_Log("JSON").error(str(err))
 
 
-def get_ids(scope: str, collection: str, root: str = current_date_time):
+def get_ids(scope: str, collection: str, container: str = current_date_time):
     """Parses the saved Json file from parents and returns a list of ids
     ids are used to fetch the child detailed item from the api"""
     try:
-        file_path = f"{directory_create(root)}\\{scope}"
+        file_path = f"{directory_create(container)}\\{scope}"
         file_path += f"\\{collection}.json"
         with open(file_path, "r") as f:
             stream = json.loads(f.read())
@@ -119,7 +121,7 @@ def get_ids(scope: str, collection: str, root: str = current_date_time):
         CTC_Log("JSON").error(str(err))
 
 
-def get_nested_jsons(root: str = current_date_time):
+def get_nested_jsons(container: str = current_date_time):
     """Writes the nested Json files by id"""
     try:
         for scope in api_settings_scopes:
@@ -136,7 +138,9 @@ def get_nested_jsons(root: str = current_date_time):
                     ):
                         # fetches a list of ids from main dump
                         ids = get_ids(
-                            scope, api_settings_scopes[scope][collection]["parent"]
+                            scope=scope,
+                            collection=api_settings_scopes[scope][collection]["parent"],
+                            container=container,
                         )
                         with tqdm(
                             ids,
@@ -148,11 +152,13 @@ def get_nested_jsons(root: str = current_date_time):
                                     f"Currently fetching {xId.lower()} from {scope}.{collection}"
                                 )
                                 file_name = f"{collection}_{xId}"
-                                item_stream = ctc.get_x_by_id(scope, collection, xId)
+                                item_stream = ctc.get_x_by_id(
+                                    scope=scope, collection=collection, item_id=xId
+                                )
                                 write_json_file(
                                     stream=item_stream,
                                     file_name=file_name,
-                                    root=root,
+                                    container=container,
                                     sub_directory=f"{scope}\\{collection}",
                                 )
                                 ids_pbar.set_description(
@@ -161,3 +167,12 @@ def get_nested_jsons(root: str = current_date_time):
 
     except Exception as err:
         CTC_Log("JSON").error(str(err))
+    finally:
+        CTC_Log("JSON").info("Finished fetching nested collections")
+        tqdm._instances.clear()
+
+
+def get_all_jsons(container: str = current_date_time):
+    """Writes the original Json Files"""
+    get_base_jsons(container=container)
+    get_nested_jsons(container=container)

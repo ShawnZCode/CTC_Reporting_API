@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from sqlalchemy import DateTime, Uuid
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
-from SQL_Connection.db_connection import Base
+from SQL_Connection.db_connection import Base, NotFoundError
 
 
 ## creating the pydantic BaseModel
@@ -40,9 +40,12 @@ def create_new_refreshed(session: Session) -> Refreshed:
 
 ## function to read from the table
 def get_last_refreshed(session: Session) -> Refreshed:
-    item = (
-        session.query(Tbl_Core_Refreshed)
-        .order_by(Tbl_Core_Refreshed.refreshedAt.desc())
-        .first()
-    )
+    try:
+        item = (
+            session.query(Tbl_Core_Refreshed)
+            .order_by(Tbl_Core_Refreshed.refreshedAt.desc())
+            .first()
+        )
+    except NotFoundError:
+        raise NotFoundError("No previous refresh records found")
     return item
