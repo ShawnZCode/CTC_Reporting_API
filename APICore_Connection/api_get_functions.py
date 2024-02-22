@@ -8,27 +8,27 @@ from time import perf_counter, sleep
 
 import requests
 
-from JSON.read_file import read_file
+from utils.read_file import read_file
 
 # load_dotenv()
 
 ## Current list of constants before settings file is implemented
-api_settings = read_file("APICore_Connection\\Settings.json")
+API_SETTINGS = read_file("APICore_Connection\\Settings.json")
 
-rows_per_page = api_settings["apiConnection"]["rowsPerPage"]
-api_env = api_settings["apiConnection"]["apiEnv"]["Prod"]
-api_key = api_settings["apiConnection"]["reportKey"]
-day_offset = api_settings["apiConnection"]["dayOffset"]
+ROWS_PER_PAGE = API_SETTINGS["apiConnection"]["rowsPerPage"]
+API_ENV = API_SETTINGS["apiConnection"]["apiEnv"]["Prod"]
+API_KEY = API_SETTINGS["apiConnection"]["reportKey"]
+DAY_OFFSET = API_SETTINGS["apiConnection"]["dayOffset"]
 
 
 ## Switch Builder used to assemble the Connection URL
-def add_switches(scope, collection):
-    """Adds relevant switches sourced from api_settings
+def add_switches(scope: str, collection: str):
+    """Adds relevant switches sourced from API_SETTINGS
     REQUIRES: valid api scope and valid collection from scope
     RETURNS: list of switches"""
     switches = ""
     try:
-        switches_list = api_settings["scopes"][scope][collection.lower()][
+        switches_list = API_SETTINGS["scopes"][scope][collection.lower()][
             "optionalSwitches"
         ]
         for dictionary in switches_list:
@@ -49,13 +49,13 @@ def gen_url(
     collection: str,
     item_id: str = None,
     page_number: int = None,
-    rowsPerPage: int = None,
+    int_rows_per_page: int = None,
     start_date: str = None,
     end_date: str = None,
     switches: str = None,
 ):
     """generates the URL needed for navigation"""
-    url_pre = f"https://{api_env}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={api_key}"
+    url_pre = f"https://{API_ENV}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={API_KEY}"
 
     ##Collection handling
     if collection == "app-sessions":
@@ -66,18 +66,18 @@ def gen_url(
         col = collection
 
     ##Id handling
-    if item_id != None:
+    if item_id is not None:
         url_id = f"&{col}Id={item_id}"
     else:
         url_id = ""
 
     ##Page handling
-    if rowsPerPage != None:
-        rpp = str(rowsPerPage)
+    if int_rows_per_page is not None:
+        rpp = str(int_rows_per_page)
     else:
-        rpp = str(rows_per_page)
+        rpp = str(ROWS_PER_PAGE)
 
-    if page_number != None:
+    if page_number is not None:
         if collection != "app_sessions":
             url_page = f"&page={str(page_number)}&pageSize={rpp}"
         else:
@@ -92,14 +92,14 @@ def gen_url(
         or col == "app-sessions"
         or col == "doc-sessions"
         or col == "sessions"
-    ) and start_date == None:
-        current_date = date.today() - timedelta(day_offset)
+    ) and start_date is None:
+        current_date = date.today() - timedelta(DAY_OFFSET)
         date_str = current_date.strftime("%Y-%m-%d")
         start_date = date_str
 
     if (
         col == "app-sessions" or col == "doc-sessions" or col == "sessions"
-    ) and end_date == None:
+    ) and end_date is None:
         current_date = date.today() + timedelta(1)
         date_str = current_date.strftime("%Y-%m-%d")
         end_date = date_str
@@ -107,11 +107,11 @@ def gen_url(
     if col == "searches":
         url_date = f"&searchedAt={start_date}"
     elif col == "app-sessions" or col == "doc-sessions" or col == "sessions":
-        if start_date != None and end_date != None:
+        if start_date is not None and end_date is not None:
             url_date = f"&startDate={start_date}&endDate={end_date}"
-        elif start_date != None and end_date == None:
+        elif start_date is not None and end_date is None:
             url_date = f"&startDate={start_date}"
-        elif start_date == None and end_date != None:
+        elif start_date is None and end_date is not None:
             url_date = f"&endDate={end_date}"
         else:
             url_date = ""
@@ -119,7 +119,7 @@ def gen_url(
         url_date = ""
 
     ##Switches handling
-    if switches != None:
+    if switches is not None:
         url_switches = f"&{switches}"
     else:
         url_switches = ""
@@ -130,7 +130,7 @@ def gen_url(
 
 
 ## Calls CTC Reporting API to get items by ID
-def get_x_by_id(scope, collection, item_id, added_data=None):
+def get_x_by_id(scope: str, collection: str, item_id: set, added_data: str = None):
     """retrieves an item record based on the item's id value"""
     try:
         switches = add_switches(scope, collection)
@@ -149,14 +149,14 @@ def get_x_by_id(scope, collection, item_id, added_data=None):
 
 
 ## Calls CTC Reporting API to get total items for a given collection
-def get_total_items(scope, collection):
+def get_total_items(scope: str, collection: str):
     """Retrieves total count of items by category"""
     switches = add_switches(scope, collection.lower())
     url = gen_url(
         scope=scope,
         collection=collection,
         page_number=1,
-        rowsPerPage=1,
+        int_rows_per_page=1,
         switches=switches,
     )
     try:
@@ -173,9 +173,9 @@ def get_total_items(scope, collection):
 
 
 ## Calls CTC Reporting API to get next X items
-def get_next_x(scope, collection, page_number):
+def get_next_x(scope: str, collection: str, page_number: int):
     """Retrieves next X items"""
-    switches = add_switches(scope, collection)
+    switches = add_switches(scope=scope, collection=collection)
     url = gen_url(
         scope=scope, collection=collection, page_number=page_number, switches=switches
     )
@@ -193,7 +193,7 @@ def get_next_x(scope, collection, page_number):
 def get_keys(scope: str, collection: str):
     """Used to get the data structure of the json stream"""
     try:
-        stream = get_next_x(scope, collection, 1)
+        stream = get_next_x(scope=scope, collection=collection, page_number=1)
         keys = stream["items"][0].keys()
         return list(keys)
     except Exception as err:
@@ -210,12 +210,12 @@ def get_all_x(
     collection: str,
     total_rows: int = None,
     page_number: int = None,
-    previous_items=None,
+    previous_items: list[dict] = None,
 ):
     """Use to recursively call API to get all <collection> items"""
     if total_rows is None:
-        total_rows = int(rows_per_page)
-    page_count = math.ceil(int(total_rows) / int(rows_per_page))
+        total_rows = int(ROWS_PER_PAGE)
+    page_count = math.ceil(int(total_rows) / int(ROWS_PER_PAGE))
     # Establish current page number
     if page_number is None:
         page_number = 1
@@ -223,15 +223,25 @@ def get_all_x(
         page_number += 1
     # Combine results into single result set
     if previous_items is None:
-        total_items = get_next_x(scope, collection, page_number)
+        total_items = get_next_x(
+            scope=scope, collection=collection, page_number=page_number
+        )
     else:
-        next_json = get_next_x(scope, collection, page_number)
+        next_json = get_next_x(
+            scope=scope, collection=collection, page_number=page_number
+        )
         for item in next_json["items"]:
             previous_items["items"].append(item)
         total_items = previous_items
     # Continue to fetch next page of results
     # Or return final result set
     if page_number < page_count:
-        get_all_x(scope, collection, total_rows, page_number, total_items)
+        get_all_x(
+            scope=scope,
+            collection=collection,
+            total_rows=total_rows,
+            page_number=page_number,
+            previous_items=total_items,
+        )
 
     return total_items

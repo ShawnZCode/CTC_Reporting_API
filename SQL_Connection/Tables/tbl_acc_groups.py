@@ -10,7 +10,7 @@ from SQL_Connection.db_connection import Base, NotFoundError
 
 
 ## creating the pydantic BaseModel
-class Acc_Group(BaseModel):
+class AccGroup(BaseModel):
     id: UUID
     name: str
     description: Optional[str]
@@ -23,7 +23,7 @@ class Acc_Group(BaseModel):
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
-class Tbl_Acc_Groups(Base):
+class TblAccGroups(Base):
     __tablename__ = "groups"
     __table_args__ = {"schema": "accounts"}
 
@@ -45,8 +45,8 @@ class Tbl_Acc_Groups(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_group(item: Acc_Group, session: Session) -> Acc_Group:
-    new_entry = Tbl_Acc_Groups(**item.model_dump())
+def create_new_group(item: AccGroup, session: Session) -> AccGroup:
+    new_entry = TblAccGroups(**item.model_dump())
     session.add(new_entry)
     session.commit()
     session.refresh(new_entry)
@@ -54,15 +54,15 @@ def create_new_group(item: Acc_Group, session: Session) -> Acc_Group:
 
 
 ## function to read item from the table
-def read_db_group(item: Acc_Group, session: Session) -> Acc_Group:
-    db_user = session.query(Tbl_Acc_Groups).filter(Tbl_Acc_Groups.id == item.id).first()
+def read_db_group(item: AccGroup, session: Session) -> AccGroup:
+    db_user = session.query(TblAccGroups).filter(TblAccGroups.id == item.id).first()
     if db_user is None:
         raise NotFoundError(f"UserId: {item.id} not found")
     return db_user
 
 
 ## function to update the table
-def update_group(item: Acc_Group, session: Session) -> Acc_Group:
+def update_group(item: AccGroup, session: Session) -> AccGroup:
     update_entry = read_db_group(item, session)
     if item.updatedAt.astimezone(None) > update_entry.updatedAt.astimezone(None):
         for key, value in item.model_dump().items():
@@ -72,6 +72,7 @@ def update_group(item: Acc_Group, session: Session) -> Acc_Group:
     session.refresh(update_entry)
     return update_entry
 
-    ## function to delete from the table
-    def delete_entry():
-        pass
+
+## function to delete from the table
+def delete_entry():
+    pass

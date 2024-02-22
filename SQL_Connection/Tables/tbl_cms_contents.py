@@ -10,7 +10,7 @@ from SQL_Connection.db_connection import Base
 
 
 ## creating the pydantic BaseModel
-class CMS_Contents(BaseModel):
+class CMSContent(BaseModel):
     id: UUID
     addedAt: datetime
     addedById: UUID
@@ -32,7 +32,7 @@ class CMS_Contents(BaseModel):
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
-class Tbl_CMS_Contents(Base):
+class TblCMSContents(Base):
     __tablename__ = "contents"
     __table_args__ = {"schema": "cms"}
 
@@ -65,8 +65,8 @@ class Tbl_CMS_Contents(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_content(item: CMS_Contents, session: Session) -> Tbl_CMS_Contents:
-    new_entry = Tbl_CMS_Contents(**item)  # .model_dump())
+def create_new_content(item: CMSContent, session: Session) -> CMSContent:
+    new_entry = TblCMSContents(**item)  # .model_dump())
     session.add(new_entry)
     session.commit()
     session.refresh(new_entry)

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from SQL_Connection.db_connection import NotFoundError, session_local
-from SQL_Connection.Tables.tbl_core_refreshed import (
+from SQL_Connection.tables.tbl_core_refreshed import (
     Refreshed,
     create_new_refreshed,
     get_last_refreshed,

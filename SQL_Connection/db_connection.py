@@ -2,27 +2,27 @@
 from sqlalchemy import URL, create_engine
 from sqlalchemy.orm import DeclarativeBase, declarative_base, sessionmaker
 
-from JSON.read_file import read_file
+from utils.read_file import read_file
 
 ## Define the connection settings for the database
-settings = read_file("SQL_Connection\\Settings.json")
-match settings["serverLanguage"]:
+SETTINGS_IMPORT = read_file("SQL_Connection\\Settings.json")
+match SETTINGS_IMPORT["serverLanguage"]:
     case "mssql":
-        settings = settings["mssqlConnectionSettings"]
+        SETTINGS = SETTINGS_IMPORT["mssqlConnectionSettings"]
     case "postgresql":
-        settings = settings["postresqlConnectionSettings"]
+        SETTINGS = SETTINGS_IMPORT["postresqlConnectionSettings"]
 
 ## SQL Connection settings
 ## Requires pyodbc to be pip installed when using mssql
 ## Requires psycopg2 to be pip installed when using postgresql
 conn_url = URL.create(
-    drivername=settings["driver"],
-    username=settings["uid"],
-    password=settings["pwd"],
-    host=settings["host"],
-    port=settings["port"],
-    database=settings["db"],
-    query=settings["query"],
+    drivername=SETTINGS["driver"],
+    username=SETTINGS["uid"],
+    password=SETTINGS["pwd"],
+    host=SETTINGS["host"],
+    port=SETTINGS["port"],
+    database=SETTINGS["db"],
+    query=SETTINGS["query"],
 )
 
 

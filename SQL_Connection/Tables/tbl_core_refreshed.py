@@ -15,7 +15,7 @@ class Refreshed(BaseModel):
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
-class Tbl_Core_Refreshed(Base):
+class TblCoreRefreshed(Base):
     __tablename__ = "refreshed"
     __table_args__ = {"schema": "core"}
 
@@ -31,7 +31,7 @@ class Tbl_Core_Refreshed(Base):
 def create_new_refreshed(session: Session) -> Refreshed:
     # pass
     entry = Refreshed()
-    new_entry = Tbl_Core_Refreshed(**entry.model_dump())
+    new_entry = TblCoreRefreshed(**entry.model_dump())
     session.add(new_entry)
     session.commit()
     session.refresh(new_entry)
@@ -42,8 +42,8 @@ def create_new_refreshed(session: Session) -> Refreshed:
 def get_last_refreshed(session: Session) -> Refreshed:
     try:
         item = (
-            session.query(Tbl_Core_Refreshed)
-            .order_by(Tbl_Core_Refreshed.refreshedAt.desc())
+            session.query(TblCoreRefreshed)
+            .order_by(TblCoreRefreshed.refreshedAt.desc())
             .first()
         )
     except NotFoundError:

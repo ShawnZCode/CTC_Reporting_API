@@ -1,6 +1,6 @@
 """Initialization import for nested references"""
 
-import os
+# import os
 import time
 from shutil import rmtree
 
@@ -19,9 +19,9 @@ from z_DB_API_Connector import main as GetTheStuff
 # Testing Section for code
 start_time = time.perf_counter()
 container = GetTheStuff.last_refreshed.id
-GetTheStuff
+# GetTheStuff
 
-rmtree(f"{GetTheStuff.root_path}/{container}", ignore_errors=True)
+# rmtree(f"{GetTheStuff.root_path}/{container}", ignore_errors=True)
 
 get_all_jsons(container=container)
 finish_time = time.perf_counter()

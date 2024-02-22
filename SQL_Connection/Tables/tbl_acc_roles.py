@@ -6,13 +6,13 @@ from SQL_Connection.db_connection import Base, NotFoundError
 
 
 ## creating the pydantic BaseModel
-class Acc_Role(BaseModel):
+class AccRole(BaseModel):
     id: int
     dispalyName: str
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
-class Tbl_Acc_Roles(Base):
+class TblAccRoles(Base):
     __tablename__ = "roles"
     __table_args__ = {"schema": "accounts"}
 
@@ -23,8 +23,8 @@ class Tbl_Acc_Roles(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_role(item: Acc_Role, session: Session) -> Acc_Role:
-    new_entry = Tbl_Acc_Roles(**item.model_dump())
+def create_new_role(item: AccRole, session: Session) -> AccRole:
+    new_entry = TblAccRoles(**item.model_dump())
     session.add(new_entry)
     session.commit()
     session.refresh(new_entry)
@@ -32,15 +32,15 @@ def create_new_role(item: Acc_Role, session: Session) -> Acc_Role:
 
 
 ## function to read item from the table
-def read_db_role(item: Acc_Role, session: Session) -> Acc_Role:
-    db_user = session.query(Tbl_Acc_Roles).filter(Tbl_Acc_Roles.id == item.id).first()
+def read_db_role(item: AccRole, session: Session) -> AccRole:
+    db_user = session.query(TblAccRoles).filter(TblAccRoles.id == item.id).first()
     if db_user is None:
         raise NotFoundError(f"UserId: {item.id} not found")
     return db_user
 
 
 ## function to update the table
-def update_user(item: Acc_Role, session: Session) -> Acc_Role:
+def update_user(item: AccRole, session: Session) -> AccRole:
     update_entry = read_db_role(item, session)
     if item.updatedAt.astimezone(None) > update_entry.updatedAt.astimezone(None):
         for key, value in item.model_dump().items():

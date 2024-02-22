@@ -1,14 +1,16 @@
-from sqlalchemy import DateTime, Uuid, String, Boolean, Float, Integer, ForeignKey
-from uuid import UUID, uuid4
 from datetime import datetime
-from sqlalchemy.orm import mapped_column, Mapped
-from SQL_Connection.db_connection import Base
-from pydantic import BaseModel
 from typing import Optional
+from uuid import UUID, uuid4
+
+from pydantic import BaseModel
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
+from sqlalchemy.orm import Mapped, mapped_column
+
+from SQL_Connection.db_connection import Base
 
 
 ## creating the pydantic BaseModel
-class CMS_ContentFiles(BaseModel):
+class CMSContentFile(BaseModel):
     id: UUID
     addedAt: datetime
     addedById: UUID
@@ -31,7 +33,7 @@ class CMS_ContentFiles(BaseModel):
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
-class Tbl_CMS_ContentFiles(Base):
+class TblCMSContentFiles(Base):
     __tablename__ = "contentFiles"
     __table_args__ = {"schema": "cms"}
 
@@ -67,18 +69,22 @@ class Tbl_CMS_ContentFiles(Base):
         ForeignKey("core.refreshed.id"), nullable=False
     )
 
-    ## function to write to create a new entry item in the table
-    def create_new_entry():
-        pass
 
-    ## function to read from the table
-    def get_all_items():
-        pass
+## function to write to create a new entry item in the table
+def create_new_entry():
+    pass
 
-    ## function to update the table
-    def update_entry():
-        pass
 
-    ## function to delete from the table
-    def delete_entry():
-        pass
+## function to read from the table
+def get_all_items():
+    pass
+
+
+## function to update the table
+def update_entry():
+    pass
+
+
+## function to delete from the table
+def delete_entry():
+    pass

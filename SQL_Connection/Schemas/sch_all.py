@@ -1,18 +1,22 @@
-'''Module that generates all needed schemas for the database'''
+"""Module that generates all needed schemas for the database"""
 
 ## Import the needed libraries
 from sqlalchemy import MetaData
-from sqlalchemy.schema import CreateSchema, DropSchema, MetaData as MD
 from sqlalchemy.orm import declarative_base
-from SQL_Connection.db_connection import engine, get_db, session_local
-from Logging.ctc_logging import CTC_Log
-from JSON.read_file import read_file
+from sqlalchemy.schema import CreateSchema, DropSchema
+from sqlalchemy.schema import MetaData as MD
 
-log_title = read_file("SQL_Connection\\Settings.json")['logTitle']
+from Logging.ctc_logging import CTCLog
+from SQL_Connection.db_connection import engine, get_db, session_local
+from utils.read_file import read_file
+
+LOG_TITLE = read_file("SQL_Connection\\Settings.json")["logTitle"]
+## List of schemas for the database
+CORE_SCHEMAS = ["core", "accounts", "csl", "cms", "pal"]
+
 
 ## Create Schema Function
 def create_schema(schema_name):
-    
     with engine.connect() as connection:
         try:
             new_base = declarative_base()
@@ -20,14 +24,15 @@ def create_schema(schema_name):
             if reflect == None:
                 connection.execute(CreateSchema(schema_name, if_not_exists=False))
                 connection.commit()
-                CTC_Log(log_title).info(f'Schema: "{schema_name}" successfully created')
+                CTCLog(LOG_TITLE).info(f'Schema: "{schema_name}" successfully created')
             else:
                 pass
         except Exception as err:
-            CTC_Log(log_title).info(f'Schema: "{schema_name}" already exists')
-            CTC_Log(log_title).error(str(err))
+            CTCLog(LOG_TITLE).info(f'Schema: "{schema_name}" already exists')
+            CTCLog(LOG_TITLE).error(str(err))
         finally:
             connection.close()
+
 
 ## Delete Schema Function
 def drop_schema(schema_name):
@@ -35,16 +40,14 @@ def drop_schema(schema_name):
         try:
             connection.execute(DropSchema(schema_name, if_exists=True))
             connection.commit()
-            CTC_Log(log_title).info(f'Schema: "{schema_name}" successfully deleted')
+            CTCLog(LOG_TITLE).info(f'Schema: "{schema_name}" successfully deleted')
         except Exception as err:
-            CTC_Log(log_title).info(f'Schema: "{schema_name}" does not exist')
-            CTC_Log(log_title).error(str(err))
+            CTCLog(LOG_TITLE).info(f'Schema: "{schema_name}" does not exist')
+            CTCLog(LOG_TITLE).error(str(err))
         finally:
             connection.close()
 
-## List of schemas for the database
-core_schemas = ['core', 'accounts', 'csl', 'cms', 'pal']
 
-if __name__ == '__main__':
-    for core_schema in core_schemas:
+if __name__ == "__main__":
+    for core_schema in CORE_SCHEMAS:
         create_schema(core_schema)

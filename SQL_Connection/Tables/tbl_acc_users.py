@@ -11,7 +11,7 @@ from SQL_Connection.db_connection import Base, NotFoundError
 
 
 ## creating the pydantic BaseModel
-class Acc_UserRecord(BaseModel):
+class AccUserRecord(BaseModel):
     id: UUID
     firstName: Optional[str]
     lastName: Optional[str]
@@ -31,7 +31,7 @@ class Acc_UserRecord(BaseModel):
     # refreshedId: UUID
 
 
-class Acc_User(BaseModel):
+class AccUser(BaseModel):
     id: UUID
     firstName: Optional[str]
     lastName: Optional[str]
@@ -49,18 +49,18 @@ class Acc_User(BaseModel):
     isSSOUser: bool
 
 
-class Acc_User_Updated(BaseModel):
+class AccUser_Updated(BaseModel):
     id: UUID
     updatedAt: datetime
 
 
-class Acc_UserRoles(BaseModel):
+class AccUserRole(BaseModel):
     id: UUID
     roles: Optional[list[int]]
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
-class Tbl_Acc_Users(Base):
+class TblAccUsers(Base):
     __tablename__ = "users"
     __table_args__ = {"schema": "accounts"}
 
@@ -85,8 +85,8 @@ class Tbl_Acc_Users(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_user(item: Acc_User, session: Session) -> Acc_User:
-    new_entry = Tbl_Acc_Users(**item.model_dump())
+def create_new_user(item: AccUser, session: Session) -> AccUser:
+    new_entry = TblAccUsers(**item.model_dump())
     session.add(new_entry)
     session.commit()
     session.refresh(new_entry)
@@ -99,15 +99,15 @@ def get_all_users():
 
 
 ## function to read item from the table
-def read_db_user(item: Acc_User, session: Session) -> Acc_User:
-    db_user = session.query(Tbl_Acc_Users).filter(Tbl_Acc_Users.id == item.id).first()
+def read_db_user(item: AccUser, session: Session) -> AccUser:
+    db_user = session.query(TblAccUsers).filter(TblAccUsers.id == item.id).first()
     if db_user is None:
         raise NotFoundError(f"UserId: {item.id} not found")
     return db_user
 
 
 ## function to update the table
-def update_user(item: Acc_User, session: Session) -> Acc_User:
+def update_user(item: AccUser, session: Session) -> AccUser:
     update_entry = read_db_user(item, session)
     if item.updatedAt.astimezone(None) > update_entry.updatedAt.astimezone(None):
         for key, value in item.model_dump().items():
