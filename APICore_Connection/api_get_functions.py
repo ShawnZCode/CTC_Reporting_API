@@ -22,7 +22,7 @@ DAY_OFFSET = API_SETTINGS["apiConnection"]["dayOffset"]
 
 
 ## Switch Builder used to assemble the Connection URL
-def add_switches(scope: str, collection: str):
+def add_switches(scope: str, collection: str) -> str:
     """Adds relevant switches sourced from API_SETTINGS
     REQUIRES: valid api scope and valid collection from scope
     RETURNS: list of switches"""
@@ -53,8 +53,8 @@ def gen_url(
     start_date: str = None,
     end_date: str = None,
     switches: str = None,
-):
-    """generates the URL needed for navigation"""
+) -> str:
+    """generates the full URL needed for any requested route"""
     url_pre = f"https://{API_ENV}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={API_KEY}"
 
     ##Collection handling
@@ -130,7 +130,12 @@ def gen_url(
 
 
 ## Calls CTC Reporting API to get items by ID
-def get_x_by_id(scope: str, collection: str, item_id: set, added_data: str = None):
+def get_x_by_id(
+        scope: str,
+        collection: str,
+        item_id: set,
+        added_data: str = None
+) -> dict:
     """retrieves an item record based on the item's id value"""
     try:
         switches = add_switches(scope, collection)
@@ -149,7 +154,7 @@ def get_x_by_id(scope: str, collection: str, item_id: set, added_data: str = Non
 
 
 ## Calls CTC Reporting API to get total items for a given collection
-def get_total_items(scope: str, collection: str):
+def get_total_items(scope: str, collection: str) -> int:
     """Retrieves total count of items by category"""
     switches = add_switches(scope, collection.lower())
     url = gen_url(
@@ -190,14 +195,14 @@ def get_next_x(scope: str, collection: str, page_number: int):
     return next_json
 
 
-def get_keys(scope: str, collection: str):
+def get_keys(scope: str, collection: str) -> list[str]:
     """Used to get the data structure of the json stream"""
     try:
         stream = get_next_x(scope=scope, collection=collection, page_number=1)
         keys = stream["items"][0].keys()
         return list(keys)
     except Exception as err:
-        return err
+        raise err
 
 
 # test_keys = get_keys('CMS','Contents')
@@ -211,7 +216,7 @@ def get_all_x(
     total_rows: int = None,
     page_number: int = None,
     previous_items: list[dict] = None,
-):
+) -> list[dict]:
     """Use to recursively call API to get all <collection> items"""
     if total_rows is None:
         total_rows = int(ROWS_PER_PAGE)
