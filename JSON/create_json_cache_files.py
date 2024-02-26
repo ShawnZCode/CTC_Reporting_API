@@ -1,8 +1,9 @@
-"""Routines to generate the local cache files from the CTC API"""
+"""Helper functions to generate the local cache files using the APICore Connection"""
 
 # import time
 import json
 import os
+from pydantic import BaseModel
 from datetime import datetime
 
 from tqdm.auto import tqdm
@@ -20,7 +21,12 @@ API_SETTINGS_SCOPES = API_SETTINGS["scopes"]
 CURRENT_DATE_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 
-def directory_create(container: str = CURRENT_DATE_TIME):
+Class Scope(BaseModel):
+    class: str
+    
+
+
+def directory_create(container: str = CURRENT_DATE_TIME) -> str:
     """Ensures a directory for current date time cache of files"""
     try:
         root = JSON_SETTINGS["files"]["storageCachePath"]
@@ -38,7 +44,7 @@ def write_json_file(
     file_name: str,
     container: str = CURRENT_DATE_TIME,
     sub_directory: str = "CMS",
-):
+) -> None:
     """Writes a json file from streamed data"""
     try:
         file_path = f"{directory_create(container)}\\{sub_directory}"
@@ -55,7 +61,7 @@ def write_json_file(
         CTCLog("JSON").error(str(err))
 
 
-def get_base_jsons(container: str = CURRENT_DATE_TIME):
+def get_base_jsons(container: str = CURRENT_DATE_TIME) -> None:
     """Writes the original Json Files"""
     try:
         with tqdm(
@@ -99,7 +105,7 @@ def get_base_jsons(container: str = CURRENT_DATE_TIME):
         tqdm._instances.clear()
 
 
-def get_ids(scope: str, collection: str, container: str = CURRENT_DATE_TIME):
+def get_ids(scope: str, collection: str, container: str = CURRENT_DATE_TIME) -> list:
     """Parses the saved Json file from parents and returns a list of ids
     ids are used to fetch the child detailed item from the api"""
     try:
@@ -120,11 +126,19 @@ def get_ids(scope: str, collection: str, container: str = CURRENT_DATE_TIME):
     except Exception as err:
         CTCLog("JSON").error(str(err))
 
+def get_xs_nested_jsons(
+    scope: dict = {"scope": "cms"}
+    
+) -> None:
+    pass
+
 
 def get_nested_jsons(
-    container: str = CURRENT_DATE_TIME, collection_override: str = None
-):
-    """Writes the nested Json files by id"""
+    scopes: list[dict] = API_SETTINGS_SCOPES,
+    container: str = CURRENT_DATE_TIME,
+    collection_override: str = None
+) -> None:
+    """Fetches and writes the nested Json files by id"""
     try:
         for scope in API_SETTINGS_SCOPES:
             with tqdm(
@@ -174,7 +188,10 @@ def get_nested_jsons(
         tqdm._instances.clear()
 
 
-def get_all_jsons(container: str = CURRENT_DATE_TIME):
-    """Writes the original Json Files"""
+def get_all_jsons(container: str = CURRENT_DATE_TIME) -> None:
+    """Executes a full JSON pull getting both Base and Nested files"""
     get_base_jsons(container=container)
     get_nested_jsons(container=container)
+
+if __name__ == __main__:
+    get_all_jasons ()
