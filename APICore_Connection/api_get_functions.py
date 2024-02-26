@@ -8,6 +8,7 @@ from time import perf_counter, sleep
 
 import requests
 
+from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
 # load_dotenv()
@@ -19,6 +20,7 @@ ROWS_PER_PAGE = API_SETTINGS["apiConnection"]["rowsPerPage"]
 API_ENV = API_SETTINGS["apiConnection"]["apiEnv"]["Prod"]
 API_KEY = API_SETTINGS["apiConnection"]["reportKey"]
 DAY_OFFSET = API_SETTINGS["apiConnection"]["dayOffset"]
+LOG_TITLE = API_SETTINGS["logTitle"]
 
 
 ## Switch Builder used to assemble the Connection URL
@@ -53,8 +55,14 @@ def gen_url(
     start_date: str = None,
     end_date: str = None,
     switches: str = None,
+<<<<<<< Updated upstream
 ) -> str:
     """generates the full URL needed for any requested route"""
+=======
+):
+    """generates the URL needed for navigation"""
+    CTCLog(LOG_TITLE).info(f"Building URL for {scope} {collection} {item_id}")
+>>>>>>> Stashed changes
     url_pre = f"https://{API_ENV}.ctcsoftware.com/{scope}/reports/v1/reports/{collection}?reportsKey={API_KEY}"
 
     ##Collection handling
@@ -125,7 +133,7 @@ def gen_url(
         url_switches = ""
 
     url = f"{url_pre}{url_id}{url_date}{url_page}{url_switches}"
-
+    CTCLog(LOG_TITLE).info(f"Successfully built {url}")
     return url
 
 
@@ -137,6 +145,7 @@ def get_x_by_id(
         added_data: str = None
 ) -> dict:
     """retrieves an item record based on the item's id value"""
+    CTCLog(LOG_TITLE).info(f"Fetching {scope} {collection} item {item_id}")
     try:
         switches = add_switches(scope, collection)
         url = gen_url(
@@ -147,8 +156,10 @@ def get_x_by_id(
         data = json.loads(response)
         response_end = perf_counter()
         # sleep(response_end - response_start)
+        CTCLog(LOG_TITLE).info(f"Successfully fetched {url}")
     except Exception as err:
         data = {}
+        CTCLog(LOG_TITLE).error(f"Failed to fetch {url}")
     finally:
         return data
 
@@ -156,6 +167,7 @@ def get_x_by_id(
 ## Calls CTC Reporting API to get total items for a given collection
 def get_total_items(scope: str, collection: str) -> int:
     """Retrieves total count of items by category"""
+    CTCLog(LOG_TITLE).info(f"Fetching total item count for {scope} {collection}")
     switches = add_switches(scope, collection.lower())
     url = gen_url(
         scope=scope,
@@ -171,8 +183,12 @@ def get_total_items(scope: str, collection: str) -> int:
         total_items = int(base_data["totalItems"])
         response_end = perf_counter()
         # sleep(response_end - response_start)
+        CTCLog(LOG_TITLE).info(
+            f"Successfully fetched {total_items} as item count from {url}"
+        )
     except Exception as err:
         total_items = None
+        CTCLog(LOG_TITLE).error(f"Failed to fetch total item count from {url}")
     finally:
         return total_items
 
@@ -180,6 +196,9 @@ def get_total_items(scope: str, collection: str) -> int:
 ## Calls CTC Reporting API to get next X items
 def get_next_x(scope: str, collection: str, page_number: int):
     """Retrieves next X items"""
+    CTCLog(LOG_TITLE).info(
+        f"Fetching next {ROWS_PER_PAGE} items from page: {page_number} for {scope} {collection}"
+    )
     switches = add_switches(scope=scope, collection=collection)
     url = gen_url(
         scope=scope, collection=collection, page_number=page_number, switches=switches
@@ -190,19 +209,28 @@ def get_next_x(scope: str, collection: str, page_number: int):
         next_json = json.loads(response)
         response_end = perf_counter()
         # sleep(response_end - response_start)
+        CTCLog(LOG_TITLE).info(f"Successfully fetched items from {url}")
     except Exception as err:
         next_json = None
+        CTCLog(LOG_TITLE).error(f"Failed to fetch items from {url}")
     return next_json
 
 
 def get_keys(scope: str, collection: str) -> list[str]:
     """Used to get the data structure of the json stream"""
+    CTCLog(LOG_TITLE).info(f"Fetching keys from {scope} {collection}")
     try:
         stream = get_next_x(scope=scope, collection=collection, page_number=1)
         keys = stream["items"][0].keys()
+        CTCLog(LOG_TITLE).info(f"Successfully fetched keys from {scope} {collection}")
         return list(keys)
     except Exception as err:
+<<<<<<< Updated upstream
         raise err
+=======
+        CTCLog(LOG_TITLE).error(f"Failed to fetch keys from {scope} {collection}")
+        return err
+>>>>>>> Stashed changes
 
 
 # test_keys = get_keys('CMS','Contents')
@@ -218,6 +246,7 @@ def get_all_x(
     previous_items: list[dict] = None,
 ) -> list[dict]:
     """Use to recursively call API to get all <collection> items"""
+    CTCLog(LOG_TITLE).info("Fetching all items from {scope} {collection}")
     if total_rows is None:
         total_rows = int(ROWS_PER_PAGE)
     page_count = math.ceil(int(total_rows) / int(ROWS_PER_PAGE))
@@ -248,5 +277,7 @@ def get_all_x(
             page_number=page_number,
             previous_items=total_items,
         )
-
+    CTCLog(LOG_TITLE).info(
+        f"Successfully fetched {total_items.count} items from {scope} {collection}"
+    )
     return total_items

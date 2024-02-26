@@ -16,6 +16,6 @@ last_refreshed = create_refreshed()
 # last_refreshed = fetch_last_refreshed()
 get_base_jsons(container=last_refreshed.id)
 
-users_json_path: str = f"{ROOT_PATH}/{last_refreshed.id}/Accounts/Users.json"
+users_json_path: str = f"{ROOT_PATH}\\{last_refreshed.id}\\Accounts\\Users.json"
 user_items: dict = read_file(users_json_path)["items"]
 create_update_users(items=user_items)

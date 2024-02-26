@@ -15,8 +15,9 @@ from utils.read_file import read_file
 BASE_FILE_LIST = ["Contents", "Libraries", "Saved-Searches", "Searches", "Tags"]
 
 API_SETTINGS = read_file("APICore_Connection\\Settings.json")
-JSON_SETTINGS = read_file("JSON\\Settings.json")
 API_SETTINGS_SCOPES = API_SETTINGS["scopes"]
+JSON_SETTINGS = read_file("JSON\\Settings.json")
+LOG_TITLE = JSON_SETTINGS["logTitle"]
 
 CURRENT_DATE_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
@@ -33,10 +34,10 @@ def directory_create(container: str = CURRENT_DATE_TIME) -> str:
         root_directory = f"{root}\\{container}"
         if not os.path.isdir(root_directory):
             os.makedirs(root_directory, exist_ok=True)
-            CTCLog("JSON").info(f"successfully made {root_directory}")
+            CTCLog(LOG_TITLE).info(f"successfully made {root_directory}")
         return root_directory
     except Exception as err:
-        CTCLog("JSON").error(str(err))
+        CTCLog(LOG_TITLE).error(str(err))
 
 
 def write_json_file(
@@ -49,16 +50,16 @@ def write_json_file(
     try:
         file_path = f"{directory_create(container)}\\{sub_directory}"
         os.makedirs(file_path, exist_ok=True)
-    except:
+    except Exception as e:
         pass
     try:
         file_path += f"\\{file_name}.json"
         with open(file_path, "w") as f:
             # f.write(json.dumps(stream, indent=4))
             json.dump(stream, f, indent=4)
-            CTCLog("JSON").info(f"Saved {file_path}")
+            CTCLog(LOG_TITLE).info(f"Saved {file_path}")
     except Exception as err:
-        CTCLog("JSON").error(str(err))
+        CTCLog(LOG_TITLE).error(str(err))
 
 
 def get_base_jsons(container: str = CURRENT_DATE_TIME) -> None:
@@ -99,9 +100,9 @@ def get_base_jsons(container: str = CURRENT_DATE_TIME) -> None:
                         )
                 scopes_pbar.set_description(f"Fetched base collections from {scope}")
     except Exception as err:
-        CTCLog("JSON").error(str(err))
+        CTCLog(LOG_TITLE).error(str(err))
     finally:
-        CTCLog("JSON").info("Finished fetching base collections")
+        CTCLog(LOG_TITLE).info("Finished fetching base collections")
         tqdm._instances.clear()
 
 
@@ -114,7 +115,7 @@ def get_ids(scope: str, collection: str, container: str = CURRENT_DATE_TIME) -> 
         with open(file_path, "r") as f:
             stream = json.loads(f.read())
     except Exception as err:
-        CTCLog("JSON").error(str(err))
+        CTCLog(LOG_TITLE).error(str(err))
     try:
         ids = []
         for i in stream["items"]:
@@ -124,7 +125,7 @@ def get_ids(scope: str, collection: str, container: str = CURRENT_DATE_TIME) -> 
                 ids.append(i["searchId"])
         return ids
     except Exception as err:
-        CTCLog("JSON").error(str(err))
+        CTCLog(LOG_TITLE).error(str(err))
 
 def get_xs_nested_jsons(
     scope: dict = {"scope": "cms"}
@@ -134,11 +135,17 @@ def get_xs_nested_jsons(
 
 
 def get_nested_jsons(
+<<<<<<< Updated upstream
     scopes: list[dict] = API_SETTINGS_SCOPES,
     container: str = CURRENT_DATE_TIME,
     collection_override: str = None
 ) -> None:
     """Fetches and writes the nested Json files by id"""
+=======
+    container: str = CURRENT_DATE_TIME, collection_file_override: str = None
+):
+    """Writes the nested Json files by id"""
+>>>>>>> Stashed changes
     try:
         for scope in API_SETTINGS_SCOPES:
             with tqdm(
@@ -153,9 +160,14 @@ def get_nested_jsons(
                         > 0
                     ):
                         # fetches a list of ids from main dump
+                        collection_to_fetch = API_SETTINGS_SCOPES[scope][collection][
+                            "parent"
+                        ]
+                        if collection_file_override is not None:
+                            collection_to_fetch += f"_{collection_file_override}"
                         ids = get_ids(
                             scope=scope,
-                            collection=API_SETTINGS_SCOPES[scope][collection]["parent"],
+                            collection=collection_to_fetch,
                             container=container,
                         )
                         with tqdm(
@@ -182,9 +194,9 @@ def get_nested_jsons(
                                 )
 
     except Exception as err:
-        CTCLog("JSON").error(str(err))
+        CTCLog(LOG_TITLE).error(str(err))
     finally:
-        CTCLog("JSON").info("Finished fetching nested collections")
+        CTCLog(LOG_TITLE).info("Finished fetching nested collections")
         tqdm._instances.clear()
 
 

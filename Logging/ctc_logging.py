@@ -15,7 +15,7 @@ class CTCLog:
 
     def __init__(self, library: str):
         """initialization"""
-        root_directory = self.directory_create()
+        root_directory = self.directory_create(library=library)
         self.current_date = datetime.now().strftime("%Y-%m-%d-%H-%M")
         self.library = library
         logging.basicConfig(
@@ -27,17 +27,17 @@ class CTCLog:
     def __del__(self, *args):
         del self
 
-    def directory_create(self):
+    def directory_create(self, library: str):
         """Ensures a directory for current date time cache of files"""
         try:
-            setting = SETTINGS["loggingLocation"]
-            root_directory = f"{setting}"
+            logging_location = SETTINGS["loggingLocation"]
+            root_directory = f"{logging_location}"
             if not os.path.isdir(root_directory):
-                os.makedirs(root_directory, exist_ok=True)
-                CTCLog("JSON").info(f"successfully made {root_directory}")
+                os.makedirs(name=root_directory, exist_ok=True)
+                CTCLog(library=library).info(f"successfully made {root_directory}")
             return root_directory
         except Exception as err:
-            CTCLog("JSON").error(str(err))
+            CTCLog(library=library).error(str(err))
 
     def info(self, log_message: str):
         """Basic log function

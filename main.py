@@ -19,10 +19,12 @@ from z_DB_API_Connector import main as GetTheStuff
 # Testing Section for code
 start_time = time.perf_counter()
 container = GetTheStuff.last_refreshed.id
-# GetTheStuff
+# container = "54fb64e1-de24-46d1-b017-03cff557eaa4"
+GetTheStuff
 
-# rmtree(f"{GetTheStuff.root_path}/{container}", ignore_errors=True)
+# Cleanup the cached JSON files
+rmtree(f"{GetTheStuff.root_path}/{container}", ignore_errors=True)
 
-get_all_jsons(container=container)
+# get_all_jsons(container=container)
 finish_time = time.perf_counter()
 print(f"Finished in {round((finish_time-start_time)/60, 2)} minute(s)")
