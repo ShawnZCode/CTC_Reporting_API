@@ -9,6 +9,7 @@ from datetime import datetime
 from tqdm.auto import tqdm
 
 from APICore_Connection import api_get_functions as ctc
+from APICore_Connection.models import(account_scope, cms_scope, csl_scope, reporting_scope)
 from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
@@ -20,11 +21,6 @@ JSON_SETTINGS = read_file("JSON\\Settings.json")
 LOG_TITLE = JSON_SETTINGS["logTitle"]
 
 CURRENT_DATE_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
-
-
-Class Scope(BaseModel):
-    class: str
-    
 
 
 def directory_create(container: str = CURRENT_DATE_TIME) -> str:
