@@ -2,3 +2,5 @@ z_TestingCode/multiprocessing_playground.py
 *.pyc
 API_Essentials/CTC_Reporting_V2.x_(CTC).pbix
 .vscode/settings.json
+API_Essentials/CTC_Reporting_V3.x_(CTCe).xlsx
+API_Essentials/CTC_Reporting_V3.x_(CTCe).pbix
