@@ -23,17 +23,15 @@ LOG_TITLE = JSON_SETTINGS["logTitle"]
 CURRENT_DATE_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 
-def directory_create(container: str = CURRENT_DATE_TIME) -> str:
+def directory_create(root:str = JSON_SETTINGS["files"]["storageCachePath"], container: str = CURRENT_DATE_TIME) -> str:
     """Ensures a directory for current date time cache of files"""
     try:
-        root = JSON_SETTINGS["files"]["storageCachePath"]
         root_directory = f"{root}\\{container}"
         if not os.path.isdir(root_directory):
             os.makedirs(root_directory, exist_ok=True)
-            CTCLog(LOG_TITLE).info(f"successfully made {root_directory}")
         return root_directory
     except Exception as err:
-        CTCLog(LOG_TITLE).error(str(err))
+        raise err
 
 
 def write_json_file(
