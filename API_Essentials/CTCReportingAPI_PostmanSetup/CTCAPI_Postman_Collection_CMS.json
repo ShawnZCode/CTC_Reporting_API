@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "caf3b327-2fc9-4186-b761-d6d84991e0c2",
+		"_postman_id": "3e27be31-37ab-4a75-a9d5-5d21cf01925b",
 		"name": "CMS Reporting API v1",
 		"description": "HIVE CMS Reporting API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -713,8 +713,8 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
+							"_postman_previewlanguage": null,
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"ownerOrganizationName\": \"string\",\r\n      \"libraryName\": \"string\",\r\n      \"userPermissions\": [\r\n        {\r\n          \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"role\": \"string\",\r\n          \"isEnabled\": true,\r\n          \"invitationExpiration\": \"2023-03-07T22:03:57.428Z\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
 						}
@@ -1274,12 +1274,220 @@
 					]
 				},
 				{
-					"name": "New Request",
+					"name": "content-file-checks",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/content-file-checks?reportsKey={{reportsKey}}&contentId=<guid>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cms",
+								"reports",
+								"v1",
+								"reports",
+								"content-file-checks"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "contentId",
+									"value": "<guid>",
+									"description": "Id of content to return record for"
+								},
+								{
+									"key": "orderBy",
+									"value": "fileName",
+									"description": "Field by which to order the results. Default value : FileName",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results. Default Value : 1",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page. Default value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter",
+									"disabled": true
+								}
+							]
+						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "content-file-checks",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cms/reports/v1/reports/content-file-checks?reportsKey=<uuid>&contentId=<uuid>&orderBy=fileName&page=1&pageSize=1000&orderByDescending=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cms",
+										"reports",
+										"v1",
+										"reports",
+										"content-file-checks"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>"
+										},
+										{
+											"key": "contentId",
+											"value": "<uuid>"
+										},
+										{
+											"key": "orderBy",
+											"value": "fileName"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"totalItems\": 0,\n    \"items\": [\n        {\n            \"contentOrganizationName\": \"string\",\n            \"originalPath\": \"string\",\n            \"revitCategoryId\": 0,\n            \"familyVersion\": 0,\n            \"reviewDate\": \"2023-12-06T14:27:12.207Z\",\n            \"detailLevel\": 0,\n            \"detailLevel_3D\": 0,\n            \"elementPlanVisibility\": 0,\n            \"contentId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n            \"contentFileId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n            \"isAnnotationFamily\": true,\n            \"model\": true,\n            \"familyFileCreatable\": true,\n            \"familyCategoryName\": \"string\",\n            \"filePath\": \"string\",\n            \"fileName\": \"string\",\n            \"familyType\": \"string\",\n            \"partType\": \"string\",\n            \"reviewNumber\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n            \"identityData\": 0,\n            \"omniClassNumber\": 0,\n            \"assemblyCode\": 0,\n            \"warnings\": 0,\n            \"visibilityGeneral\": 0,\n            \"importedContent\": 0,\n            \"geometryFlex\": 0,\n            \"typeFlex\": 0,\n            \"hostFlex\": 0,\n            \"mepConnectors\": 0,\n            \"mepConnectorDescription\": 0,\n            \"mepConnectorMapping\": 0,\n            \"mepConnectorDirection\": 0,\n            \"mepConnectorLinking\": 0,\n            \"materialApplication\": 0,\n            \"structuralMaterial\": 0,\n            \"materialPhysicalProperties\": 0,\n            \"materialThermalProperties\": 0,\n            \"typeCatalogUsage\": 0,\n            \"masterSharedParameter\": 0,\n            \"customParameter\": 0,\n            \"parameterGrouping\": 0,\n            \"hiveFileSize\": 0,\n            \"fileSize\": 0,\n            \"subCategoryStandard\": 0,\n            \"subCategoryUnused\": 0,\n            \"approvedParameter\": 0,\n            \"parameterName\": 0,\n            \"preview\": 0,\n            \"referencePlaneName\": 0,\n            \"reviewGlobalProcessingTime\": 0,\n            \"reviewCorporateProcessingTime\": 0,\n            \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "family-checker-settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cms/reports/v1/reports/family-checker-settings?reportsKey={{reportsKey}}&orderBy=addedAt&page=1&pageSize=1000&orderByDescending=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cms",
+								"reports",
+								"v1",
+								"reports",
+								"family-checker-settings"
+							],
+							"query": [
+								{
+									"key": "reportsKey",
+									"value": "{{reportsKey}}",
+									"description": "Organization-specific key obtained from CTC"
+								},
+								{
+									"key": "orderBy",
+									"value": "addedAt",
+									"description": "Field by which to order the results. Default value : AddedAt"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page of results. Default value : 1"
+								},
+								{
+									"key": "pageSize",
+									"value": "1000",
+									"description": "Number of results per page. Default value : 1000"
+								},
+								{
+									"key": "orderByDescending",
+									"value": "true",
+									"description": "Whether results should be returned in descending order based on the 'orderBy' parameter. Default value : false"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "family-checker-settings",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cms/reports/v1/reports/family-checker-settings?reportsKey=<uuid>&orderBy=addedAt&page=1&pageSize=1000&orderByDescending=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cms",
+										"reports",
+										"v1",
+										"reports",
+										"family-checker-settings"
+									],
+									"query": [
+										{
+											"key": "reportsKey",
+											"value": "<uuid>",
+											"description": "Organization-specific key obtained from CTC"
+										},
+										{
+											"key": "orderBy",
+											"value": "addedAt",
+											"description": "Field by which to order the results. Default value : AddedAt"
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Page of results. Default value : 1"
+										},
+										{
+											"key": "pageSize",
+											"value": "1000",
+											"description": "Number of results per page. Default value : 1000"
+										},
+										{
+											"key": "orderByDescending",
+											"value": "true",
+											"description": "Whether results should be returned in descending order based on the 'orderBy' parameter. Default value : false"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"totalItems\": 0,\r\n  \"items\": [\r\n    {\r\n      \"organizationId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"fileSizeMB\": 0,\r\n      \"includeSharedParameter\": true,\r\n      \"includeCustomParameter\": true,\r\n      \"includeCategoryMapping\": true,\r\n      \"includeCustomParameterName\": true,\r\n      \"includeFileSize\": true,\r\n      \"includeParameterGrouping\": true,\r\n      \"includeUnusedCategory\": true,\r\n      \"includeReferencePlane\": true,\r\n      \"characters\": [\r\n        {\r\n          \"settingId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"isValid\": true,\r\n          \"value\": \"string\",\r\n          \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n        }\r\n      ],\r\n      \"specTypeGroupings\": [\r\n        {\r\n          \"settingId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"specTypeIdVersionless\": \"string\",\r\n          \"groupTypeIdVersionless\": \"string\",\r\n          \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n        }\r\n      ],\r\n      \"subCategories\": [\r\n        {\r\n          \"settingId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n          \"categoryId\": 0,\r\n          \"name\": \"string\",\r\n          \"isSelected\": true,\r\n          \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n        }\r\n      ],\r\n      \"addedAt\": \"2023-12-06T14:39:34.276Z\",\r\n      \"addedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"addedBy\": {\r\n        \"displayName\": \"string\",\r\n        \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n      },\r\n      \"updatedAt\": \"2023-12-06T14:39:34.276Z\",\r\n      \"updatedById\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n      \"updatedBy\": {\r\n        \"displayName\": \"string\",\r\n        \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n      },\r\n      \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\r\n    }\r\n  ]\r\n}"
+						}
+					]
 				}
 			]
 		}
