@@ -10,7 +10,7 @@ from SQL_Connection.db_connection import Base
 
 
 ## creating the pydantic BaseModel
-class CMSContentAttachments(BaseModel):
+class CMSContentAttachment(BaseModel):
     id: UUID
     addedAt: datetime
     addedById: UUID

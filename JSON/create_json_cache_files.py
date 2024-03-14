@@ -3,13 +3,18 @@
 # import time
 import json
 import os
-from pydantic import BaseModel
 from datetime import datetime
 
+from pydantic import BaseModel
 from tqdm.auto import tqdm
 
 from APICore_Connection import api_get_functions as ctc
-from APICore_Connection.models import(account_scope, cms_scope, csl_scope, reporting_scope)
+from APICore_Connection.models import (
+    account_scope,
+    cms_scope,
+    csl_scope,
+    reporting_scope,
+)
 from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
@@ -23,7 +28,10 @@ LOG_TITLE = JSON_SETTINGS["logTitle"]
 CURRENT_DATE_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 
-def directory_create(root:str = JSON_SETTINGS["files"]["storageCachePath"], container: str = CURRENT_DATE_TIME) -> str:
+def directory_create(
+    root: str = JSON_SETTINGS["files"]["storageCachePath"],
+    container: str = CURRENT_DATE_TIME,
+) -> str:
     """Ensures a directory for current date time cache of files"""
     try:
         root_directory = f"{root}\\{container}"
@@ -121,25 +129,17 @@ def get_ids(scope: str, collection: str, container: str = CURRENT_DATE_TIME) -> 
     except Exception as err:
         CTCLog(LOG_TITLE).error(str(err))
 
-def get_xs_nested_jsons(
-    scope: dict = {"scope": "cms"}
-    
-) -> None:
+
+def get_xs_nested_jsons(scope: dict = {"scope": "cms"}) -> None:
     pass
 
 
 def get_nested_jsons(
-<<<<<<< Updated upstream
     scopes: list[dict] = API_SETTINGS_SCOPES,
     container: str = CURRENT_DATE_TIME,
-    collection_override: str = None
+    collection_override: str = None,
 ) -> None:
     """Fetches and writes the nested Json files by id"""
-=======
-    container: str = CURRENT_DATE_TIME, collection_file_override: str = None
-):
-    """Writes the nested Json files by id"""
->>>>>>> Stashed changes
     try:
         for scope in API_SETTINGS_SCOPES:
             with tqdm(
@@ -157,8 +157,8 @@ def get_nested_jsons(
                         collection_to_fetch = API_SETTINGS_SCOPES[scope][collection][
                             "parent"
                         ]
-                        if collection_file_override is not None:
-                            collection_to_fetch += f"_{collection_file_override}"
+                        if collection_override is not None:
+                            collection_to_fetch += f"_{collection_override}"
                         ids = get_ids(
                             scope=scope,
                             collection=collection_to_fetch,
@@ -199,5 +199,6 @@ def get_all_jsons(container: str = CURRENT_DATE_TIME) -> None:
     get_base_jsons(container=container)
     get_nested_jsons(container=container)
 
-if __name__ == __main__:
-    get_all_jasons ()
+
+if __name__ == "__main__":
+    get_all_jsons()

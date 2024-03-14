@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel
@@ -7,14 +7,23 @@ from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uu
 from sqlalchemy.orm import Mapped, mapped_column
 
 from SQL_Connection.db_connection import Base
+from SQL_Connection.tables.tbl_cms_contentFileComponentProperties import (
+    CMSContentFileComponentProperty,
+)
 
 
 ## creating the pydantic BaseModel
-class CMSContentFileComponent(BaseModel):
+class CMSContentFileComponentBase(BaseModel):
     id: UUID
     contentFileId: UUID
     name: str
     refreshedId: UUID
+
+
+class CMSContentFileComponent(CMSContentFileComponentBase):
+    contentFileComponentProperties: Optional[List[CMSContentFileComponentProperty]] = (
+        None
+    )
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

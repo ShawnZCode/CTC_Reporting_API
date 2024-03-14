@@ -4,22 +4,24 @@
 import json
 import math
 from datetime import date, datetime, timedelta
+from os import getenv
 from time import perf_counter, sleep
 
 import models
 import requests
 from base_models import Collection, Scope, Scopes
+from dotenv import load_dotenv
 
 from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
-# load_dotenv()
+load_dotenv(".env")
 ## Current list of constants before settings file is implemented
 API_SETTINGS = read_file("APICore_Connection\\Settings.json")
 
 ROWS_PER_PAGE = API_SETTINGS["apiConnection"]["rowsPerPage"]
 API_ENV = API_SETTINGS["apiConnection"]["apiEnv"]["Prod"]
-API_KEY = API_SETTINGS["apiConnection"]["reportKey"]
+API_KEY = getenv("CTC_REPORT_API_KEY")
 DAY_OFFSET = API_SETTINGS["apiConnection"]["dayOffset"]
 LOG_TITLE = API_SETTINGS["logTitle"]
 
@@ -56,9 +58,9 @@ def gen_url(
     switches: str = None,
 ) -> str:
     """generates the full URL needed for any requested route"""
-
-    url_pre = f"https://{API_ENV}.ctcsoftware.com/{scope.name}/reports/v1/reports/{col_name}?reportsKey={API_KEY}"
     col_name = collection.name
+    url_pre = f"https://{API_ENV}.ctcsoftware.com/{scope.name}/reports/v1/reports/{collection.name}?reportsKey={API_KEY}"
+
     ##Collection handling
     if col_name == "app-sessions":
         col = "product"

@@ -5,12 +5,13 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
+from tbl_cms_contentFileComponents import CMSContentFileComponent
 
 from SQL_Connection.db_connection import Base
 
 
 ## creating the pydantic BaseModel
-class CMSContentFile(BaseModel):
+class CMSContentFileBase(BaseModel):
     id: UUID
     addedAt: datetime
     addedById: UUID
@@ -30,6 +31,10 @@ class CMSContentFile(BaseModel):
     revitProjectWorksharingMode: int
     location: str
     refreshedId: UUID
+
+
+class CMSContentFile(CMSContentFileBase):
+    contentFileComponents: Optional[CMSContentFileComponent] = None
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
