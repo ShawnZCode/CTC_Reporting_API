@@ -16,7 +16,8 @@ Instead, it is now possible to directly connect to the data and either efficient
 
 #### Common access includes:
 
-- (Lest efficient) Direct Connection through PowerBI or Tableau
+- (Moderately efficient) Direct Connection through Excel -> PowerBI or Tableau
+  - Must refresh all data, so no historical beyond current data fetch
 - (More efficient) Data Extraction into JSON files
   - Reviewing those files in the BI tool of choice
 - (Most efficient) Extract/Transform/Load the API data and load into a database of choice
@@ -57,7 +58,7 @@ I also want to be very clear about the following:
   - this code is likely not free of bugs
   - please let the owner of this repository know if their code includes bugs, but do not reach out to CTC support or any of their partners as they will have no clue how to assist in implementing this code into your environment
 
-## Includes leveraged
+## Packages leveraged
 
 The list below will only indicate imports that need to be 'pip install'ed as they may not be included in the default install of python
 
@@ -67,17 +68,20 @@ The list below will only indicate imports that need to be 'pip install'ed as the
 - json (eases parsing the json stream from the API)
 - pyodbc (facilitates connecting to and updating data in the SQL server)
 
-## Updating the settings file
+## Updating the settings file(s)
 
-There are 3 settings files, one per library
+There is one .env and 3 settings files (one per library)
 
-each is located at CTC_API\\`<LIBRARY>`\Settings.json
-The APICore_Connection\Settings.json is a major dependency throughout all of these flows and controls connection to the official CTC API
+The .env_sample is located in the root of this project and should be renamed to .env so that the code can reference it.
+This file controls the connection to the official CTC API.
 Be sure to obtain your company reportsKey from CTC software directly and update the settings file with your key
 
 - info@ctcsoftware.com
+- Be sure to update the .env with your reporting key so you can access the API's when using the python code.
 
-Also, the APICore's settings controls what data is fetched
+each *.json setting file is located at their respective module (IE: CTC_API\\`<LIBRARY>`\Settings.json)
+
+The APICore's settings controls what data is fetched
 
 - The default settings retrieves all of the generally relevant information and results in the most complete dataset(s)
 - If you have different needs, certainly reduce the retrieved information to speed the fetch and logging of data
@@ -90,22 +94,25 @@ Finally, it is recommended that if you are leveraging the JsonCacheFiles portion
 
 The API core implements minor throttling to be kind to the CTC API
 
-- self throttling is recommended when tapping into any publicly available so you don't invoke throttling from the provider's side.
-- If you hammer a public API , expect to be throttled at some point in the future
+- self throttling is recommended when tapping into any publicly available so you don't invoke further throttling from the provider's side.
+- If you hammer a public API, expect to be throttled at some point in the future
 
 ## Json File Pull
 
 The Json files can be quite large and take up quite a lot of disk space if the file properties are included in the data pull
 It is recommended that you begin with a limited data fetch `(controlled from the APICore_Connection\Settings)` to see how large your early file-set may be
 The most effective limitation is to disable `includeTypeParameters` within `scopes:CMS:Content:optionalSwitches`
-Most pulls of files will take an hour or more for an established company using HIVE CMS for a year+
+Most pulls of files will take an hour or more for an established company using the CMS and/or PAL for a year+
 
 ## SQL Server Connection
 
-The connection to SQL server is the most efficient data storage option long term, as the refreshing can be done using a comparison to existing data
-### Section Currently Incomplete
-- Only the delta needs to be retrieved, speeding refreshes for the deeper data
-- Additional convenience is this code can be run in the background to refresh the database leaving the BI tool free to use throughout the refresh
-- BI data and relationships can be read directly `<Direct Query>` from the SQL server, saving time in managing the BI data structure
-- Python also can get all of the deep data by ID in a single pull, and then selectively store it in the database structure efficiently
-  - most BI tools require multiple recursions and repeat data fetches, extending the fetch time and the load on the Official CTC API
+The connection to your internal SQL server is the most efficient data storage option long term, as the refreshing can be done using a comparison to existing data
+### Section Currently Under Development
+- The preliminary samples will support either Microsoft SQL Server (inc. SQLexpress) or PostgreSQL
+  - Can this reference <NameMyDatabase>? Certainly, the benefit of Python is that you can develop any connectivity you'd like.
+- Benefits of SQL
+  - Only the delta needs to be retrieved, speeding refreshes for the deeper data
+  - Additional convenience is this code can be run in the background to refresh the database leaving the BI tool free to use throughout the refresh
+  - BI data and relationships can be read directly `<Direct Query>` from the SQL server, saving time in managing the BI data structure
+  - Python also can get all of the deep data by ID in a single pull, and then selectively store it in the database structure efficiently
+    - most BI tools require multiple recursions and repeat data fetches, extending the fetch time and the load on the Official CTC API
