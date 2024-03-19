@@ -79,7 +79,7 @@ The .env_sample is located in the root of this project and should be renamed to 
 This file controls the connection to the official CTC API.
 Be sure to obtain your company reportsKey from CTC software directly and update the settings file with your key
 
-- Licensing@CTCSoftware.com
+- LicenseRequest@CTCSoftware.com
 - Be sure to update the .env with your reporting key so you can access the API's when using the python code.
 
 each *.json setting file is located at their respective module (IE: CTC_API\\`<LIBRARY>`\Settings.json)
