@@ -61,7 +61,15 @@ I also want to be very clear about the following:
 
 ## Packages leveraged
 
-The requirements.txt will list all imports that need to be 'pip install'ed as they may not be included in the default install of python
+The list below will only indicate imports that need to be 'pip install'ed as they may not be included in the default install of python. However, as this list is only for reference for what and why, the real requirements should use (pip install -r requirements.txt) in order to be sure needed versions are not mismatched.
+
+- requests (for retrieving data from the CTC Api)
+- pydantic (Facilitates properly structured data)
+- sqlalchemy (the orm used to create/manage the database and it's connections)
+- logging (for generating the process logs)
+- tqdm (enables progress bar display at the command line)
+- json (eases parsing the json stream from the API)
+- pyodbc (facilitates connecting to and updating data in the SQL server)
 
 ## Updating the settings file(s)
 
