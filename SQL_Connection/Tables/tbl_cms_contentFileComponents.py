@@ -6,24 +6,10 @@ from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
-from SQL_Connection.db_connection import Base
-from SQL_Connection.tables.tbl_cms_contentFileComponentProperties import (
+from APICore.result_models.cms.contentFileComponentProperties import (
     CMSContentFileComponentProperty,
 )
-
-
-## creating the pydantic BaseModel
-class CMSContentFileComponentBase(BaseModel):
-    id: UUID
-    contentFileId: UUID
-    name: str
-    refreshedId: UUID
-
-
-class CMSContentFileComponent(CMSContentFileComponentBase):
-    contentFileComponentProperties: Optional[List[CMSContentFileComponentProperty]] = (
-        None
-    )
+from SQL_Connection.db_connection import Base
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

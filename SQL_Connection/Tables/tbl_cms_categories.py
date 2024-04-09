@@ -4,16 +4,8 @@ from pydantic import BaseModel
 from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
+from APICore.result_models.cms.categories import CMSCategory
 from SQL_Connection.db_connection import Base
-
-
-## creating the pydantic BaseModel
-class CMSCategory(BaseModel):
-    id: int
-    name: str
-    fileExtension: str
-    type: str
-    refreshedId: UUID
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

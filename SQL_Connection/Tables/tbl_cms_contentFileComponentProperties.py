@@ -6,25 +6,10 @@ from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
+from APICore.result_models.cms.contentFileComponentProperties import (
+    CMSContentFileComponentProperty,
+)
 from SQL_Connection.db_connection import Base
-
-
-## creating the pydantic BaseModel
-class CMSContentFileComponentProperty(BaseModel):
-    id: UUID
-    contentFileComponentId: UUID
-    isinstance: bool
-    isReadOnly: bool
-    name: str
-    revirParameterGroupId: int
-    revitSharedParameterGuid: UUID
-    revitStorageTypeId: int
-    revitDisplayUnitTypeId: int
-    doubleValue: float
-    type: int
-    value: str
-    unitTypeIdVersionless: str
-    refreshedId: UUID
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

@@ -6,25 +6,8 @@ from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
+from APICore.result_models.cms.contentAttachments import CMSContentAttachment
 from SQL_Connection.db_connection import Base
-
-
-## creating the pydantic BaseModel
-class CMSContentAttachment(BaseModel):
-    id: UUID
-    addedAt: datetime
-    addedById: UUID
-    updatedAt: datetime
-    updatedById: UUID
-    fileExtension: str
-    fileSizeinBytes: int
-    contentId: UUID
-    description: str
-    isLink: bool
-    name: str
-    path: str
-    type: int
-    refreshedId: UUID
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

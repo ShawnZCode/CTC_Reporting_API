@@ -5,36 +5,9 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
-from tbl_cms_contentFileComponents import CMSContentFileComponent
 
+from APICore.result_models.cms.contentFiles import CMSContentFile
 from SQL_Connection.db_connection import Base
-
-
-## creating the pydantic BaseModel
-class CMSContentFileBase(BaseModel):
-    id: UUID
-    addedAt: datetime
-    addedById: UUID
-    updatedAt: datetime
-    updatedById: UUID
-    fileName: str
-    filePath: str
-    fileExtension: str
-    fileSizeinBytes: int
-    fileCreatedAt: datetime
-    fileModifiedAt: datetime
-    fileVersion: int
-    contentId: UUID
-    hasRevitTypeCatalog: bool
-    revitSourceProjectElementId: int
-    revitContainerProjectElementId: int
-    revitProjectWorksharingMode: int
-    location: str
-    refreshedId: UUID
-
-
-class CMSContentFile(CMSContentFileBase):
-    contentFileComponents: Optional[CMSContentFileComponent] = None
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

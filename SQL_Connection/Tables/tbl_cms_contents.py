@@ -1,55 +1,12 @@
 from datetime import datetime
-from typing import List, Optional
 from uuid import UUID  # , uuid4
 
 from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, Session, mapped_column
-from tbl_cms_categories import CMSCategory
-from tbl_cms_contentAttachments import CMSContentAttachment
-from tbl_cms_contentDownloads import CMSContentDownload
-from tbl_cms_contentFiles import CMSContentFile
-from tbl_cms_contentLoads import CMSContentLoad
-from tbl_cms_contentReviews import CMSContentReview
-from tbl_cms_contentRevisions import CMSContentRevision
-from tbl_cms_libraries import CMSLibrary
-from tbl_cms_tags import CMSTag
 
+from APICore.result_models.cms.contents import CMSContent
 from SQL_Connection.db_connection import Base
-
-
-## creating the pydantic BaseModel
-class CMSContentBase(BaseModel):
-    id: UUID
-    addedAt: datetime
-    addedById: UUID
-    updatedAt: datetime
-    updatedById: UUID
-    name: str
-    fileName: str
-    fileExtension: str
-    hasCustomPreviewImage: bool
-    type: str
-    source: str
-    location: str
-    averageRating: float
-    categoryId: Optional[int] = None
-    previewImageUri: Optional[str] = None
-    displayUnit: Optional[str] = None
-    revitFamilyHostType: Optional[str] = None
-    refreshedId: UUID
-
-
-class CMSContent(CMSContentBase):
-    category: Optional[CMSCategory] = None
-    contentfiles: Optional[CMSContentFile] = None
-    contentAttachments: Optional[List[CMSContentAttachment]] = None
-    contentDownlaods: Optional[List[CMSContentDownload]] = None
-    contentLoads: Optional[List[CMSContentLoad]] = None
-    contentReviews: Optional[List[CMSContentReview]] = None
-    contentRevisions: Optional[List[CMSContentRevision]] = None
-    contentTags: Optional[List[CMSTag]] = None
-    contentLibrary: Optional[List[CMSLibrary]] = None
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
