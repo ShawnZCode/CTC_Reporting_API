@@ -1,6 +1,6 @@
 """This module contains the defined models for the Collections in the APICore_Connection app."""
 
-from APICore_Connection.models_base import Collection
+from APICore.connection_models.base import Collection
 
 # Collections and Scopes for Accounts used in the Reporting API
 users: Collection = Collection(
