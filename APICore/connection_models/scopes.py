@@ -1,7 +1,7 @@
 """This module contains the defined models for the Scopes in the APICore_Connection app."""
 
-import APICore_Connection.models_collections as collections
-from APICore_Connection.models_base import Scope, Scopes
+import APICore.connection_models.collections as collections
+from APICore.connection_models.base import Scope, Scopes
 
 account_scope: Scope = Scope(
     name="accounts",

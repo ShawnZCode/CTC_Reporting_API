@@ -10,8 +10,8 @@ from time import perf_counter, sleep
 import requests
 from dotenv import load_dotenv
 
-from APICore_Connection.models_base import Collection, Scope
-from APICore_Connection.models_scopes import API_SCOPES
+from APICore.connection_models.base import Collection, Scope
+from APICore.connection_models.scopes import API_SCOPES
 from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
