@@ -7,27 +7,28 @@ from datetime import date, datetime, timedelta
 from os import getenv
 from time import perf_counter, sleep
 
-import models
 import requests
-from base_models import Collection, Scope, Scopes
 from dotenv import load_dotenv
 
+from APICore_Connection.models_base import Collection, Scope
+from APICore_Connection.models_scopes import API_SCOPES
 from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
 load_dotenv(".env")
 ## Current list of constants before settings file is implemented
+API_KEY = getenv("CTC_REPORT_API_KEY")
+
 API_SETTINGS = read_file("APICore_Connection\\Settings.json")
 
 ROWS_PER_PAGE = API_SETTINGS["apiConnection"]["rowsPerPage"]
 API_ENV = API_SETTINGS["apiConnection"]["apiEnv"]["Prod"]
-API_KEY = getenv("CTC_REPORT_API_KEY")
 DAY_OFFSET = API_SETTINGS["apiConnection"]["dayOffset"]
 LOG_TITLE = API_SETTINGS["logTitle"]
 
 
 ## Switch Builder used to assemble the Connection URL
-def add_switches(collection: Collection) -> str:
+def add_switches(*, collection: Collection) -> str:
     """Adds relevant switches sourced from API_SETTINGS
     REQUIRES: valid api scope and valid collection from scope
     RETURNS: list of switches"""
@@ -39,15 +40,16 @@ def add_switches(collection: Collection) -> str:
             switch = key[0]
             value = dictionary[switch]
             switches += f"&{switch}={value}"
-    except Exception as err:
+    except Exception:
         switches = ""
-        raise err
-    finally:
-        return switches
+        # raise err
+
+    return switches
 
 
 ## Define the URL generator
 def gen_url(
+    *,
     scope: Scope,
     collection: Collection,
     item_id: str = None,
@@ -134,33 +136,36 @@ def gen_url(
 
 ## Calls CTC Reporting API to get items by ID
 def get_x_by_id(
-    scope: Scope, collection: Collection, item_id: set, added_data: str = None
+    *,
+    scope: Scope,
+    collection: Collection,
+    item_id: set,
 ) -> dict:
     """retrieves an item record based on the item's id value"""
     try:
-        switches = add_switches(scope, collection)
+        switches = add_switches(collection=collection)
         url = gen_url(
-            scope=scope, collection=collection, item_id=item_id, switches=switches
+            scope=scope,
+            collection=collection,
+            item_id=item_id,
+            switches=switches,
         )
-        response_start = perf_counter()
-        response = requests.get(url).text
+        # response_start = perf_counter()
+        response = requests.get(url=url, timeout=120).text
         data = json.loads(response)
-        response_end = perf_counter()
+        # response_end = perf_counter()
         # sleep(response_end - response_start)
     except Exception as err:
         data = {}
         raise err
-    finally:
-        return data
+
+    return data
 
 
 ## Calls CTC Reporting API to get total items for a given collection
-def get_total_items(scope: Scope, collection: Collection) -> int:
+def get_total_items(*, scope: Scope, collection: Collection) -> int:
     """Retrieves total count of items by category"""
-    CTCLog(LOG_TITLE).info(
-        f"Fetching total item count for {scope.name} {collection.name}"
-    )
-    switches: str = add_switches(scope, collection)
+    switches: str = add_switches(collection=collection)
     url: str = gen_url(
         scope=scope,
         collection=collection,
@@ -175,9 +180,6 @@ def get_total_items(scope: Scope, collection: Collection) -> int:
         total_items: int = int(base_data["totalItems"])
         response_end = perf_counter()
         # sleep(response_end - response_start)
-        CTCLog(LOG_TITLE).info(
-            f"Successfully fetched {total_items} as item count from {url}"
-        )
     except Exception as err:
         total_items = None
         raise err
@@ -186,25 +188,33 @@ def get_total_items(scope: Scope, collection: Collection) -> int:
 
 
 ## Calls CTC Reporting API to get next X items
-def get_next_x(scope: Scope, collection: Collection, page_number: int) -> dict:
+def get_next_x(
+    *,
+    scope: Scope,
+    collection: Collection,
+    page_number: int,
+) -> dict:
     """Retrieves next X items"""
-    switches = add_switches(scope=scope, collection=collection)
+    switches = add_switches(collection=collection)
     url = gen_url(
-        scope=scope, collection=collection, page_number=page_number, switches=switches
+        scope=scope,
+        collection=collection,
+        page_number=page_number,
+        switches=switches,
     )
     try:
-        response_start = perf_counter()
-        response = requests.get(url).text
+        # response_start = perf_counter()
+        response = requests.get(url=url, timeout=120).text
         next_json = json.loads(response)
-        response_end = perf_counter()
+        # response_end = perf_counter()
         # sleep(response_end - response_start)
-    except Exception as err:
+    except Exception:
         next_json = None
-        raise err
+
     return next_json
 
 
-def get_keys(scope: Scope, collection: Scope) -> list[str]:
+def get_keys(*, scope: Scope, collection: Scope) -> list[str]:
     """Used to get the data structure of the json stream"""
     try:
         stream = get_next_x(scope=scope, collection=collection, page_number=1)
@@ -217,6 +227,7 @@ def get_keys(scope: Scope, collection: Scope) -> list[str]:
 ## Calls the CTC Reporting API to get all items in a collection
 ## Uses the get_next_x function to recursively call the API to get all items
 def get_all_x(
+    *,
     scope: Scope,
     collection: Collection,
     total_rows: int = None,
@@ -235,11 +246,15 @@ def get_all_x(
     # Combine results into single result set
     if previous_items is None:
         total_items = get_next_x(
-            scope=scope, collection=collection, page_number=page_number
+            scope=scope,
+            collection=collection,
+            page_number=page_number,
         )
     else:
         next_json = get_next_x(
-            scope=scope, collection=collection, page_number=page_number
+            scope=scope,
+            collection=collection,
+            page_number=page_number,
         )
         for item in next_json["items"]:
             previous_items["items"].append(item)
@@ -255,3 +270,7 @@ def get_all_x(
             previous_items=total_items,
         )
     return total_items
+
+
+if __name__ == "__main__":
+    pass

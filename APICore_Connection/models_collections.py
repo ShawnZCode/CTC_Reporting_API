@@ -1,5 +1,6 @@
-"""This module contains the defined models for the APICore_Connection app."""
-from base_models import Collection, Scope, Scopes
+"""This module contains the defined models for the Collections in the APICore_Connection app."""
+
+from APICore_Connection.models_base import Collection
 
 # Collections and Scopes for Accounts used in the Reporting API
 users: Collection = Collection(
@@ -20,16 +21,8 @@ groups: Collection = Collection(
 
 role_values: Collection = Collection(name="role-values")
 
-account_scope: Scope = Scope(
-    name="accounts",
-    collections=[
-        users,
-        groups,
-        role_values,
-    ],
-)
 
-# Collections and Scopes for CMS used in the Reporting API
+# Collections for CMS used in the Reporting API
 contents: Collection = Collection(
     name="contents",
     optional_switches=[
@@ -41,7 +34,7 @@ contents: Collection = Collection(
 content: Collection = Collection(
     name="content",
     parent="contents",
-    mandatory_switches="contentId",
+    mandatory_switches=["contentId"],
     optional_switches=[
         {"includeFiles": True},
         {"includeTypes": False},
@@ -72,7 +65,7 @@ libraries: Collection = Collection(
 library: Collection = Collection(
     name="library",
     parent="libraries",
-    mandatory_switches="libraryId",
+    mandatory_switches=["libraryId"],
     optional_switches=[
         {"includePermissions": True},
         {"includeContents": True},
@@ -99,7 +92,7 @@ tags: Collection = Collection(
 tag: Collection = Collection(
     name="tag",
     parent="tags",
-    mandatory_switches="tagId",
+    mandatory_switches=["tagId"],
     optional_switches=[
         {"includeContents": True},
         {"includeUsers": False},
@@ -125,7 +118,7 @@ searches: Collection = Collection(
 search: Collection = Collection(
     name="search",
     parent="searches",
-    mandatory_switches="searchId",
+    mandatory_switches=["searchId"],
     optional_switches=[
         {"includeResults": True},
         {"includeCategories": True},
@@ -136,23 +129,8 @@ search: Collection = Collection(
     ],
 )
 
-content_scope: Scope = Scope(
-    name="content",
-    collections=[
-        contents,
-        content,
-        libraries,
-        library,
-        subscribed_libraries,
-        tags,
-        tag,
-        saved_searches,
-        searches,
-        search,
-    ],
-)
 
-# Collections and Scopes for CSL used in the Reporting API
+# Collections for CSL used in the Reporting API
 licenses: Collection = Collection(
     name="licenses",
     optional_switches=[
@@ -174,16 +152,8 @@ products: Collection = Collection(
     name="products",
 )
 
-csl_scope: Scope = Scope(
-    name="csl",
-    collections=[
-        licenses,
-        app_sessions,
-        products,
-    ],
-)
 
-# Collections and Scopes for PAL used in the Reporting API
+# Collections for PAL used in the Reporting API
 doc_sessions: Collection = Collection(
     name="doc-sessions",
     optional_switches=[
@@ -195,7 +165,7 @@ doc_sessions: Collection = Collection(
 doc_sesion: Collection = Collection(
     name="doc-sesion",
     parent="doc-sessions",
-    mandatory_switches="SessionId",
+    mandatory_switches=["sessionId"],
     optional_switches=[
         {"includeAddIns": True},
         {"includeCrashes": True},
@@ -230,20 +200,9 @@ projects: Collection = Collection(
 project: Collection = Collection(
     name="project",
     parent="projects",
-    mandatory_switches="projectId",
+    mandatory_switches=["projectId"],
     optional_switches=[
         {"orderBy": "logDate"},
         {"orderDescending": True},
-    ],
-)
-
-pal_scope: Scope = Scope(
-    name="pal",
-    collections=[
-        doc_sessions,
-        doc_sesion,
-        sessions,
-        projects,
-        project,
     ],
 )
