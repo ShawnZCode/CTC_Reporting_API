@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS ContentFileComponents"""
+"""Module that defines the result models for CMS ContentFileComponents"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from APICore.result_models.cms.contentFileComponentProperties import (
+from APICore.result_models.cms.content_file_component_properties import (
     CMSContentFileComponentProperty,
 )
 

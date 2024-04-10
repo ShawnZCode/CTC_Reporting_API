@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS ContentAttachments"""
+"""Module that defines the result models for CMS ContentAttachments"""
 
 from datetime import datetime
 from typing import List, Optional

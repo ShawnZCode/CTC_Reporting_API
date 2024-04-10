@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS ContentFileComponentProperties"""
+"""Module that defines the result models for CMS ContentFileComponentProperties"""
 
 from datetime import datetime
 from typing import List, Optional

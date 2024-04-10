@@ -7,13 +7,13 @@ from uuid import UUID
 from pydantic import BaseModel
 
 from APICore.result_models.cms.categories import CMSCategory
-from APICore.result_models.cms.contentAttachments import CMSContentAttachment
-from APICore.result_models.cms.contentDownloads import CMSContentDownload
-from APICore.result_models.cms.contentFavoritedUsers import CMSContentFavoritedUser
-from APICore.result_models.cms.contentFiles import CMSContentFile
-from APICore.result_models.cms.contentLoads import CMSContentLoad
-from APICore.result_models.cms.contentReviews import CMSContentReview
-from APICore.result_models.cms.contentRevisions import CMSContentRevision
+from APICore.result_models.cms.content_attachments import CMSContentAttachment
+from APICore.result_models.cms.content_downloads import CMSContentDownload
+from APICore.result_models.cms.content_favorited_users import CMSContentFavoritedUser
+from APICore.result_models.cms.content_files import CMSContentFile
+from APICore.result_models.cms.content_loads import CMSContentLoad
+from APICore.result_models.cms.content_reviews import CMSContentReview
+from APICore.result_models.cms.content_revisions import CMSContentRevision
 
 
 ## creating the pydantic BaseModel
@@ -40,7 +40,7 @@ class CMSContentBase(BaseModel):
 
 class CMSContent(CMSContentBase):
     category: Optional[CMSCategory] = []
-    contentfiles: Optional[CMSContentFile] = []
+    contentFiles: Optional[CMSContentFile] = []
     contentAttachments: Optional[List[CMSContentAttachment]] = []
     contentDownlaods: Optional[List[CMSContentDownload]] = []
     contentLoads: Optional[List[CMSContentLoad]] = []
@@ -49,3 +49,8 @@ class CMSContent(CMSContentBase):
     contentTagIds: Optional[List[UUID]] = []
     contentLibraryIds: Optional[List[UUID]] = []
     favoritedUsers: Optional[List[CMSContentFavoritedUser]] = []
+
+
+class CMSContents(BaseModel):
+    totalItems: int
+    items: Optional[List[CMSContent]] = []

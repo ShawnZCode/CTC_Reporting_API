@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS Tags"""
+"""Module that defines the result models for CMS Tags"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 
 ## creating the pydantic BaseModel
-class CMSTag(BaseModel):
+class CMSTagBase(BaseModel):
     id: UUID
     addedAt: datetime
     addedById: UUID
@@ -17,3 +17,12 @@ class CMSTag(BaseModel):
     name: str
     description: str
     refreshedId: UUID
+
+
+class CMSTag(CMSTagBase):
+    contentIds: Optional[List[UUID]] = []
+
+
+class CMSTags(BaseModel):
+    totalItems: int
+    items: Optional[List[CMSTag]] = []

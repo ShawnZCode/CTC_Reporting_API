@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS Categories"""
+"""Module that defines the result models for CMS Categories"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -14,3 +14,8 @@ class CMSCategory(BaseModel):
     fileExtension: Optional[str] = None
     type: Optional[str] = None
     refreshedId: Optional[UUID] = None
+
+
+class CMSCategories(BaseModel):
+    totalItems: int
+    items: Optional[List[CMSCategory]] = []

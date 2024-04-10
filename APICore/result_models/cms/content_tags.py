@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS ContentRevisions"""
+"""Module that defines the result models for CMS contentTags"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -8,10 +8,11 @@ from pydantic import BaseModel
 
 
 ## creating the pydantic BaseModel
-class CMSContentRevision(BaseModel):
-    id: UUID
+class CMSContentTag(BaseModel):
     contentId: UUID
-    comment: Optional[str] = None
-    revisedAt: datetime
-    revisedById: UUID
+    tagId: UUID
     refreshedId: Optional[UUID] = None
+
+
+class CMSContentTags(BaseModel):
+    contentTags: List[CMSContentTag]

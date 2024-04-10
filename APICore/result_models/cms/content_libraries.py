@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS ContentFavoritedUsers"""
+"""Module that defines the result models for CMS ContentLibraries"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 
 ## creating the pydantic BaseModel
-class CMSContentFavoritedUser(BaseModel):
-    userId: UUID
+class CMSContentLibrary(BaseModel):
+    libraryId: UUID
+    contentId: UUID
     refreshedId: Optional[UUID] = None
