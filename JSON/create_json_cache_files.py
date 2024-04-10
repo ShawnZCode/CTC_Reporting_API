@@ -8,9 +8,9 @@ from datetime import datetime
 # from pydantic import BaseModel
 from tqdm.auto import tqdm
 
-from APICore_Connection import api_get_functions as ctc
-from APICore_Connection.models_base import Collection, Scope
-from APICore_Connection.models_scopes import API_SCOPES
+from APICore import api_get_functions as ctc
+from APICore.connection_models.base import Collection, Scope
+from APICore.connection_models.scopes import API_SCOPES
 from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
