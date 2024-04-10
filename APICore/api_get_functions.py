@@ -19,7 +19,7 @@ load_dotenv(".env")
 ## Current list of constants before settings file is implemented
 API_KEY = getenv("CTC_REPORT_API_KEY")
 
-API_SETTINGS = read_file("APICore_Connection\\Settings.json")
+API_SETTINGS = read_file("APICore\\Settings.json")
 
 ROWS_PER_PAGE = API_SETTINGS["apiConnection"]["rowsPerPage"]
 API_ENV = API_SETTINGS["apiConnection"]["apiEnv"]["Prod"]
@@ -214,14 +214,14 @@ def get_next_x(
     return next_json
 
 
-def get_keys(*, scope: Scope, collection: Scope) -> list[str]:
-    """Used to get the data structure of the json stream"""
-    try:
-        stream = get_next_x(scope=scope, collection=collection, page_number=1)
-        keys = stream["items"][0].keys()
-        return list(keys)
-    except Exception as err:
-        raise err
+# def get_keys(*, scope: Scope, collection: Scope) -> list[str]:
+#     """Used to get the data structure of the json stream"""
+#     try:
+#         stream = get_next_x(scope=scope, collection=collection, page_number=1)
+#         keys = stream["items"][0].keys()
+#         return list(keys)
+#     except Exception as err:
+#         raise err
 
 
 ## Calls the CTC Reporting API to get all items in a collection
@@ -233,7 +233,7 @@ def get_all_x(
     total_rows: int = None,
     page_number: int = None,
     previous_items: list[dict] = None,
-) -> list[dict]:
+) -> dict:
     """Use to recursively call API to get all <collection> items"""
     if total_rows is None:
         total_rows = int(ROWS_PER_PAGE)

@@ -1,5 +1,6 @@
 """This module contains the base model structures for the
 APICore_Connection."""
+
 from typing import Optional
 
 from pydantic import BaseModel
@@ -8,7 +9,7 @@ from pydantic import BaseModel
 class Collection(BaseModel):
     """Collection Model:
 
-    name: is the name of the collection. It is expected that this will
+    name: is the name of the data collection. It is expected that this will
     match the Reporting API endpoint.
     parent: is used to denote the 'name' of the immeadiate parent of the
     collection.
@@ -20,8 +21,8 @@ class Collection(BaseModel):
 
     name: str
     parent: Optional[str] = None
-    mandatory_switches: Optional[list[str]] = None
-    optional_switches: Optional[list[dict]] = None
+    mandatory_switches: Optional[list[str]] = []
+    optional_switches: Optional[list[dict]] = []
 
 
 class Scope(BaseModel):
@@ -29,7 +30,7 @@ class Scope(BaseModel):
 
     name: is the name of the scope. It is expected that this will match
     the Reporting API scope.
-    collections: is a list of Collection models that route through the
+    collections: is a list of data Collection models that route through the
     specified scope.
     """
 

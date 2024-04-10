@@ -2,9 +2,13 @@
 
 from datetime import datetime
 from typing import List, Optional
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from pydantic import BaseModel
+
+from APICore.api_get_functions import get_all_x
+from APICore.connection_models.collections import users
+from APICore.connection_models.scopes import account_scope
 
 
 ## creating the pydantic BaseModel
@@ -34,3 +38,9 @@ class AccUser(AccUserBase):
 class AccUsers(BaseModel):
     totalItems: int
     items: Optional[List[AccUser]] = []
+
+
+## base function(s) for use with this model
+def get_all_users() -> AccUsers:
+    result = get_all_x(scope=account_scope, collection=users)
+    return AccUsers.model_validate(result)
