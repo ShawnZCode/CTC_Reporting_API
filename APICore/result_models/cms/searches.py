@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS Searches"""
+"""Module that defines the result models for CMS Searches"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -36,18 +36,9 @@ class CMSSearchBase(BaseModel):
     refreshedId: Optional[UUID] = None
 
 
-class CMSSearches(BaseModel):
-    searches: List[CMSSearchBase]
-
-
 class CMSSearchCategory(BaseModel):
     searchId: UUID
     category: CMSCategory
-
-
-class CMSSearchResult(BaseModel):
-    searchId: UUID
-    contentId: UUID
 
 
 class CMSSearchLibrary(BaseModel):
@@ -65,6 +56,11 @@ class CMSSearchSource(BaseModel):
     contentSource: str
 
 
+class CMSSearchResult(BaseModel):
+    searchId: UUID
+    contentId: UUID
+
+
 class CMSSearchPage(BaseModel):
     id: UUID
     executionTimeInMs: int
@@ -80,3 +76,8 @@ class CMSSearch(CMSSearchBase):
     pages: Optional[List[CMSSearchPage]] = []
     searchLibraries: Optional[List[CMSSearchLibrary]] = []
     searchTags: Optional[List[CMSSearchTag]] = []
+
+
+class CMSSearches(BaseModel):
+    totalItems: int
+    items: Optional[List[CMSSearch]] = []

@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS Saved-Searches"""
+"""Module that defines the result models for CMS Saved-Searches"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -21,4 +21,5 @@ class CMSSavedSearchBase(CMSSearch):
 
 
 class CMSSavedSearches(BaseModel):
-    savedSearches: List[CMSSavedSearchBase]
+    totalItems: int
+    items: Optional[List[CMSSavedSearchBase]] = []

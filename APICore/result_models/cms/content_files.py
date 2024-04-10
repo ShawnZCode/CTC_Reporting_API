@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS ContentFiles"""
+"""Module that defines the result models for CMS ContentFiles"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from APICore.result_models.cms.contentFileComponents import CMSContentFileComponent
+from APICore.result_models.cms.content_file_components import CMSContentFileComponent
 
 
 ## creating the pydantic BaseModel

@@ -1,4 +1,4 @@
-"""module that defines the result models for CMS ContentReviews"""
+"""Module that defines the result models for CMS Library Permissions"""
 
 from datetime import datetime
 from typing import List, Optional
@@ -8,11 +8,14 @@ from pydantic import BaseModel
 
 
 ## creating the pydantic BaseModel
-class CMSContentReview(BaseModel):
+class CMSLibraryPermission(BaseModel):
     id: UUID
-    contentId: UUID
-    rating: int
-    comment: str = None
+    libraryId: UUID
+    librarySubscriptionId: Optional[UUID] = None
+    resourceId: UUID
+    resourceType: str
+    resourceSource: str
+    role: str
     addedAt: datetime
     addedById: UUID
     updatedAt: datetime
