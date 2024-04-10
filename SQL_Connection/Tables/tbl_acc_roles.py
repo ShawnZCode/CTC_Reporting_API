@@ -2,13 +2,8 @@ from pydantic import BaseModel
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
+from APICore.result_models.accounts.roles import AccRole
 from SQL_Connection.db_connection import Base, NotFoundError
-
-
-## creating the pydantic BaseModel
-class AccRole(BaseModel):
-    id: int
-    dispalyName: str
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

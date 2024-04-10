@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
-from APICore.result_models.cms.contentLibraries import CMSContentLibrary
+from APICore.result_models.cms.content_libraries import CMSContentLibrary
 from SQL_Connection.db_connection import Base
 
 

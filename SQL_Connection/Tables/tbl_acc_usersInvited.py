@@ -5,18 +5,8 @@ from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, ForeignKey, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
+from APICore.result_models.accounts.users_invited import AccInvitedUser
 from SQL_Connection.db_connection import Base
-
-
-## creating the pydantic BaseModel
-class AccUserInvited(BaseModel):
-    userId: UUID
-    userName: str
-    email: str
-    idEnabled: bool
-    invitationExpiration: datetime
-    invitedLibraryPermissions: list[dict]
-    refreshedId: UUID
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

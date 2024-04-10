@@ -7,56 +7,8 @@ from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, ForeignKey, String, Uuid
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
+from APICore.result_models.accounts.users_org import AccUser
 from SQL_Connection.db_connection import Base, NotFoundError
-
-
-## creating the pydantic BaseModel
-class AccUserRecord(BaseModel):
-    id: UUID
-    firstName: Optional[str]
-    lastName: Optional[str]
-    displayName: Optional[str]
-    email: str
-    description: Optional[str]
-    office: Optional[str]
-    department: Optional[str]
-    lastLoggedInAt: Optional[datetime]
-    status: str
-    createdAt: datetime
-    createdById: UUID
-    updatedAt: datetime
-    updatedById: UUID
-    isSSOUser: bool
-    roles: Optional[list[int]]
-    # refreshedId: UUID
-
-
-class AccUser(BaseModel):
-    id: UUID
-    firstName: Optional[str]
-    lastName: Optional[str]
-    displayName: Optional[str]
-    email: str
-    description: Optional[str]
-    office: Optional[str]
-    department: Optional[str]
-    lastLoggedInAt: Optional[datetime]
-    status: str
-    createdAt: datetime
-    createdById: UUID
-    updatedAt: datetime
-    updatedById: UUID
-    isSSOUser: bool
-
-
-class AccUser_Updated(BaseModel):
-    id: UUID
-    updatedAt: datetime
-
-
-class AccUserRole(BaseModel):
-    id: UUID
-    roles: Optional[list[int]]
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

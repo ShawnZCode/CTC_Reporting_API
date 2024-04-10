@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel
@@ -11,7 +12,7 @@ from SQL_Connection.db_connection import Base
 class AccGroupRole(BaseModel):
     groupId: UUID
     roleId: int
-    refreshedId: UUID
+    refreshedId: Optional[UUID] = None
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

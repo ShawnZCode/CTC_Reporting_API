@@ -6,20 +6,8 @@ from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, ForeignKey, String, Uuid
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
+from APICore.result_models.accounts.groups import AccGroup
 from SQL_Connection.db_connection import Base, NotFoundError
-
-
-## creating the pydantic BaseModel
-class AccGroup(BaseModel):
-    id: UUID
-    name: str
-    description: Optional[str]
-    createdAt: datetime
-    createdBtId: UUID
-    updatedAt: datetime
-    updatedById: UUID
-    isDefaultGroup: bool
-    # refreshedId: UUID
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

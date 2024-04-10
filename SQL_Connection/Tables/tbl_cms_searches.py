@@ -8,34 +8,6 @@ from sqlalchemy.orm import Mapped, mapped_column
 from SQL_Connection.db_connection import Base
 
 
-## creating the pydantic BaseModel
-class CMSSearch(BaseModel):
-    id: UUID
-    savedSearchId: UUID
-    query: str
-    sortBy: str
-    sortDirection: str
-    minAvgRating: int
-    addedStartDate: datetime
-    addedEndDate: datetime
-    addedByUser: str
-    updatedStartDate: datetime
-    updatedEndDate: datetime
-    updatedByUser: str
-    searchedAt: datetime
-    searchedById: UUID
-    executionTimeInMs: int
-    page: int
-    pageSize: int
-    searchId: UUID
-    resultCount: int
-    savedSearchName: str
-    hasExplicitLibraryFilter: bool
-    displayUnits: str
-    fileVersions: str
-    refreshedId: UUID
-
-
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
 class TblCMSSearches(Base):
     __tablename__ = "searches"
