@@ -16,8 +16,8 @@ from utils.read_file import read_file
 
 # BASE_FILE_LIST = ["Contents", "Libraries", "Saved-Searches", "Searches", "Tags"]
 
-API_SETTINGS = read_file("APICore_Connection\\Settings.json")
-API_SETTINGS_SCOPES = API_SETTINGS["scopes"]
+API_SETTINGS = read_file("APICore\\Settings.json")
+API_SETTINGS_SCOPES = API_SCOPES
 JSON_SETTINGS = read_file("JSON\\Settings.json")
 LOG_TITLE = JSON_SETTINGS["logTitle"]
 
