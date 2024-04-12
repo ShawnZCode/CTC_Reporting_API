@@ -3,7 +3,7 @@
 import APICore.connection_models.collections as collections
 from APICore.connection_models.base import Scope, Scopes
 
-account_scope: Scope = Scope(
+accounts: Scope = Scope(
     name="accounts",
     collections=[
         collections.users,
@@ -12,7 +12,7 @@ account_scope: Scope = Scope(
     ],
 )
 
-csl_scope: Scope = Scope(
+csl: Scope = Scope(
     name="csl",
     collections=[
         collections.licenses,
@@ -21,7 +21,7 @@ csl_scope: Scope = Scope(
     ],
 )
 
-cms_scope: Scope = Scope(
+cms: Scope = Scope(
     name="cms",
     collections=[
         collections.contents,
@@ -37,11 +37,11 @@ cms_scope: Scope = Scope(
     ],
 )
 
-pal_scope: Scope = Scope(
+pal: Scope = Scope(
     name="pal",
     collections=[
         collections.doc_sessions,
-        collections.doc_sesion,
+        collections.doc_session,
         collections.sessions,
         collections.projects,
         collections.project,
@@ -50,9 +50,9 @@ pal_scope: Scope = Scope(
 
 API_SCOPES: Scopes = Scopes(
     scopes=[
-        account_scope,
-        csl_scope,
-        cms_scope,
-        pal_scope,
+        accounts,
+        csl,
+        cms,
+        pal,
     ]
 )

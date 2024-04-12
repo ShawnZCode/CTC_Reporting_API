@@ -11,6 +11,15 @@ users: Collection = Collection(
     ],
 )
 
+invited_users: Collection = Collection(
+    name="invited-users",
+    optional_switches=[
+        {"includeInvLibraries": True},
+        {"orderBy": "displayName"},
+        {"orderDescending": False},
+    ],
+)
+
 groups: Collection = Collection(
     name="groups",
     optional_switches=[
@@ -39,7 +48,7 @@ content: Collection = Collection(
         {"includeFiles": True},
         {"includeTypes": False},
         {"includeTypeParameters": False},
-        {"includeLibraries": False},
+        {"includeLibraries": True},
         # ^^ Unnecessry to include libraries since it is faster to get associations from the Libraries call
         {"includeAttachments": True},
         {"includeDownloads": True},
@@ -47,7 +56,7 @@ content: Collection = Collection(
         {"includeDocuments": True},
         {"includeReviews": True},
         {"includeRevisions": True},
-        {"includeTags": False},
+        {"includeTags": True},
         # ^^ Unnecessry to include tags since it is faster to get associations from the Tags call
         {"includeUsers": False},
         {"includeFavoritedUsers": True},
@@ -142,6 +151,8 @@ licenses: Collection = Collection(
 
 app_sessions: Collection = Collection(
     name="app-sessions",
+    parent="products",
+    mandatory_switches=["productId"],
     optional_switches=[
         {"orderBy": "updatedAt"},
         {"orderDescending": True},
@@ -162,7 +173,7 @@ doc_sessions: Collection = Collection(
     ],
 )
 
-doc_sesion: Collection = Collection(
+doc_session: Collection = Collection(
     name="doc-sesion",
     parent="doc-sessions",
     mandatory_switches=["sessionId"],

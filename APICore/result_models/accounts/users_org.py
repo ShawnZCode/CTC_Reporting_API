@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from APICore.api_get_functions import get_all_x
 from APICore.connection_models.collections import users
-from APICore.connection_models.scopes import account_scope
+from APICore.connection_models.scopes import accounts
 
 
 ## creating the pydantic BaseModel
@@ -42,5 +42,5 @@ class AccUsers(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_users() -> AccUsers:
-    result = get_all_x(scope=account_scope, collection=users)
+    result = get_all_x(scope=accounts, collection=users)
     return AccUsers.model_validate(result)
