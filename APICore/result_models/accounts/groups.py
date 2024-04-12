@@ -6,6 +6,10 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from APICore.api_get_functions import get_all_x
+from APICore.connection_models.collections import groups
+from APICore.connection_models.scopes import accounts
+
 
 ## creating the pydantic BaseModel
 class AccGroupBase(BaseModel):
@@ -28,3 +32,9 @@ class AccGroup(AccGroupBase):
 class AccGroups(BaseModel):
     totalItems: int
     items: Optional[List[AccGroup]] = []
+
+
+## base function(s) for use with this model
+def get_all_groups() -> AccGroups:
+    result = get_all_x(scope=accounts, collection=groups)
+    return AccGroups.model_validate(result)

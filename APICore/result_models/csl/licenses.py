@@ -6,6 +6,10 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from APICore.api_get_functions import get_all_x
+from APICore.connection_models.collections import licenses
+from APICore.connection_models.scopes import csl
+
 
 ## creating the pydantic BaseModel
 class CSLLicenseBase(BaseModel):
@@ -19,7 +23,6 @@ class CSLLicenseBase(BaseModel):
     licenseType: str
     autorenew: bool
     autorenewLicenseCount: int
-    description: Optional[str]
     createdAt: datetime
     createdBy: UUID
     updatedAt: datetime
@@ -42,3 +45,9 @@ class CSLLicense(CSLLicenseBase):
 class CSLLicenses(BaseModel):
     totalItems: int
     items: Optional[List[CSLLicense]] = []
+
+
+## base function(s) for use with this model
+def get_all_licenses() -> CSLLicenses:
+    result = get_all_x(scope=csl, collection=licenses)
+    return CSLLicenses.model_validate(result)

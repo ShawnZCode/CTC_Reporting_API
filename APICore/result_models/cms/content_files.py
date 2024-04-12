@@ -19,18 +19,18 @@ class CMSContentFileBase(BaseModel):
     fileName: str
     filePath: str
     fileExtension: str
-    fileSizeinBytes: int
+    fileSizeInBytes: int
     fileCreatedAt: datetime
     fileModifiedAt: datetime
-    fileVersion: int
-    contentId: UUID
-    hasRevitTypeCatalog: bool
-    revitSourceProjectElementId: int
-    revitContainerProjectElementId: int
-    revitProjectWorksharingMode: int
+    fileVersion: Optional[int] = None
+    contentId: Optional[UUID] = None
+    hasRevitTypeCatalog: Optional[bool] = None
+    revitSourceProjectElementId: Optional[int] = None
+    revitContainerProjectElementId: Optional[int] = None
+    revitProjectWorksharingMode: Optional[int] = None
     location: str
     refreshedId: Optional[UUID] = None
 
 
 class CMSContentFile(CMSContentFileBase):
-    contentFileComponents: Optional[CMSContentFileComponent] = None
+    components: Optional[List[CMSContentFileComponent]] = None

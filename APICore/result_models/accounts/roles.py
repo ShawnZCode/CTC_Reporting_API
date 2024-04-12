@@ -6,13 +6,23 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from APICore.api_get_functions import get_all_x
+from APICore.connection_models.collections import role_values
+from APICore.connection_models.scopes import accounts
+
 
 ## creating the pydantic BaseModel
 class AccRole(BaseModel):
-    id: int
-    dispalyName: str
+    intValue: int
+    displayName: str
 
 
 class AccRoles(BaseModel):
     totalItems: int
     items: Optional[List[AccRole]] = []
+
+
+## base function(s) for use with this model
+def get_all_roles() -> AccRoles:
+    result = get_all_x(scope=accounts, collection=role_values)
+    return AccRoles.model_validate(result)
