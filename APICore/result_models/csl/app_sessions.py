@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field, PlainSerializer, WrapSerializer
+from pydantic import AliasChoices, BaseModel, Field, PlainSerializer, WrapSerializer
 from typing_extensions import Annotated
 
 from APICore.api_get_functions import get_x_by_id
@@ -38,15 +38,18 @@ CustomDateTime = Annotated[
 
 ## creating the pydantic BaseModel
 class CSLAppSession(BaseModel):
-    sessionId: Optional[UUID] = None
+    id: Optional[UUID] | None = Field(
+        validation_alias=AliasChoices("sessionId"),
+        default=None,
+    )
     productId: UUID
-    productName: Optional[str] = None
-    productVersion: Optional[str] = None
+    productName: Optional[str] | None = None
+    productVersion: Optional[str] | None = None
     # startedAt: Optional[str] = None
     # endedAt: Optional[str] = None
-    startedAt: Optional[CustomDateTime | datetime] = None
-    endedAt: Optional[CustomDateTime | datetime] = None
-    computerName: Optional[str] = None
+    startedAt: Optional[CustomDateTime | datetime] | None = None
+    endedAt: Optional[CustomDateTime | datetime] | None = None
+    computerName: Optional[str] | None = None
     userId: Optional[UUID] = None
     applicationName: Optional[str] = None
     autodeskVersionNumber: Optional[str] = None

@@ -10,4 +10,4 @@ from pydantic import BaseModel
 ## creating the pydantic BaseModel
 class CMSContentFavoritedUser(BaseModel):
     userId: UUID
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None

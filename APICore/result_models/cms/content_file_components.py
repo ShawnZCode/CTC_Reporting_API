@@ -14,10 +14,10 @@ from APICore.result_models.cms.content_file_component_properties import (
 ## creating the pydantic BaseModel
 class CMSContentFileComponentBase(BaseModel):
     id: UUID
-    contentFileId: Optional[UUID] = None
+    contentFileId: Optional[UUID] | None = None
     name: str
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None
 
 
 class CMSContentFileComponent(CMSContentFileComponentBase):
-    properties: Optional[List[CMSContentFileComponentProperty]] = None
+    properties: Optional[List[CMSContentFileComponentProperty]] = []

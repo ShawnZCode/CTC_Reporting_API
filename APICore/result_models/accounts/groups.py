@@ -4,9 +4,9 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import AliasChoices, BaseModel, Field
 
-from APICore.api_get_functions import get_all_x
+from APICore.api_get_functions import get_all_x, get_total_items
 from APICore.connection_models.collections import groups
 from APICore.connection_models.scopes import accounts
 
@@ -15,11 +15,28 @@ from APICore.connection_models.scopes import accounts
 class AccGroupBase(BaseModel):
     id: UUID
     name: str
-    description: Optional[str]
-    createdAt: datetime
-    createdByUserId: UUID
+    description: Optional[str] | None = None
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices("createdAt", "updatedAt"),
+    )
+    addedById: UUID = Field(
+        validation_alias=AliasChoices(
+            "addedBy",
+            "addedById",
+            "addedByUserId",
+            "createdByUserId",
+            "createdByUser",
+            "createdById",
+        )
+    )
     updatedAt: datetime
-    updatedByUserId: UUID
+    updatedById: UUID = Field(
+        validation_alias=AliasChoices(
+            "updatedBy",
+            "updatedById",
+            "updatedByUserId",
+        )
+    )
     isDefaultGroup: bool
     # refreshedId: UUID
 
@@ -36,5 +53,6 @@ class AccGroups(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_groups() -> AccGroups:
-    result = get_all_x(scope=accounts, collection=groups)
+    total_items = get_total_items(scope=accounts, collection=groups)
+    result = get_all_x(scope=accounts, collection=groups, total_rows=total_items)
     return AccGroups.model_validate(result)

@@ -46,9 +46,9 @@ content: Collection = Collection(
     mandatory_switches=["contentId"],
     optional_switches=[
         {"includeFiles": True},
-        {"includeTypes": False},
+        {"includeTypes": True},
         {"includeTypeParameters": False},
-        {"includeLibraries": True},
+        {"includeLibraries": False},
         # ^^ Unnecessry to include libraries since it is faster to get associations from the Libraries call
         {"includeAttachments": True},
         {"includeDownloads": True},
@@ -174,7 +174,7 @@ doc_sessions: Collection = Collection(
 )
 
 doc_session: Collection = Collection(
-    name="doc-sesion",
+    name="doc-session",
     parent="doc-sessions",
     mandatory_switches=["sessionId"],
     optional_switches=[
@@ -215,5 +215,7 @@ project: Collection = Collection(
     optional_switches=[
         {"orderBy": "logDate"},
         {"orderDescending": True},
+        {"includePaths": True},
+        {"includePermissions": True},
     ],
 )

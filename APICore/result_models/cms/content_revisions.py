@@ -11,7 +11,7 @@ from pydantic import BaseModel
 class CMSContentRevision(BaseModel):
     id: UUID
     contentId: UUID
-    comment: Optional[str] = None
+    comment: Optional[str] | None = None
     revisedAt: datetime
     revisedById: UUID
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None

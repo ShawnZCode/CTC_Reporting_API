@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from APICore.api_get_functions import get_all_x, get_x_by_id
+from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
 from APICore.connection_models.collections import content, contents
 from APICore.connection_models.scopes import cms
 from APICore.result_models.cms.content_attachments import CMSContentAttachment
@@ -34,11 +34,11 @@ class CMSContentBase(BaseModel):
     source: str
     location: str
     averageRating: float
-    categoryId: Optional[int] = None
-    previewImageUri: Optional[str] = None
-    displayUnit: Optional[str] = None
-    revitFamilyHostType: Optional[str] = None
-    refreshedId: Optional[UUID] = None
+    categoryId: Optional[int] | None = None
+    previewImageUri: Optional[str] | None = None
+    displayUnit: Optional[str] | None = None
+    revitFamilyHostType: Optional[str] | None = None
+    refreshedId: Optional[UUID] | None = None
 
 
 class CMSContent(CMSContentBase):
@@ -61,7 +61,8 @@ class CMSContents(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_content() -> CMSContents:
-    result = get_all_x(scope=cms, collection=contents)
+    total_items = get_total_items(scope=cms, collection=contents)
+    result = get_all_x(scope=cms, collection=contents, total_rows=total_items)
     return CMSContents.model_validate(result)
 
 

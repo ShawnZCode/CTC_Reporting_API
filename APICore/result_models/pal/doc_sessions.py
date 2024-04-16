@@ -4,7 +4,11 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import AliasChoices, BaseModel, Field
+
+from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
+from APICore.connection_models.collections import doc_session, doc_sessions
+from APICore.connection_models.scopes import pal
 
 
 ## creating the pydantic BaseModel
@@ -31,8 +35,19 @@ class PALDocSessionBase(BaseModel):
     siteLatLong: str
     status: bool
     logDate: datetime
-    uploadDate: datetime
-    addedDate: datetime
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
 
 
 class PALLogAddIn(BaseModel):
@@ -40,8 +55,19 @@ class PALLogAddIn(BaseModel):
     name: str
     docSessionId: UUID
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALLogEvent(BaseModel):
@@ -51,7 +77,7 @@ class PALLogEvent(BaseModel):
     eventType: Optional[str] = None
     eventName: Optional[str] = None
     viewName: Optional[str] = None
-    viewId: Optional[str] = None
+    viewId: Optional[int] = None
     openViewCt: int
     eventDuration: float
     actionCt: int
@@ -65,8 +91,19 @@ class PALLogEvent(BaseModel):
     viewWorksetOpenCt: Optional[int] = None
     viewWorksetEditCt: Optional[int] = None
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALLogLink(BaseModel):
@@ -77,8 +114,19 @@ class PALLogLink(BaseModel):
     linkType: str
     linkStatus: str
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALLogMachine(BaseModel):
@@ -97,8 +145,19 @@ class PALLogMachine(BaseModel):
     video: str
     ipaddress: str
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALLogPrint(BaseModel):
@@ -113,8 +172,19 @@ class PALLogPrint(BaseModel):
     jobStart: datetime
     jobEnd: datetime
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALLogSummary(BaseModel):
@@ -123,7 +193,7 @@ class PALLogSummary(BaseModel):
     eventId: int
     groupCt: int
     inPlaceCt: int
-    unPlacedCt: int
+    unPlacedCt: Optional[int] | None = None
     unPlacedRoomCt: int
     unenclosedRoomCt: int
     placedRoomCt: int
@@ -133,7 +203,7 @@ class PALLogSummary(BaseModel):
     viewCt: int
     phaseCt: int
     desOptCt: int
-    workesetCt: int
+    worksetCt: int
     familyCt: int
     instanceCt: int
     materialCt: int
@@ -143,8 +213,19 @@ class PALLogSummary(BaseModel):
     warningCt: int
     warningTypeCt: int
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALLogViewType(BaseModel):
@@ -153,8 +234,19 @@ class PALLogViewType(BaseModel):
     viewTypeName: str
     viewCt: int
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALLogWarningSummary(BaseModel):
@@ -164,8 +256,19 @@ class PALLogWarningSummary(BaseModel):
     description: str
     elementIds: str
     logDate: datetime
-    addedDate: datetime
-    uploadedDate: datetime
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "addedAt",
+            "addedDate",
+        )
+    )
+    uploadedAt: datetime = Field(
+        validation_alias=AliasChoices(
+            "uploadedAt",
+            "uploadDate",
+            "uploadedDate",
+        )
+    )
 
 
 class PALDocSession(PALDocSessionBase):
@@ -182,3 +285,24 @@ class PALDocSession(PALDocSessionBase):
 class PALDocSessions(BaseModel):
     totalItems: int
     items: Optional[List[PALDocSession]] = []
+
+
+## base function(s) for use with this model
+def get_all_doc_sessions() -> PALDocSessions:
+    total_items = get_total_items(scope=pal, collection=doc_sessions)
+    result = get_all_x(scope=pal, collection=doc_sessions, total_rows=total_items)
+    return PALDocSessions.model_validate(result)
+
+
+def get_doc_session_details_by_project_id(*, item: PALDocSession) -> PALDocSession:
+    result = get_x_by_id(scope=pal, collection=doc_session, item_id=item.id)
+    return PALDocSession.model_validate(result)
+
+
+def get_all_doc_session_details(*, objects: PALDocSessions) -> PALDocSessions:
+    new_objects = PALDocSessions(totalItems=0, items=[])
+    for item in objects.items:
+        new_item = get_doc_session_details_by_project_id(item=item)
+        new_objects.items.append(new_item)
+        new_objects.totalItems = len(new_objects.items)
+    return new_objects

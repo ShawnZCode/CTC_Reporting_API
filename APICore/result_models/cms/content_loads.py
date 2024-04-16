@@ -10,9 +10,9 @@ from pydantic import BaseModel
 ## creating the pydantic BaseModel
 class CMSContentLoad(BaseModel):
     id: UUID
-    contentId: Optional[UUID] = None
-    searchId: Optional[UUID] = None
-    documentId: Optional[UUID] = None
+    contentId: Optional[UUID] | None = None
+    searchId: Optional[UUID] | None = None
+    documentId: Optional[UUID] | None = None
     loadedAt: datetime
     loadedById: UUID
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None

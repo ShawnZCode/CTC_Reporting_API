@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import AliasChoices, BaseModel, Field
 
-from APICore.api_get_functions import get_all_x, get_x_by_id
+from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
 from APICore.connection_models.collections import search, searches
 from APICore.connection_models.scopes import cms
 from APICore.result_models.cms.content_categories import CMSCategory
@@ -48,40 +48,42 @@ class CMSSearchPage(BaseModel):
 
 
 class CMSSearchBase(BaseModel):
-    id: UUID
-    minAvgRating: Optional[int] = None
-    query: Optional[str] = None
-    fileVersions: Optional[str] = None
+    minAvgRating: Optional[int] | None = None
+    query: Optional[str] | None = None
+    fileVersions: Optional[str] | None = None
     displayUnits: Optional[List[str]] = []
     sortBy: str
     sortDirection: str
-    addedByUser: Optional[str] = None
-    addedEndDate: Optional[datetime] = None
-    addedStartDate: Optional[datetime] = None
-    updatedByUser: Optional[str] = None
-    updatedEndDate: Optional[datetime] = None
-    updatedStartDate: Optional[datetime] = None
+    addedByUser: Optional[str] | None = None
+    addedEndDate: Optional[datetime] | None = None
+    addedStartDate: Optional[datetime] | None = None
+    updatedByUser: Optional[str] | None = None
+    updatedEndDate: Optional[datetime] | None = None
+    updatedStartDate: Optional[datetime] | None = None
     sources: Optional[List[CMSSearchSource]] = []
     categories: Optional[List[CMSSearchCategory]] = []
     searchLibraries: Optional[List[CMSSearchLibrary]] = []
     searchTags: Optional[List[CMSSearchTag]] = []
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None
 
 
 class CMSSearch(CMSSearchBase):
-    searchId: Optional[UUID] = None
-    savedSearchId: Optional[UUID] = None
-    totalPageCount: int = Field(
+    id: Optional[UUID] | None = Field(
+        validation_alias=AliasChoices("searchId"),
+        default=None,
+    )
+    savedSearchId: Optional[UUID] | None = None
+    totalPageCount: int | None = Field(
         validation_alias=AliasChoices("totalPageCount", "totalPages"),
         default=None,
     )
-    totalResultCount: int = Field(
+    totalResultCount: int | None = Field(
         validation_alias=AliasChoices("totalResultCount", "totalResults"),
         default=None,
     )
-    pageSize: Optional[int] = None
-    searchedAt: Optional[datetime] = None
-    searchedById: Optional[UUID] = None
+    pageSize: Optional[int] | None = None
+    searchedAt: Optional[datetime] | None = None
+    searchedById: Optional[UUID] | None = None
     totalExecutionTimeInMs: int
     hasExplicitLibraryFilter: bool
     pages: Optional[List[CMSSearchPage]] = []
@@ -94,16 +96,20 @@ class CMSSearches(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_searches() -> CMSSearches:
-    result = get_all_x(scope=cms, collection=searches)
+    total_items = get_total_items(scope=cms, collection=searches)
+    result = get_all_x(scope=cms, collection=searches, total_rows=total_items)
     return CMSSearches.model_validate(result)
 
 
 def get_search_details_by_id(*, item: CMSSearch) -> CMSSearch:
-    result = get_x_by_id(scope=cms, collection=search, item_id=item.searchId)
-    return CMSSearch.model_validate(result)
+    if item.id is None:
+        return item
+    else:
+        result = get_x_by_id(scope=cms, collection=search, item_id=item.id)
+        return CMSSearch.model_validate(result)
 
 
-def get_all_search_details(objects: CMSSearches) -> CMSSearches:
+def get_all_search_details(*, objects: CMSSearches) -> CMSSearches:
     new_objects = CMSSearches(totalItems=0, items=[])
     for item in objects.items:
         new_item = get_search_details_by_id(item=item)

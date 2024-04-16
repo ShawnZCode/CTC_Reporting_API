@@ -11,8 +11,8 @@ from pydantic import BaseModel
 class CMSContentTag(BaseModel):
     contentId: UUID
     tagId: UUID
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None
 
 
 class CMSContentTags(BaseModel):
-    contentTags: List[CMSContentTag]
+    contentTags: Optional[List[CMSContentTag]] = []

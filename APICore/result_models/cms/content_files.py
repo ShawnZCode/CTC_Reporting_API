@@ -22,15 +22,15 @@ class CMSContentFileBase(BaseModel):
     fileSizeInBytes: int
     fileCreatedAt: datetime
     fileModifiedAt: datetime
-    fileVersion: Optional[int] = None
-    contentId: Optional[UUID] = None
-    hasRevitTypeCatalog: Optional[bool] = None
-    revitSourceProjectElementId: Optional[int] = None
-    revitContainerProjectElementId: Optional[int] = None
-    revitProjectWorksharingMode: Optional[int] = None
+    fileVersion: Optional[int] | None = None
+    contentId: Optional[UUID] | None = None
+    hasRevitTypeCatalog: Optional[bool] | None = None
+    revitSourceProjectElementId: Optional[int] | None = None
+    revitContainerProjectElementId: Optional[int] | None = None
+    revitProjectWorksharingMode: Optional[int] | None = None
     location: str
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None
 
 
 class CMSContentFile(CMSContentFileBase):
-    components: Optional[List[CMSContentFileComponent]] = None
+    components: Optional[List[CMSContentFileComponent]] = []

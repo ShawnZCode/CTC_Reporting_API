@@ -11,7 +11,7 @@ from pydantic import BaseModel
 class CMSLibraryPermission(BaseModel):
     id: UUID
     libraryId: UUID
-    librarySubscriptionId: Optional[UUID] = None
+    librarySubscriptionId: Optional[UUID] | None = None
     resourceId: UUID
     resourceType: str
     resourceSource: str
@@ -20,4 +20,4 @@ class CMSLibraryPermission(BaseModel):
     addedById: UUID
     updatedAt: datetime
     updatedById: UUID
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None

@@ -14,12 +14,12 @@ class CMSContentAttachment(BaseModel):
     addedById: UUID
     updatedAt: datetime
     updatedById: UUID
-    fileExtension: str
-    fileSizeinBytes: int
+    fileExtension: Optional[str] | None = None
+    fileSizeinBytes: Optional[int] | None = None
     contentId: UUID
-    description: str
+    description: Optional[str] | None = None
     isLink: bool
     name: str
-    path: str
-    type: int
-    refreshedId: UUID
+    path: Optional[str] | None = None
+    type: Optional[str] | None = None
+    refreshedId: Optional[UUID] | None = None
