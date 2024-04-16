@@ -1,4 +1,5 @@
 {
+    "logTitle": "API", 
     "apiConnection": {
         "rowsPerPage": 1000,
         "apiEnv": {
