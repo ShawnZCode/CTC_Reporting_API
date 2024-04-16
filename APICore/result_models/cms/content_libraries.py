@@ -11,4 +11,4 @@ from pydantic import BaseModel
 class CMSContentLibrary(BaseModel):
     libraryId: UUID
     contentId: UUID
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None

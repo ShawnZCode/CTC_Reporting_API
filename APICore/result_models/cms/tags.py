@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from APICore.api_get_functions import get_all_x, get_x_by_id
+from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
 from APICore.connection_models.collections import tag, tags
 from APICore.connection_models.scopes import cms
 
@@ -19,8 +19,8 @@ class CMSTagBase(BaseModel):
     updatedAt: datetime
     updatedById: UUID
     name: str
-    description: Optional[str] = None
-    refreshedId: Optional[UUID] = None
+    description: Optional[str] | None = None
+    refreshedId: Optional[UUID] | None = None
 
 
 class CMSTag(CMSTagBase):
@@ -34,7 +34,8 @@ class CMSTags(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_tags() -> CMSTags:
-    result = get_all_x(scope=cms, collection=tags)
+    total_items = get_total_items(scope=cms, collection=tags)
+    result = get_all_x(scope=cms, collection=tags, total_rows=total_items)
     return CMSTags.model_validate(result)
 
 

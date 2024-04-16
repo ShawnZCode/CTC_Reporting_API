@@ -10,16 +10,16 @@ from pydantic import BaseModel
 ## creating the pydantic BaseModel
 class CMSContentFileComponentProperty(BaseModel):
     id: UUID
-    contentFileComponentId: Optional[UUID] = None
-    isInstance: Optional[bool] = None
-    isReadOnly: Optional[bool] = None
+    contentFileComponentId: Optional[UUID] | None = None
+    isInstance: Optional[bool] | None = None
+    isReadOnly: Optional[bool] | None = None
     name: str
-    revitParameterGroupId: Optional[int] = None
-    revitSharedParameterGuid: Optional[UUID] = None
-    revitStorageTypeId: Optional[int] = None
-    revitDisplayUnitTypeId: Optional[int] = None
-    doubleValue: Optional[float] = None
-    type: Optional[str] = None
-    value: Optional[str] = None
-    unitTypeIdVersionless: Optional[str] = None
-    refreshedId: Optional[UUID] = None
+    revitParameterGroupId: Optional[int] | None = None
+    revitSharedParameterGuid: Optional[UUID] | None = None
+    revitStorageTypeId: Optional[int] | None = None
+    revitDisplayUnitTypeId: Optional[int] | None = None
+    doubleValue: Optional[float] | None = None
+    type: Optional[str] | None = None
+    value: Optional[str] | None = None
+    unitTypeIdVersionless: Optional[str] | None = None
+    refreshedId: Optional[UUID] | None = None

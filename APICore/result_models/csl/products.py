@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from APICore.api_get_functions import get_all_x
+from APICore.api_get_functions import get_all_x, get_total_items
 from APICore.connection_models.collections import products
 from APICore.connection_models.scopes import csl
 
@@ -24,5 +24,6 @@ class CSLProducts(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_products() -> CSLProducts:
-    result = get_all_x(scope=csl, collection=products)
+    total_items = get_total_items(scope=csl, collection=products)
+    result = get_all_x(scope=csl, collection=products, total_rows=total_items)
     return CSLProducts.model_validate(result)

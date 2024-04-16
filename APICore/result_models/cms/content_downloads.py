@@ -13,4 +13,4 @@ class CMSContentDownload(BaseModel):
     contentId: UUID
     downloadedAt: datetime
     downloadedById: UUID
-    refreshedId: UUID
+    refreshedId: Optional[UUID] | None = None

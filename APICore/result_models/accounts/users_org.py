@@ -4,9 +4,9 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel
+from pydantic import AliasChoices, BaseModel, Field
 
-from APICore.api_get_functions import get_all_x
+from APICore.api_get_functions import get_all_x, get_total_items
 from APICore.connection_models.collections import users
 from APICore.connection_models.scopes import accounts
 
@@ -14,17 +14,28 @@ from APICore.connection_models.scopes import accounts
 ## creating the pydantic BaseModel
 class AccUserBase(BaseModel):
     id: UUID
-    firstName: Optional[str] = None
-    lastName: Optional[str] = None
-    displayName: Optional[str] = None
+    firstName: Optional[str] | None = None
+    lastName: Optional[str] | None = None
+    displayName: Optional[str] | None = None
     email: str
-    description: Optional[str] = None
+    description: Optional[str] | None = None
     office: Optional[str] = None
-    department: Optional[str] = None
-    lastLoggedInAt: Optional[datetime] = None
+    department: Optional[str] | None = None
+    lastLoggedInAt: Optional[datetime] | None = None
     status: str
-    createdAt: datetime
-    createdById: UUID
+    addedAt: datetime = Field(
+        validation_alias=AliasChoices("createdAt", "addedAt"),
+    )
+    addedById: UUID = Field(
+        validation_alias=AliasChoices(
+            "addedBy",
+            "addedById",
+            "addedByUserId",
+            "createdByUserId",
+            "createdByUser",
+            "createdById",
+        )
+    )
     updatedAt: datetime
     updatedById: UUID
     isSSOUser: bool
@@ -42,5 +53,6 @@ class AccUsers(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_users() -> AccUsers:
-    result = get_all_x(scope=accounts, collection=users)
+    total_items = get_total_items(scope=accounts, collection=users)
+    result = get_all_x(scope=accounts, collection=users, total_rows=total_items)
     return AccUsers.model_validate(result)

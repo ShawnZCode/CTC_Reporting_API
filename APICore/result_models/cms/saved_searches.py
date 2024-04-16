@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from APICore.api_get_functions import get_all_x, get_x_by_id
+from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
 from APICore.connection_models.collections import saved_searches
 from APICore.connection_models.scopes import cms
 from APICore.result_models.cms.searches import CMSSearchBase
@@ -14,9 +14,10 @@ from APICore.result_models.cms.searches import CMSSearchBase
 
 ## creating the pydantic BaseModel
 class CMSSavedSearchBase(CMSSearchBase):
+    id: UUID
     name: str
-    description: Optional[str] = None
-    scope: Optional[str] = None
+    description: Optional[str] | None = None
+    scope: Optional[str] | None = None
     addedAt: datetime
     addedById: UUID
     updatedAt: datetime
@@ -30,5 +31,6 @@ class CMSSavedSearches(BaseModel):
 
 ## base function(s) for use with this model
 def get_all_saved_searches() -> CMSSavedSearches:
-    result = get_all_x(scope=cms, collection=saved_searches)
+    total_items = get_total_items(scope=cms, collection=saved_searches)
+    result = get_all_x(scope=cms, collection=saved_searches, total_rows=total_items)
     return CMSSavedSearches.model_validate(result)

@@ -151,8 +151,10 @@ def get_x_by_id(
             switches=switches,
         )
         # response_start = perf_counter()
-        response = requests.get(url=url, timeout=120).text
-        data = json.loads(response)
+        response = requests.get(url=url, timeout=120)
+        response_text = response.text
+        # sleep(response.elapsed.total_seconds())
+        data = json.loads(response_text)
         # response_end = perf_counter()
         # sleep(response_end - response_start)
     except Exception as err:

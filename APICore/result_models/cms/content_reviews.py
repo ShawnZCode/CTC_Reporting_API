@@ -12,9 +12,9 @@ class CMSContentReview(BaseModel):
     id: UUID
     contentId: UUID
     rating: int
-    comment: str = None
+    comment: Optional[str] | None = None
     addedAt: datetime
     addedById: UUID
     updatedAt: datetime
     updatedById: UUID
-    refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID] | None = None

@@ -10,8 +10,8 @@ from pydantic import BaseModel
 ## creating the pydantic BaseModel
 class CMSCategory(BaseModel):
     id: int
-    name: Optional[str] = None
-    refreshedId: Optional[UUID] = None
+    name: Optional[str] | None = None
+    refreshedId: Optional[UUID] | None = None
 
 
 class CMSCategories(BaseModel):
