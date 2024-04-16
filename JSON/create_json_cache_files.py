@@ -4,24 +4,22 @@
 import json
 import os
 from datetime import datetime
+from multiprocessing import Pool, cpu_count
 
-# from pydantic import BaseModel
-from tqdm.auto import tqdm
+from APICore.main import (
+    GET_DETAILS_FUNCTIONS_ALL,
+    GET_DETAILS_FUNCTIONS_BY_ID,
+    GET_FUNCTIONS,
+)
 
-from APICore import api_get_functions as ctc
-from APICore.connection_models.base import Collection, Scope
-from APICore.connection_models.scopes import API_SCOPES
-from Logging.ctc_logging import CTCLog
+# from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
-# BASE_FILE_LIST = ["Contents", "Libraries", "Saved-Searches", "Searches", "Tags"]
-
-API_SETTINGS = read_file("APICore\\Settings.json")
-API_SETTINGS_SCOPES = API_SCOPES
 JSON_SETTINGS = read_file("JSON\\Settings.json")
-LOG_TITLE = JSON_SETTINGS["logTitle"]
 
 CURRENT_DATE_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
+
+PROC_ALLOWED = int(round(cpu_count() / 2.5, 0))
 
 
 def directory_create(
@@ -59,149 +57,56 @@ def write_json_file(
             json.dump(stream, f, indent=4)
             # CTCLog(LOG_TITLE).info(f"Saved {file_path}")
     except Exception as err:
-        CTCLog(LOG_TITLE).error(str(err))
+        raise err
+        # CTCLog(LOG_TITLE).error(str(err))
 
 
-def get_base_jsons(*, container: str = CURRENT_DATE_TIME) -> None:
-    """Writes the original Json Files"""
-    try:
-        with tqdm(
-            API_SETTINGS_SCOPES, desc="Fetching base scopes", ncols=130
-        ) as scopes_pbar:
-            for scope in scopes_pbar:
-                scopes_pbar.set_description(f"Fetching base collections from {scope}")
-                with tqdm(
-                    API_SETTINGS_SCOPES[scope], desc="Base collections", ncols=130
-                ) as collections_pbar:
-                    for collection in collections_pbar:
-                        collections_pbar.set_description(
-                            f"Fetching base details for {collection} in {scope}"
-                        )
-                        count = API_SETTINGS_SCOPES[scope][collection][
-                            "mandatorySwitches"
-                        ]
-                        if len(count) == 0:
-                            collection_total = ctc.get_total_items(
-                                scope=scope, collection=collection
-                            )
-                            collection_stream = ctc.get_all_x(
-                                scope=scope,
-                                collection=collection,
-                                total_rows=collection_total,
-                            )
-                            write_json_file(
-                                stream=collection_stream,
-                                file_name=collection,
-                                container=container,
-                                sub_directory=scope,
-                            )
-                        collections_pbar.set_description(
-                            f"Fetched base details for {collection} in {scope}"
-                        )
-                scopes_pbar.set_description(f"Fetched base collections from {scope}")
-    except Exception as err:
-        CTCLog(LOG_TITLE).error(str(err))
-    finally:
-        CTCLog(LOG_TITLE).info("Finished fetching base collections")
-        tqdm._instances.clear()
+def get_base_json(file_name: str, function, date_time: str = CURRENT_DATE_TIME) -> None:
+    records = function()
+    records_json = json.loads(records.model_dump_json())
+    write_json_file(
+        stream=records_json,
+        file_name=file_name.title(),
+        container=date_time,
+        sub_directory="Base",
+    )
 
 
-def get_ids(
-    *,
-    scope: Scope,
-    collection: Collection,
-    container: str = CURRENT_DATE_TIME,
-) -> list:
-    """Parses the saved Json file from parents and returns a list of ids
-    ids are used to fetch the child detailed item from the api"""
-    try:
-        file_path = f"{directory_create(container=container)}\\{scope.name}"
-        file_path += f"\\{collection}.json"
-        with open(file_path, "r") as f:
-            stream = json.loads(f.read())
-    except Exception as err:
-        CTCLog(LOG_TITLE).error(str(err))
-    try:
-        ids = []
-        for i in stream["items"]:
-            if collection != "search":
-                ids.append(i["id"])
-            else:
-                ids.append(i["searchId"])
-        return ids
-    except Exception as err:
-        CTCLog(LOG_TITLE).error(str(err))
+def get_all_jsons(date_time: str = CURRENT_DATE_TIME):
+    bpool = Pool(processes=PROC_ALLOWED)
+    for key, value in GET_FUNCTIONS.items():
+        bpool.apply_async(
+            func=get_base_json,
+            args=(
+                key,
+                value,
+                date_time,
+            ),
+        )
+        if key in GET_DETAILS_FUNCTIONS_BY_ID.keys():
+            dpool = Pool(processes=PROC_ALLOWED)
+            objects = GET_FUNCTIONS[key]()
+            for item in objects.items:
+                dpool.apply_async(
+                    func=get_detailed_json,
+                    args=(key, GET_DETAILS_FUNCTIONS_BY_ID[key], item, date_time),
+                )
+            dpool.close()
+            dpool.join()
+    bpool.close()
+    bpool.join()
 
 
-def get_xs_nested_jsons(scope: dict = {"scope": "cms"}) -> None:
-    pass
-
-
-def get_nested_jsons(
-    scopes: list[dict] = API_SETTINGS_SCOPES,
-    container: str = CURRENT_DATE_TIME,
-    collection_override: str = None,
-) -> None:
-    """Fetches and writes the nested Json files by id"""
-    try:
-        for scope in API_SETTINGS_SCOPES:
-            with tqdm(
-                API_SETTINGS_SCOPES[scope], desc="Collections", ncols=180
-            ) as collections_pbar:
-                for collection in collections_pbar:
-                    collections_pbar.set_description(
-                        f"{collection} item details in {scope}"
-                    )
-                    if (
-                        len(API_SETTINGS_SCOPES[scope][collection]["mandatorySwitches"])
-                        > 0
-                    ):
-                        # fetches a list of ids from main dump
-                        collection_to_fetch = API_SETTINGS_SCOPES[scope][collection][
-                            "parent"
-                        ]
-                        if collection_override is not None:
-                            collection_to_fetch += f"_{collection_override}"
-                        ids = get_ids(
-                            scope=scope,
-                            collection=collection_to_fetch,
-                            container=container,
-                        )
-                        with tqdm(
-                            ids,
-                            desc=f"Currently fetching {scope} {collection} ids",
-                            ncols=180,
-                        ) as ids_pbar:
-                            for xId in ids_pbar:
-                                ids_pbar.set_description(
-                                    f"Currently fetching {xId.lower()} from {scope}.{collection}"
-                                )
-                                file_name = f"{collection}_{xId}"
-                                item_stream = ctc.get_x_by_id(
-                                    scope=scope, collection=collection, item_id=xId
-                                )
-                                write_json_file(
-                                    stream=item_stream,
-                                    file_name=file_name,
-                                    container=container,
-                                    sub_directory=f"{scope}\\{collection}",
-                                )
-                                ids_pbar.set_description(
-                                    f"Currently fetched {len(ids)} ids from {scope}.{collection}"
-                                )
-
-    except Exception as err:
-        CTCLog(LOG_TITLE).error(str(err))
-    finally:
-        CTCLog(LOG_TITLE).info("Finished fetching nested collections")
-        tqdm._instances.clear()
-
-
-def get_all_jsons(container: str = CURRENT_DATE_TIME) -> None:
-    """Executes a full JSON pull getting both Base and Nested files"""
-    get_base_jsons(container=container)
-    get_nested_jsons(container=container)
+def get_detailed_json(key: str, get_function, item, date_time: str = CURRENT_DATE_TIME):
+    record = get_function(item=item)
+    record_json = json.loads(record.model_dump_json())
+    write_json_file(
+        stream=record_json,
+        file_name=f"{key.title()}_{record.id}",
+        container=date_time,
+        sub_directory=f"Details\\{key.title()}",
+    )
 
 
 if __name__ == "__main__":
-    get_all_jsons()
+    pass
