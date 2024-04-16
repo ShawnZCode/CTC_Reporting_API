@@ -1,1 +1,1 @@
-"""Initialization of parent folder as python module"""
+"""Initialization of parent folder as python module."""

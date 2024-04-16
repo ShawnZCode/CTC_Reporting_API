@@ -1,5 +1,5 @@
 """Some basic logging functions to simplify logging
-in all portions of the library collection"""
+in all portions of the library collection."""
 
 import logging
 import os
