@@ -1,4 +1,5 @@
-"""Single Read File Function to save multiple definition"""
+"""Single Read File Function to save multiple definition."""
+
 import json
 
 
