@@ -11,8 +11,9 @@ import requests
 from dotenv import load_dotenv
 
 from APICore.connection_models.base import Collection, Scope
-from APICore.connection_models.scopes import API_SCOPES
-from Logging.ctc_logging import CTCLog
+
+# from APICore.connection_models.scopes import API_SCOPES
+# from Logging.ctc_logging import CTCLog
 from utils.read_file import read_file
 
 load_dotenv(".env")
