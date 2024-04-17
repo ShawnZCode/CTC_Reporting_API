@@ -45,7 +45,7 @@ class CMSContent(CMSContentBase):
     category: Optional[CMSCategory] = []
     files: Optional[List[CMSContentFile]] = []
     contentAttachments: Optional[List[CMSContentAttachment]] = []
-    downlaods: Optional[List[CMSContentDownload]] = []
+    downloads: Optional[List[CMSContentDownload]] = []
     loads: Optional[List[CMSContentLoad]] = []
     reviews: Optional[List[CMSContentReview]] = []
     revisions: Optional[List[CMSContentRevision]] = []
