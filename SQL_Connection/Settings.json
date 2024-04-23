@@ -1,6 +1,6 @@
 {
     "logTitle": "Database",
-    "serverLanguage": "mssql",
+    "serverLanguage": "postgresql",
     "mssqlConnectionSettings": {
         "driver": "mssql+pyodbc",
         "uid": "sa",
