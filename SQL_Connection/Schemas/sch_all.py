@@ -7,7 +7,7 @@ from sqlalchemy.schema import CreateSchema, DropSchema
 from sqlalchemy.schema import MetaData as MD
 
 from Logging.ctc_logging import CTCLog
-from SQL_Connection.db_connection import engine, get_db, session_local
+from SQL_Connection.db_connection import engine, get_db
 from utils.read_file import read_file
 
 LOG_TITLE = read_file("SQL_Connection\\Settings.json")["logTitle"]

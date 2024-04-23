@@ -1,6 +1,7 @@
 """Class used to create a database and return a database connection"""
+
 from sqlalchemy import URL, create_engine
-from sqlalchemy.orm import DeclarativeBase, declarative_base, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, declarative_base, sessionmaker
 
 from utils.read_file import read_file
 
@@ -36,13 +37,13 @@ class Base(DeclarativeBase):
 
 ## Create the database engine and session
 engine = create_engine(conn_url)
-session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base.metadata.create_all(bind=engine)
 
 
 # Dependency to get the database session
 def get_db():
-    database = session_local()
+    database = SessionLocal()
     try:
         yield database
     finally:

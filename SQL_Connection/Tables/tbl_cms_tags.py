@@ -3,10 +3,10 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, Session, mapped_column
 
-from APICore.result_models.cms.tags import CMSTag
-from SQL_Connection.db_connection import Base
+from APICore.result_models.cms.tags import CMSTag, CMSTagBase
+from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -33,13 +33,29 @@ class TblCMSTags(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_entry():
-    pass
+def create_new_tag(item: CMSTag, refreshed) -> CMSTag:
+    base_item = CMSTagBase(**item.model_dump(exclude_none=True))
+    new_entry = TblCMSTags(
+        **base_item.model_dump(exclude_none=True), refreshedId=refreshed.id
+    )
+    db = SessionLocal()
+    try:
+        new_entry = get_db_tag(item, db)
+    except NotFoundError:
+        db.add(new_entry)
+        db.commit()
+        db.refresh(new_entry)
+    finally:
+        db.close()
+    return new_entry
 
 
 ## function to read from the table
-def get_all_items():
-    pass
+def get_db_tag(item: CMSTag, db: Session) -> CMSTag:
+    db_item = db.query(TblCMSTags).filter(TblCMSTags.id == item.id).first()
+    if db_item is None:
+        raise NotFoundError
+    return db_item
 
 
 ## function to update the table
