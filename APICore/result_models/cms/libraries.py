@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
 from APICore.connection_models.collections import libraries, library
 from APICore.connection_models.scopes import cms
+from APICore.result_models.cms.content_libraries import CMSContentLibrary
 from APICore.result_models.cms.library_permissions import (
     CMSLibraryPermission,
 )
@@ -33,6 +34,7 @@ class CMSLibraryBase(BaseModel):
 class CMSLibrary(CMSLibraryBase):
     permissions: Optional[List[CMSLibraryPermission]] = []
     contentIds: Optional[List[UUID]] = []
+    contentLibraries: Optional[List[CMSContentLibrary]] = []
 
 
 class CMSLibraries(BaseModel):
@@ -49,7 +51,10 @@ def get_all_libraries() -> CMSLibraries:
 
 def get_library_details_by_id(*, item: CMSLibrary) -> CMSLibrary:
     result = get_x_by_id(scope=cms, collection=library, item_id=item.id)
-    return CMSLibrary.model_validate(result)
+    cms_library = CMSLibrary.model_validate(result)
+    if cms_library.contentIds != []:
+        cms_library = create_content_libraries(item=cms_library)
+    return cms_library
 
 
 def get_all_library_details(objects: CMSLibraries) -> CMSLibraries:
@@ -59,3 +64,12 @@ def get_all_library_details(objects: CMSLibraries) -> CMSLibraries:
         new_objects.items.append(new_item)
         new_objects.totalItems = len(new_objects.items)
     return new_objects
+
+
+def create_content_libraries(item: CMSLibrary) -> CMSLibrary:
+    for content_id in item.contentIds:
+        cl = CMSContentLibrary.model_validate(
+            {"libraryId": item.id, "contentId": content_id}
+        )
+        item.contentLibraries.append(cl)
+    return item

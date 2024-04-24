@@ -14,13 +14,15 @@ from APICore.result_models.cms.content_categories import CMSCategory
 from APICore.result_models.cms.content_downloads import CMSContentDownload
 from APICore.result_models.cms.content_favorited_users import CMSContentFavoritedUser
 from APICore.result_models.cms.content_files import CMSContentFile
+from APICore.result_models.cms.content_libraries import CMSContentLibrary
 from APICore.result_models.cms.content_loads import CMSContentLoad
 from APICore.result_models.cms.content_reviews import CMSContentReview
 from APICore.result_models.cms.content_revisions import CMSContentRevision
+from APICore.result_models.local_base_model import LocalBaseModel
 
 
 ## creating the pydantic BaseModel
-class CMSContentBase(BaseModel):
+class CMSContentBase(LocalBaseModel):
     id: UUID
     addedAt: datetime
     addedById: UUID
@@ -51,10 +53,11 @@ class CMSContent(CMSContentBase):
     revisions: Optional[List[CMSContentRevision]] = []
     contentTagIds: Optional[List[UUID]] = []
     contentLibraryIds: Optional[List[UUID]] = []
+    contentLibraries: Optional[List[CMSContentLibrary]] = []
     favoritedUsers: Optional[List[CMSContentFavoritedUser]] = []
 
 
-class CMSContents(BaseModel):
+class CMSContents(LocalBaseModel):
     totalItems: int
     items: Optional[List[CMSContent]] = []
 
@@ -68,7 +71,16 @@ def get_all_content() -> CMSContents:
 
 def get_content_details_by_id(*, item: CMSContent) -> CMSContent:
     result = get_x_by_id(scope=cms, collection=content, item_id=item.id)
-    return CMSContent.model_validate(result)
+    cms_content = CMSContent.model_validate(result)
+    for file in cms_content.files:
+        file.contentId = cms_content.id
+        for comp in file.components:
+            comp.contentFileId = file.id
+            for prop in comp.properties:
+                prop.contentFileComponentId = comp.id
+    if cms_content.contentLibraryIds != []:
+        cms_content = create_content_libraries(item=cms_content)
+    return cms_content
 
 
 def get_all_content_details(objects: CMSContents) -> CMSContents:
@@ -78,3 +90,12 @@ def get_all_content_details(objects: CMSContents) -> CMSContents:
         new_objects.items.append(new_item)
         new_objects.totalItems = len(new_objects.items)
     return new_objects
+
+
+def create_content_libraries(item: CMSContent) -> CMSContent:
+    for library_id in item.contentLibraryIds:
+        cl = CMSContentLibrary.model_validate(
+            {"libraryId": library_id, "contentId": item.id}
+        )
+        item.contentLibraries.append(cl)
+    return item
