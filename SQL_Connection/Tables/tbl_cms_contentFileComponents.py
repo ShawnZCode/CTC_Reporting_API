@@ -4,12 +4,16 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, Session, mapped_column
 
-from APICore.result_models.cms.content_file_component_properties import (
-    CMSContentFileComponentProperty,
+from APICore.result_models.cms.content_file_components import (
+    CMSContentFileComponent,
+    CMSContentFileComponentBase,
 )
-from SQL_Connection.db_connection import Base
+from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
+from SQL_Connection.tables.tbl_cms_contentFileComponentProperties import (
+    create_new_property,
+)
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -30,13 +34,41 @@ class TblCMSContentFileComponents(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_entry():
-    pass
+def create_new_component(
+    item: CMSContentFileComponent, refreshed, session: Session = None
+) -> CMSContentFileComponent:
+    base_component = CMSContentFileComponentBase(**item.model_dump())
+    base_component.refreshedId = refreshed.id
+    new_entry = TblCMSContentFileComponents(
+        **base_component.model_dump(),
+    )
+    db = SessionLocal()
+    try:
+        new_entry = read_db_component(item, db)
+    except NotFoundError:
+        db.add(new_entry)
+        db.commit()
+        db.refresh(new_entry)
+        if item.properties != []:
+            [create_new_property(prop, refreshed) for prop in item.properties]
+    finally:
+        db.close()
+    return new_entry
 
 
 ## function to read from the table
-def get_all_items():
-    pass
+def read_db_component(
+    item: CMSContentFileComponent,
+    session: Session = None,
+) -> CMSContentFileComponent:
+    db_component = (
+        session.query(TblCMSContentFileComponents)
+        .filter(TblCMSContentFileComponents.id == item.id)
+        .first()
+    )
+    if db_component is None:
+        raise NotFoundError(f"ComponentId: {item.id} not found")
+    return db_component
 
 
 ## function to update the table

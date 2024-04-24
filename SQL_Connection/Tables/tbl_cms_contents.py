@@ -16,6 +16,11 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.cms.contents import CMSContent, CMSContentBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
+from SQL_Connection.tables.tbl_cms_categories import create_new_category
+from SQL_Connection.tables.tbl_cms_contentAttachments import create_new_attachment
+from SQL_Connection.tables.tbl_cms_contentDownloads import create_new_download
+from SQL_Connection.tables.tbl_cms_contentFiles import create_new_file
+from SQL_Connection.tables.tbl_cms_contentLibraries import create_new_content_library
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -54,19 +59,39 @@ class TblCMSContents(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_content(item: CMSContent, refreshed) -> CMSContent:
+def create_new_content(
+    item: CMSContent, refreshed, session: Session = None
+) -> CMSContent:
     base_content = CMSContentBase(**item.model_dump())
+    base_content.refreshedId = refreshed.id
     new_entry = TblCMSContents(
         **base_content.model_dump(exclude_none=True),
-        refreshedId=refreshed.id,
+        categoryId=item.category.id,
     )  # .model_dump())
-    db = SessionLocal()
+    if session is None:
+        db = SessionLocal()
     try:
         new_entry = read_db_content(item, db)
     except NotFoundError:
+        if item.category != []:
+            create_new_category(item.category, refreshed)
         db.add(new_entry)
         db.commit()
         db.refresh(new_entry)
+        if item.contentAttachments != []:
+            [create_new_attachment(i, refreshed) for i in item.contentAttachments]
+        if item.downloads != []:
+            [create_new_download(i, refreshed) for i in item.downloads]
+        if item.contentLibraries != []:
+            [create_new_content_library(i, refreshed) for i in item.contentLibraries]
+        if item.loads != []:
+            pass
+        if item.reviews != []:
+            pass
+        if item.revisions != []:
+            pass
+        if item.files != []:
+            [create_new_file(i, refreshed) for i in item.files]
     finally:
         db.close()
     return new_entry
