@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID, uuid4
 
-from fastapi.params import Depends
+# from fastapi.params import Depends
 from sqlalchemy import Boolean, DateTime, ForeignKey, String, Uuid
 from sqlalchemy.orm import Mapped, Session, mapped_column
 

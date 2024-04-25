@@ -3,9 +3,10 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, Session, mapped_column
 
-from SQL_Connection.db_connection import Base
+from APICore.result_models.cms.searches import CMSSearch, CMSSearchBase
+from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -17,8 +18,10 @@ class TblCMSSearches(Base):
         Uuid(), primary_key=True, index=True, nullable=False
     )
     savedSearchId: Mapped[uuid4] = mapped_column(
-        ForeignKey("cms.savedSearches.id"), nullable=True
+        Uuid(),
+        nullable=True,
     )
+    # ForeignKey("cms.savedSearches.id"),
     query: Mapped[str] = mapped_column(String(100), nullable=True)
     sortBy: Mapped[str] = mapped_column(String(10), nullable=False)
     sortDirection: Mapped[str] = mapped_column(String(10), nullable=False)
@@ -33,12 +36,12 @@ class TblCMSSearches(Base):
     searchedById: Mapped[uuid4] = mapped_column(
         ForeignKey("accounts.users.id"), nullable=False
     )
-    executionTimeInMs: Mapped[int] = mapped_column(Integer(), nullable=False)
-    page: Mapped[int] = mapped_column(Integer(), nullable=False)
+    totalExecutionTimeInMs: Mapped[int] = mapped_column(Integer(), nullable=False)
+    totalPageCount: Mapped[int] = mapped_column(Integer(), nullable=False)
     pageSize: Mapped[int] = mapped_column(Integer(), nullable=False)
-    searchId: Mapped[uuid4] = mapped_column(Uuid(), nullable=False)
-    resultCount: Mapped[int] = mapped_column(Integer(), nullable=False)
-    savedSearchName: Mapped[str] = mapped_column(String(100), nullable=True)
+    totalResultCount: Mapped[int] = mapped_column(Integer(), nullable=False)
+    # searchId: Mapped[uuid4] = mapped_column(Uuid(), nullable=False)
+    # savedSearchName: Mapped[str] = mapped_column(String(100), nullable=True)
     hasExplicitLibraryFilter: Mapped[bool] = mapped_column(Boolean(), nullable=False)
     displayUnits: Mapped[str] = mapped_column(String(100), nullable=True)
     fileVersions: Mapped[str] = mapped_column(String(100), nullable=True)
@@ -48,13 +51,30 @@ class TblCMSSearches(Base):
 
 
 ## function to write to create a new entry
-def create_new_entry():
-    pass
+def create_new_search(item: CMSSearch, refreshed, session: Session = None) -> CMSSearch:
+    base_item = CMSSearchBase(**item.model_dump(exclude_defaults=True))
+    new_entry = TblCMSSearches(
+        **base_item.model_dump(exclude_defaults=True), refreshedId=refreshed.id
+    )
+    if session is None:
+        db = SessionLocal()
+    try:
+        new_entry = read_db_library(item, db)
+    except NotFoundError:
+        db.add(new_entry)
+        db.commit()
+        db.refresh(new_entry)
+    finally:
+        db.close()
+    return new_entry
 
 
 ## function to read from the table
-def get_all_items():
-    pass
+def read_db_library(item: CMSSearch, session: Session) -> CMSSearch:
+    db_item = session.query(TblCMSSearches).filter(TblCMSSearches.id == item.id).first()
+    if db_item is None:
+        raise NotFoundError(f"SearchId: {item.id} not found")
+    return db_item
 
 
 ## function to update the table

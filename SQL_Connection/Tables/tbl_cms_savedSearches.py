@@ -3,9 +3,10 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, Session, mapped_column
 
-from SQL_Connection.db_connection import Base
+from APICore.result_models.cms.saved_searches import CMSSavedSearch, CMSSavedSearchBase
+from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 
 
 ## creating the pydantic BaseModel
@@ -67,7 +68,7 @@ class TblCMSSavedSearches(Base):
     updatedByUser: Mapped[str] = mapped_column(String(2048), nullable=True)
     displayUnits: Mapped[str] = mapped_column(String(100), nullable=True)
     fileVersions: Mapped[str] = mapped_column(String(100), nullable=True)
-    filterContentByNotTagged: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    filterContentByNotTagged: Mapped[bool] = mapped_column(Boolean(), nullable=True)
     fileExtensions: Mapped[str] = mapped_column(String(100), nullable=True)
     revitFamilyHostTypes: Mapped[str] = mapped_column(String(13), nullable=True)
     refreshedId: Mapped[uuid4] = mapped_column(
@@ -76,13 +77,36 @@ class TblCMSSavedSearches(Base):
 
 
 ## function to write to create a new entry
-def create_new_entry():
-    pass
+def create_new_saved_search(
+    item: CMSSavedSearch, refreshed, session: Session = None
+) -> CMSSavedSearch:
+    base_item = CMSSavedSearchBase(**item.model_dump(exclude_defaults=True))
+    new_entry = TblCMSSavedSearches(
+        **base_item.model_dump(exclude_defaults=True), refreshedId=refreshed.id
+    )
+    if session is None:
+        db = SessionLocal()
+    try:
+        new_entry = read_db_saved_search(item, db)
+    except NotFoundError:
+        db.add(new_entry)
+        db.commit()
+        db.refresh(new_entry)
+    finally:
+        db.close()
+    return new_entry
 
 
 ## function to read from the table
-def get_all_items():
-    pass
+def read_db_saved_search(item: CMSSavedSearch, session: Session) -> CMSSavedSearch:
+    db_item = (
+        session.query(TblCMSSavedSearches)
+        .filter(TblCMSSavedSearches.id == item.id)
+        .first()
+    )
+    if db_item is None:
+        raise NotFoundError(f"SavedSearchId: {item.id} not found")
+    return db_item
 
 
 ## function to update the table

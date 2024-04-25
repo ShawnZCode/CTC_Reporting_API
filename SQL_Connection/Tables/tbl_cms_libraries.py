@@ -2,8 +2,15 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Uuid
+from sqlalchemy import (
+    Boolean,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Uuid,
+)
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.cms.content_libraries import CMSContentLibrary
@@ -68,7 +75,7 @@ def read_db_library(item: CMSLibrary, session: Session) -> CMSLibrary:
         session.query(TblCMSLibraries).filter(TblCMSLibraries.id == item.id).first()
     )
     if db_item is None:
-        raise NotFoundError
+        raise NotFoundError(f"LibraryId: {item.id} not found")
     return db_item
 
 

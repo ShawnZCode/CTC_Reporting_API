@@ -40,9 +40,12 @@ def create_new_content_library(
     try:
         new_entry = read_db_content_library(new_entry, db)
     except NotFoundError:
-        db.add(new_entry)
-        db.commit()
-        db.refresh(new_entry)
+        try:
+            db.add(new_entry)
+            db.commit()
+            db.refresh(new_entry)
+        except:
+            pass
     finally:
         db.close()
     return new_entry
