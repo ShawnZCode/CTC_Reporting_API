@@ -164,3 +164,4 @@ cython_debug/
 #.idea/
 APICore_Connection/OldAPISettings.json
 
+requirements_remove.txt
