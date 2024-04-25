@@ -21,6 +21,7 @@ from SQL_Connection.tables.tbl_cms_contentAttachments import create_new_attachme
 from SQL_Connection.tables.tbl_cms_contentDownloads import create_new_download
 from SQL_Connection.tables.tbl_cms_contentFiles import create_new_file
 from SQL_Connection.tables.tbl_cms_contentLibraries import create_new_content_library
+from SQL_Connection.tables.tbl_cms_contentTags import create_new_content_tag
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -84,6 +85,8 @@ def create_new_content(
             [create_new_download(i, refreshed) for i in item.downloads]
         if item.contentLibraries != []:
             [create_new_content_library(i, refreshed) for i in item.contentLibraries]
+        if item.contentTags != []:
+            [create_new_content_tag(i, refreshed) for i in item.contentTags]
         if item.loads != []:
             pass
         if item.reviews != []:
