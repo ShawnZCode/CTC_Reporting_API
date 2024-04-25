@@ -15,7 +15,7 @@ from APICore.connection_models.scopes import csl
 class CSLLicenseBase(BaseModel):
     id: UUID
     productId: UUID
-    productName: str
+    # productName: str
     serialNumber: str
     subscriptionStartDate: datetime
     subscriptionEndDate: datetime

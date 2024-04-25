@@ -48,45 +48,44 @@ class CMSSearchPage(BaseModel):
 
 
 class CMSSearchBase(BaseModel):
-    minAvgRating: Optional[int] | None = None
+    id: UUID = Field(
+        validation_alias=AliasChoices("searchId", "id"),
+    )
+    savedSearchId: Optional[UUID] | None = None
     query: Optional[str] | None = None
-    fileVersions: Optional[str] | None = None
-    displayUnits: Optional[List[str]] = []
     sortBy: str
     sortDirection: str
+    minAvgRating: Optional[int] | None = None
     addedByUser: Optional[str] | None = None
     addedEndDate: Optional[datetime] | None = None
     addedStartDate: Optional[datetime] | None = None
     updatedByUser: Optional[str] | None = None
     updatedEndDate: Optional[datetime] | None = None
     updatedStartDate: Optional[datetime] | None = None
-    sources: Optional[List[CMSSearchSource]] = []
-    categories: Optional[List[CMSSearchCategory]] = []
-    searchLibraries: Optional[List[CMSSearchLibrary]] = []
-    searchTags: Optional[List[CMSSearchTag]] = []
-    refreshedId: Optional[UUID] | None = None
-
-
-class CMSSearch(CMSSearchBase):
-    id: Optional[UUID] | None = Field(
-        validation_alias=AliasChoices("searchId"),
-        default=None,
-    )
-    savedSearchId: Optional[UUID] | None = None
+    searchedAt: Optional[datetime] | None = None
+    searchedById: Optional[UUID] | None = None
+    totalExecutionTimeInMs: int
     totalPageCount: int | None = Field(
         validation_alias=AliasChoices("totalPageCount", "totalPages"),
         default=None,
     )
+    pageSize: Optional[int] | None = None
     totalResultCount: int | None = Field(
         validation_alias=AliasChoices("totalResultCount", "totalResults"),
         default=None,
     )
-    pageSize: Optional[int] | None = None
-    searchedAt: Optional[datetime] | None = None
-    searchedById: Optional[UUID] | None = None
-    totalExecutionTimeInMs: int
+    fileVersions: Optional[str] | None = None
+    displayUnits: Optional[List[str]] = []
     hasExplicitLibraryFilter: bool
+    refreshedId: Optional[UUID] | None = None
+
+
+class CMSSearch(CMSSearchBase):
     pages: Optional[List[CMSSearchPage]] = []
+    sources: Optional[List[CMSSearchSource]] = []
+    categories: Optional[List[CMSSearchCategory]] = []
+    searchLibraries: Optional[List[CMSSearchLibrary]] = []
+    searchTags: Optional[List[CMSSearchTag]] = []
 
 
 class CMSSearches(BaseModel):

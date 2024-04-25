@@ -12,7 +12,3 @@ class CMSContentTag(BaseModel):
     contentId: UUID
     tagId: UUID
     refreshedId: Optional[UUID] | None = None
-
-
-class CMSContentTags(BaseModel):
-    contentTags: Optional[List[CMSContentTag]] = []

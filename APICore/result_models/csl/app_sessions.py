@@ -7,11 +7,6 @@ from uuid import UUID
 from pydantic import AliasChoices, BaseModel, Field, PlainSerializer, WrapSerializer
 from typing_extensions import Annotated
 
-from APICore.api_get_functions import get_x_by_id
-from APICore.connection_models.collections import app_sessions
-from APICore.connection_models.scopes import csl
-from APICore.result_models.csl.products import CSLProduct, CSLProducts
-
 
 ## creating custom datetime
 def datetime_parser(date_string: str) -> datetime | None:
@@ -50,36 +45,13 @@ class CSLAppSession(BaseModel):
     startedAt: Optional[CustomDateTime | datetime] | None = None
     endedAt: Optional[CustomDateTime | datetime] | None = None
     computerName: Optional[str] | None = None
-    userId: Optional[UUID] = None
-    applicationName: Optional[str] = None
-    autodeskVersionNumber: Optional[str] = None
-    autodeskSubVersionNumber: Optional[str] = None
-    autodeskBuildNumber: Optional[str] = None
+    userId: Optional[UUID] | None = None
+    applicationName: Optional[str] | None = None
+    autodeskVersionNumber: Optional[str] | None = None
+    autodeskSubVersionNumber: Optional[str] | None = None
+    autodeskBuildNumber: Optional[str] | None = None
 
 
 class CSLAppSessions(BaseModel):
     totalItems: int
     items: Optional[List[CSLAppSession]] = []
-
-
-## base function(s) for use with this model
-def get_app_session_details_by_product_id(*, item: CSLProduct) -> CSLAppSessions:
-    result = get_x_by_id(scope=csl, collection=app_sessions, item_id=item.id)
-    return CSLAppSessions.model_validate(result)
-
-
-def get_all_app_session_details(*, objects: CSLProducts) -> CSLAppSessions:
-    result = CSLAppSessions(totalItems=0, items=[])
-    for item in objects.items:
-        try:
-            new_items = get_app_session_details_by_product_id(item=item)
-            for new_item in new_items.items:
-                if new_item.sessionId is None:
-                    pass
-                else:
-                    result.items.append(new_item)
-        except Exception as e:
-            pass
-        finally:
-            result.totalItems = len(result.items)
-    return result
