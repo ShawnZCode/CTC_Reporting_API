@@ -38,11 +38,14 @@ from APICore.result_models.cms.tags import (
 )
 from APICore.result_models.csl.app_sessions import (
     CSLAppSessions,
-    get_all_app_session_details,
-    get_app_session_details_by_product_id,
 )
 from APICore.result_models.csl.licenses import CSLLicenses, get_all_licenses
-from APICore.result_models.csl.products import CSLProducts, get_all_products
+from APICore.result_models.csl.products import (
+    CSLProducts,
+    get_all_product_app_sessions,
+    get_all_products,
+    get_app_session_details_by_product_id,
+)
 from APICore.result_models.pal.doc_sessions import (
     PALDocSessions,
     get_all_doc_session_details,
@@ -84,7 +87,7 @@ GET_DETAILS_FUNCTIONS_ALL = {
     "cms_libraries": get_all_library_details,
     "cms_searches": get_all_search_details,
     "cms_tags": get_all_tag_details,
-    "csl_products": get_all_app_session_details,
+    "csl_products": get_all_product_app_sessions,
     "pal_projects": get_all_project_details,
     "pal_doc_sessions": get_all_doc_session_details,
 }

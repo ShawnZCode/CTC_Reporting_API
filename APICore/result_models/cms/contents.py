@@ -18,6 +18,7 @@ from APICore.result_models.cms.content_libraries import CMSContentLibrary
 from APICore.result_models.cms.content_loads import CMSContentLoad
 from APICore.result_models.cms.content_reviews import CMSContentReview
 from APICore.result_models.cms.content_revisions import CMSContentRevision
+from APICore.result_models.cms.content_tags import CMSContentTag
 from APICore.result_models.local_base_model import LocalBaseModel
 
 
@@ -52,6 +53,7 @@ class CMSContent(CMSContentBase):
     reviews: Optional[List[CMSContentReview]] = []
     revisions: Optional[List[CMSContentRevision]] = []
     contentTagIds: Optional[List[UUID]] = []
+    contentTags: Optional[List[CMSContentTag]] = []
     contentLibraryIds: Optional[List[UUID]] = []
     contentLibraries: Optional[List[CMSContentLibrary]] = []
     favoritedUsers: Optional[List[CMSContentFavoritedUser]] = []
@@ -80,6 +82,8 @@ def get_content_details_by_id(*, item: CMSContent) -> CMSContent:
                 prop.contentFileComponentId = comp.id
     if cms_content.contentLibraryIds != []:
         cms_content = create_content_libraries(item=cms_content)
+    if cms_content.contentTagIds != []:
+        cms_content = create_content_tags(item=cms_content)
     return cms_content
 
 
@@ -98,4 +102,11 @@ def create_content_libraries(item: CMSContent) -> CMSContent:
             {"libraryId": library_id, "contentId": item.id}
         )
         item.contentLibraries.append(cl)
+    return item
+
+
+def create_content_tags(item: CMSContent) -> CMSContent:
+    for tag_id in item.contentTagIds:
+        ct = CMSContentTag.model_validate({"tagId": tag_id, "contentId": item.id})
+        item.contentTags.append(ct)
     return item

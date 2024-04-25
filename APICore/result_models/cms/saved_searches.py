@@ -9,11 +9,16 @@ from pydantic import BaseModel
 from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
 from APICore.connection_models.collections import saved_searches
 from APICore.connection_models.scopes import cms
-from APICore.result_models.cms.searches import CMSSearchBase
+from APICore.result_models.cms.searches import (
+    CMSSearchCategory,
+    CMSSearchLibrary,
+    CMSSearchSource,
+    CMSSearchTag,
+)
 
 
 ## creating the pydantic BaseModel
-class CMSSavedSearchBase(CMSSearchBase):
+class CMSSavedSearchBase(BaseModel):
     id: UUID
     name: str
     description: Optional[str] | None = None
@@ -22,11 +27,32 @@ class CMSSavedSearchBase(CMSSearchBase):
     addedById: UUID
     updatedAt: datetime
     updatedById: UUID
+    minAvgRating: Optional[int] | None = None
+    query: Optional[str] | None = None
+    fileVersions: Optional[str] | None = None
+    filterContentByNotTagged: bool = False
+    displayUnits: Optional[List[str]] = []
+    sortBy: str
+    sortDirection: str
+    addedByUser: Optional[str] | None = None
+    addedEndDate: Optional[datetime] | None = None
+    addedStartDate: Optional[datetime] | None = None
+    updatedByUser: Optional[str] | None = None
+    updatedEndDate: Optional[datetime] | None = None
+    updatedStartDate: Optional[datetime] | None = None
+    refreshedId: Optional[UUID] | None = None
+
+
+class CMSSavedSearch(CMSSavedSearchBase):
+    sources: Optional[List[CMSSearchSource]] = []
+    categories: Optional[List[CMSSearchCategory]] = []
+    searchLibraries: Optional[List[CMSSearchLibrary]] = []
+    searchTags: Optional[List[CMSSearchTag]] = []
 
 
 class CMSSavedSearches(BaseModel):
     totalItems: int
-    items: Optional[List[CMSSavedSearchBase]] = []
+    items: Optional[List[CMSSavedSearch]] = []
 
 
 ## base function(s) for use with this model
