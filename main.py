@@ -9,24 +9,35 @@ from SQL_Connection.db_connection import get_db
 # from JSON.create_json_cache_files import CURRENT_DATE_TIME, get_all_jsons
 from SQL_Connection.db_main import create_all, drop_all
 
-TABLE_WRITE_FUNCTIONS = {
+TABLE_WRITE_BASE = {
     "acc_users": tables.create_new_user,
     "acc_groups": tables.create_new_group,
-    "cms_libraries": tables.create_new_library,
+    "csl_products": tables.create_new_product,
+    "csl_licenses": tables.create_new_license,
     "cms_contents": tables.create_new_content,
+    "cms_libraries": tables.create_new_library,
     "cms_tags": tables.create_new_tag,
+    "cms_saved_searches": tables.create_new_saved_search,
+    "cms_searches": tables.create_new_search,
+}
+
+TABLE_WRITE_DETAILS = {
+    "cms_contents",
+    "cms_libraries",
+    "cms_tags",
+    "cms_saved_searches",
+    "cms_searches",
+    "csl_products",
 }
 
 
-def write_all_x(get_function, write_function, refreshed):
+def write_all_x(key, refreshed):
     """Write all data to the database"""
-    collection_object = get_function()
+    collection_object = GET_FUNCTIONS[key]()
     for item in collection_object.items:
-        if get_function == GET_FUNCTIONS["cms_contents"]:
-            item = GET_DETAILS_FUNCTIONS_BY_ID["cms_contents"](item=item)
-        # if get_function == GET_FUNCTIONS["cms_libraries"]:
-        #     item = GET_DETAILS_FUNCTIONS_BY_ID["cms_libraries"](item=item)
-        write_function(item, refreshed)
+        if key in TABLE_WRITE_DETAILS:
+            item = GET_DETAILS_FUNCTIONS_BY_ID[key](item=item)
+        TABLE_WRITE_BASE[key](item, refreshed)
 
 
 if __name__ == "__main__":
@@ -35,8 +46,8 @@ if __name__ == "__main__":
     drop_all()
     create_all()
     new_refresh = tables.create_new_refreshed()
-    for key, value in TABLE_WRITE_FUNCTIONS.items():
-        write_all_x(GET_FUNCTIONS[key], value, new_refresh)
+    for key in TABLE_WRITE_BASE.keys():
+        write_all_x(key, new_refresh)
     # get_all_jsons(CURRENT_DATE_TIME)
     finish_time = time.perf_counter()
     print(f"Finished data fetch in {round((finish_time-start_time)/60, 2)} minute(s)")
