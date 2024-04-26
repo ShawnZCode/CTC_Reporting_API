@@ -3,9 +3,9 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel
 from sqlalchemy import ForeignKey, Integer, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, Session, mapped_column
 
-from SQL_Connection.db_connection import Base
+from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 
 
 ## creating the pydantic BaseModel
@@ -40,13 +40,37 @@ class TblAccUserRoles(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_entry():
-    pass
+def create_new_user_role(
+    item: AccUserRole, refreshed, session: Session = None
+) -> AccUserRole:
+    new_entry = TblAccUserRoles(
+        **item.model_dump(exclude_none=True), refreshedId=refreshed.id
+    )
+    db = SessionLocal()
+    try:
+        new_entry = read_db_user_role(item, db)
+    except NotFoundError:
+        db.add(new_entry)
+        db.commit()
+        db.refresh(new_entry)
+    finally:
+        db.close()
+    return new_entry
 
 
 ## function to read from the table
-def get_all_items():
-    pass
+def read_db_user_role(item: AccUserRole, session: Session) -> AccUserRole:
+    db_user = (
+        session.query(TblAccUserRoles)
+        .filter(TblAccUserRoles.userId == item.userId)
+        .filter(TblAccUserRoles.roleId == item.roleId)
+        .first()
+    )
+    if db_user is None:
+        raise NotFoundError(
+            f"UserId: {item.userId} with RoleId: {item.roleId} not found"
+        )
+    return db_user
 
 
 ## function to update the table

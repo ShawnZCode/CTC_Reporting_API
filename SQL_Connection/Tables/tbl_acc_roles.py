@@ -3,7 +3,7 @@ from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.accounts.roles import AccRole
-from SQL_Connection.db_connection import Base, NotFoundError
+from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -18,11 +18,20 @@ class TblAccRoles(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_role(item: AccRole, session: Session) -> AccRole:
+def create_new_role(item: AccRole, refreshed, session: Session = None) -> AccRole:
     new_entry = TblAccRoles(**item.model_dump())
-    session.add(new_entry)
-    session.commit()
-    session.refresh(new_entry)
+    if session is None:
+        db = SessionLocal()
+    # else:
+    # db = session
+    try:
+        new_entry = read_db_role(item, db)
+    except NotFoundError:
+        db.add(new_entry)
+        db.commit()
+        db.refresh(new_entry)
+    finally:
+        db.close()
     return new_entry
 
 
