@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import AliasChoices, BaseModel, Field
 
 from APICore.api_get_functions import get_all_x
 from APICore.connection_models.collections import role_values
@@ -13,7 +13,7 @@ from APICore.connection_models.scopes import accounts
 
 ## creating the pydantic BaseModel
 class AccRole(BaseModel):
-    intValue: int
+    id: int = Field(validation_alias=AliasChoices("intValue", "id"))
     displayName: str
 
 
