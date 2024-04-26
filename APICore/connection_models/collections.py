@@ -8,6 +8,7 @@ users: Collection = Collection(
     optional_switches=[
         {"orderBy": "displayName"},
         {"orderDescending": False},
+        {"includeRoles": True},
     ],
 )
 
@@ -25,6 +26,8 @@ groups: Collection = Collection(
     optional_switches=[
         {"orderBy": "Name"},
         {"orderDescending": False},
+        {"includeMembers": True},
+        {"includeRoles": True},
     ],
 )
 

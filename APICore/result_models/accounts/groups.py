@@ -41,9 +41,23 @@ class AccGroupBase(BaseModel):
     # refreshedId: UUID
 
 
+class AccGroupMembers(BaseModel):
+    groupId: UUID
+    memberId: UUID
+    refreshedId: Optional[UUID] | None = None
+
+
+class AccGroupRoles(BaseModel):
+    groupId: UUID
+    roleId: int
+    refreshedId: Optional[UUID] | None = None
+
+
 class AccGroup(AccGroupBase):
     roleAssignments: Optional[List[int]] = []
     memberIds: Optional[List[UUID]] = []
+    groupMembers: Optional[List[AccGroupMembers]] = []
+    groupRoles: Optional[List[AccGroupRoles]] = []
 
 
 class AccGroups(BaseModel):
@@ -55,4 +69,24 @@ class AccGroups(BaseModel):
 def get_all_groups() -> AccGroups:
     total_items = get_total_items(scope=accounts, collection=groups)
     result = get_all_x(scope=accounts, collection=groups, total_rows=total_items)
-    return AccGroups.model_validate(result)
+    local_groups = AccGroups.model_validate(result)
+    for group in local_groups.items:
+        group = create_group_roles(group)
+        group = create_group_members(group)
+    return local_groups
+
+
+def create_group_roles(group: AccGroup) -> AccGroup:
+    if group.roleAssignments != []:
+        for role in group.roleAssignments:
+            group_role = AccGroupRoles(groupId=group.id, roleId=role)
+            group.groupRoles.append(group_role)
+    return group
+
+
+def create_group_members(group: AccGroup) -> AccGroup:
+    if group.memberIds != []:
+        for member in group.memberIds:
+            group_member = AccGroupMembers(groupId=group.id, memberId=member)
+            group.groupMembers.append(group_member)
+    return group

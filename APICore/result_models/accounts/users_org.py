@@ -42,8 +42,15 @@ class AccUserBase(BaseModel):
     # refreshedId: Optional[UUID] = None
 
 
+class AccUserRoles(BaseModel):
+    userId: UUID
+    roleId: int
+    refreshedId: Optional[UUID] | None = None
+
+
 class AccUser(AccUserBase):
-    roles: Optional[list[int]] = []
+    roleAssignments: Optional[List[int]] = []
+    userRoles: Optional[List[AccUserRoles]] = []
 
 
 class AccUsers(BaseModel):
@@ -55,4 +62,15 @@ class AccUsers(BaseModel):
 def get_all_users() -> AccUsers:
     total_items = get_total_items(scope=accounts, collection=users)
     result = get_all_x(scope=accounts, collection=users, total_rows=total_items)
-    return AccUsers.model_validate(result)
+    local_users = AccUsers.model_validate(result)
+    for user in local_users.items:
+        user = create_user_roles(user)
+    return local_users
+
+
+def create_user_roles(user: AccUser) -> AccUser:
+    if user.roleAssignments != []:
+        for role in user.roleAssignments:
+            user_role = AccUserRoles(userId=user.id, roleId=role)
+            user.userRoles.append(user_role)
+    return user
