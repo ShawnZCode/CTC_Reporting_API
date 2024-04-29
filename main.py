@@ -10,24 +10,30 @@ from SQL_Connection.db_connection import get_db
 from SQL_Connection.db_main import create_all, drop_all
 
 TABLE_WRITE_BASE = {
+    "acc_roles": tables.create_new_role,
     "acc_users": tables.create_new_user,
     "acc_groups": tables.create_new_group,
-    "csl_products": tables.create_new_product,
-    "csl_licenses": tables.create_new_license,
-    "cms_contents": tables.create_new_content,
-    "cms_libraries": tables.create_new_library,
-    "cms_tags": tables.create_new_tag,
-    "cms_saved_searches": tables.create_new_saved_search,
-    "cms_searches": tables.create_new_search,
+    # "csl_products": tables.create_new_product,
+    # "csl_licenses": tables.create_new_license,
+    # "cms_contents": tables.create_new_content,
+    # "cms_libraries": tables.create_new_library,
+    # "cms_tags": tables.create_new_tag,
+    # "cms_saved_searches": tables.create_new_saved_search,
+    # "cms_searches": tables.create_new_search,
+    # "pal_projects": tables.create_new_project,
+    # "pal_sessions": tables.create_new_session,
+    "pal_doc_sessions": tables.create_new_doc_session,
 }
 
 TABLE_WRITE_DETAILS = {
-    "cms_contents",
+    # "cms_contents",
     "cms_libraries",
     "cms_tags",
-    "cms_saved_searches",
-    "cms_searches",
+    # "cms_saved_searches",
+    # "cms_searches",
     "csl_products",
+    "pal_projects",
+    "pal_doc_sessions",
 }
 
 
