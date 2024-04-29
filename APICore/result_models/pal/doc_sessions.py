@@ -14,7 +14,7 @@ from APICore.connection_models.scopes import pal
 ## creating the pydantic BaseModel
 class PALDocSessionBase(BaseModel):
     id: UUID
-    projectId: Optional[UUID] = None
+    projectId: Optional[UUID | None] = None
     userName: str
     machineName: str
     server: Optional[str] = None
@@ -48,6 +48,7 @@ class PALDocSessionBase(BaseModel):
             "addedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogAddIn(BaseModel):
@@ -68,6 +69,7 @@ class PALLogAddIn(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogEvent(BaseModel):
@@ -104,6 +106,7 @@ class PALLogEvent(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogLink(BaseModel):
@@ -127,6 +130,7 @@ class PALLogLink(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogMachine(BaseModel):
@@ -158,6 +162,7 @@ class PALLogMachine(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogPrint(BaseModel):
@@ -185,6 +190,7 @@ class PALLogPrint(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogSummary(BaseModel):
@@ -226,6 +232,7 @@ class PALLogSummary(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogViewType(BaseModel):
@@ -247,6 +254,7 @@ class PALLogViewType(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALLogWarningSummary(BaseModel):
@@ -269,6 +277,7 @@ class PALLogWarningSummary(BaseModel):
             "uploadedDate",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALDocSession(PALDocSessionBase):

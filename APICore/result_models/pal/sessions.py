@@ -33,7 +33,7 @@ class PALSession(BaseModel):
             "addedDate",
         )
     )
-    rowVersion: str
+    refreshedId: Optional[UUID] | None = None
 
 
 class PALSessions(BaseModel):

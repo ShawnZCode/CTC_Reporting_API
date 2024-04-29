@@ -57,6 +57,7 @@ class PALProjectBase(BaseModel):
             "updatedByUserId",
         )
     )
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALProjectPath(BaseModel):
@@ -89,6 +90,7 @@ class PALProjectPath(BaseModel):
         )
     )
     projectId: Optional[UUID] = None
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALProjectPermission(BaseModel):
@@ -123,6 +125,7 @@ class PALProjectPermission(BaseModel):
         )
     )
     projectId: UUID
+    refreshedId: Optional[UUID | None] = None
 
 
 class PALProject(PALProjectBase):
