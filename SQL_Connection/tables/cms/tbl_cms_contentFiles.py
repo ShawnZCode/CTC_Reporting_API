@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.cms.content_files import CMSContentFile, CMSContentFileBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.tbl_cms_contentFileComponents import (
+from SQL_Connection.tables.cms.tbl_cms_contentFileComponents import (
     create_new_component,
 )
 

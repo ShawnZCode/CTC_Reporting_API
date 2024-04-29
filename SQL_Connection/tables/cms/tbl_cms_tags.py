@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.cms.tags import CMSTag, CMSTagBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.tbl_cms_contentTags import create_new_content_tag
+from SQL_Connection.tables.cms.tbl_cms_contentTags import create_new_content_tag
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

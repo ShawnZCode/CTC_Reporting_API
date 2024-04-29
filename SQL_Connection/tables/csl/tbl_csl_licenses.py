@@ -13,6 +13,9 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.csl.licenses import CSLLicense, CSLLicenseBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
+from SQL_Connection.tables.csl.tbl_csl_licensePermissions import (
+    create_new_license_permission,
+)
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -62,6 +65,11 @@ def create_new_license(
         db.add(new_entry)
         db.commit()
         db.refresh(new_entry)
+        if item.permissions != []:
+            [
+                create_new_license_permission(permission, refreshed, db)
+                for permission in item.permissions
+            ]
     finally:
         db.close()
     return new_entry

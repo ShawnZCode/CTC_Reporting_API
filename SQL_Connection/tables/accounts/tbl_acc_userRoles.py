@@ -62,8 +62,10 @@ def create_new_user_role(
 def read_db_user_role(item: AccUserRole, session: Session) -> AccUserRole:
     db_user = (
         session.query(TblAccUserRoles)
-        .filter(TblAccUserRoles.userId == item.userId)
-        .filter(TblAccUserRoles.roleId == item.roleId)
+        .filter(
+            TblAccUserRoles.userId == item.userId,
+            TblAccUserRoles.roleId == item.roleId,
+        )
         .first()
     )
     if db_user is None:

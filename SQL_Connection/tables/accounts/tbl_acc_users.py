@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.accounts.users_org import AccUser, AccUserBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal, get_db
-from SQL_Connection.tables.tbl_acc_userRoles import create_new_user_role
+from SQL_Connection.tables.accounts.tbl_acc_userRoles import create_new_user_role
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

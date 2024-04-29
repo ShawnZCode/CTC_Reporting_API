@@ -8,6 +8,8 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.accounts.groups import AccGroup, AccGroupBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
+from SQL_Connection.tables.accounts.tbl_acc_groupMembers import create_new_group_member
+from SQL_Connection.tables.accounts.tbl_acc_groupRoles import create_new_group_role
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -47,6 +49,13 @@ def create_new_group(item: AccGroup, refreshed) -> AccGroup:
         db.add(new_entry)
         db.commit()
         db.refresh(new_entry)
+        if item.roleAssignments != []:
+            [create_new_group_role(role, refreshed, db) for role in item.groupRoles]
+        if item.groupMembers != []:
+            [
+                create_new_group_member(member, refreshed, db)
+                for member in item.groupMembers
+            ]
     finally:
         db.close()
     return new_entry

@@ -16,12 +16,14 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.cms.contents import CMSContent, CMSContentBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.tbl_cms_categories import create_new_category
-from SQL_Connection.tables.tbl_cms_contentAttachments import create_new_attachment
-from SQL_Connection.tables.tbl_cms_contentDownloads import create_new_download
-from SQL_Connection.tables.tbl_cms_contentFiles import create_new_file
-from SQL_Connection.tables.tbl_cms_contentLibraries import create_new_content_library
-from SQL_Connection.tables.tbl_cms_contentTags import create_new_content_tag
+from SQL_Connection.tables.cms.tbl_cms_categories import create_new_category
+from SQL_Connection.tables.cms.tbl_cms_contentAttachments import create_new_attachment
+from SQL_Connection.tables.cms.tbl_cms_contentDownloads import create_new_download
+from SQL_Connection.tables.cms.tbl_cms_contentFiles import create_new_file
+from SQL_Connection.tables.cms.tbl_cms_contentLibraries import (
+    create_new_content_library,
+)
+from SQL_Connection.tables.cms.tbl_cms_contentTags import create_new_content_tag
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -59,7 +61,7 @@ class TblCMSContents(Base):
     )
 
 
-## function to write to create a new entry item in the table
+## function to write a new entry item in the table
 def create_new_content(
     item: CMSContent, refreshed, session: Session = None
 ) -> CMSContent:

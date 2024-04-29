@@ -16,7 +16,9 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 from APICore.result_models.cms.content_libraries import CMSContentLibrary
 from APICore.result_models.cms.libraries import CMSLibrary, CMSLibraryBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.tbl_cms_contentLibraries import create_new_content_library
+from SQL_Connection.tables.cms.tbl_cms_contentLibraries import (
+    create_new_content_library,
+)
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

@@ -11,7 +11,7 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.csl.products import CSLProduct, CSLProductBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.tbl_csl_app_sessions import create_new_app_session
+from SQL_Connection.tables.csl.tbl_csl_app_sessions import create_new_app_session
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema

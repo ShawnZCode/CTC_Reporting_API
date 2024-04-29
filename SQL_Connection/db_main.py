@@ -5,8 +5,8 @@ from APICore.result_models.accounts.users_org import AccUser
 from Logging.ctc_logging import CTCLog
 from SQL_Connection.db_connection import Base, SessionLocal, engine, get_db
 from SQL_Connection.schemas.sch_all import CORE_SCHEMAS, create_schema, drop_schema
-from SQL_Connection.tables.tbl_acc_users import create_new_user
-from SQL_Connection.tables.tbl_core_refreshed import create_new_refreshed
+from SQL_Connection.tables.accounts.tbl_acc_users import create_new_user
+from SQL_Connection.tables.core.tbl_core_refreshed import create_new_refreshed
 from utils.read_file import read_file
 
 LOG_TITLE = read_file("SQL_Connection\\Settings.json")["logTitle"]

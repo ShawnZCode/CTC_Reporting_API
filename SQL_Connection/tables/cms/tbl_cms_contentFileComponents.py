@@ -11,7 +11,7 @@ from APICore.result_models.cms.content_file_components import (
     CMSContentFileComponentBase,
 )
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.tbl_cms_contentFileComponentProperties import (
+from SQL_Connection.tables.cms.tbl_cms_contentFileComponentProperties import (
     create_new_property,
 )
 
