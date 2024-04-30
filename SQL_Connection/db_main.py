@@ -1,17 +1,19 @@
 """primary entry point for the database connection"""
 
-import SQL_Connection.tables
+from APICore.main import GET_DETAILS_FUNCTIONS_BY_ID, GET_FUNCTIONS
 from APICore.result_models.accounts.users_org import AccUser
 from Logging.ctc_logging import CTCLog
+from SQL_Connection import tables
 from SQL_Connection.db_connection import Base, SessionLocal, engine, get_db
 from SQL_Connection.schemas.sch_all import CORE_SCHEMAS, create_schema, drop_schema
-from SQL_Connection.tables.tbl_acc_users import create_new_user
-from SQL_Connection.tables.tbl_core_refreshed import create_new_refreshed
+from SQL_Connection.tables.accounts.tbl_acc_users import create_new_user
+from SQL_Connection.tables.core.tbl_core_refreshed import create_new_refreshed
 from utils.read_file import read_file
 
 LOG_TITLE = read_file("SQL_Connection\\Settings.json")["logTitle"]
 
 
+## function to create the database
 def create_all():
     for core_schema in CORE_SCHEMAS:
         create_schema(core_schema)
@@ -59,10 +61,54 @@ def create_all():
     [create_new_user(user, refreshed) for user in default_users]
 
 
-## function to undo actions taken in the main function
+## function to reset the database
 def drop_all():
     CTCLog(LOG_TITLE).info("Begin dropping all tables and schemas")
     Base.metadata.drop_all(bind=engine)
     for core_schema in CORE_SCHEMAS:
         drop_schema(core_schema)
     CTCLog(LOG_TITLE).info("End dropping all tables and schemas")
+
+
+TABLE_WRITE_BASE = {
+    "acc_roles": tables.create_new_role,
+    "acc_users": tables.create_new_user,
+    "acc_groups": tables.create_new_group,
+    "csl_products": tables.create_new_product,
+    "csl_licenses": tables.create_new_license,
+    "cms_contents": tables.create_new_content,
+    "cms_libraries": tables.create_new_library,
+    "cms_tags": tables.create_new_tag,
+    "cms_saved_searches": tables.create_new_saved_search,
+    "cms_searches": tables.create_new_search,
+    "pal_projects": tables.create_new_project,
+    "pal_sessions": tables.create_new_session,
+    "pal_doc_sessions": tables.create_new_doc_session,
+}
+
+TABLE_WRITE_DETAILS = {
+    # "cms_contents",
+    "cms_libraries",
+    "cms_tags",
+    # "cms_saved_searches",
+    # "cms_searches",
+    "csl_products",
+    "pal_projects",
+    "pal_doc_sessions",
+}
+
+
+def write_all_x(key, refreshed):
+    """Write all data to the database"""
+    collection_object = GET_FUNCTIONS[key]()
+    for item in collection_object.items:
+        if key in TABLE_WRITE_DETAILS:
+            item = GET_DETAILS_FUNCTIONS_BY_ID[key](item=item)
+        TABLE_WRITE_BASE[key](item, refreshed)
+
+
+def write_all():
+    """Write all data to the database"""
+    new_refresh = tables.create_new_refreshed()
+    for key in TABLE_WRITE_BASE.keys():
+        write_all_x(key, new_refresh)

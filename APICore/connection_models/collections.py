@@ -49,11 +49,11 @@ content: Collection = Collection(
     mandatory_switches=["contentId"],
     optional_switches=[
         {"includeFiles": True},
-        {"includeTypes": True},
+        {"includeTypes": False},
         {"includeTypeParameters": False},
-        {"includeLibraries": True},
+        {"includeLibraries": False},
         # ^^ Unnecessry to include libraries since it is faster to get associations from the Libraries call
-        {"includeAttachments": False},
+        {"includeAttachments": True},
         {"includeDownloads": False},
         {"includeLoads": True},
         {"includeDocuments": True},

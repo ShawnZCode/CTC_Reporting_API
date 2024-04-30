@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import AliasChoices, BaseModel, Field
+from pydantic import AliasChoices, BaseModel, Field, ValidationError
 
 from APICore.api_get_functions import get_all_x
 from APICore.connection_models.collections import role_values
@@ -25,4 +25,8 @@ class AccRoles(BaseModel):
 ## base function(s) for use with this model
 def get_all_roles() -> AccRoles:
     result = get_all_x(scope=accounts, collection=role_values)
-    return AccRoles.model_validate(result)
+    try:
+        roles = AccRoles.model_validate(result)
+    except ValidationError:
+        roles = {"totalItems": 0, "items": []}
+    return roles

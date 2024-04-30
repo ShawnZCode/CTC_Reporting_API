@@ -24,6 +24,7 @@ API_SETTINGS = read_file("APICore\\Settings.json")
 
 ROWS_PER_PAGE = API_SETTINGS["apiConnection"]["rowsPerPage"]
 API_ENV = API_SETTINGS["apiConnection"]["apiEnv"]["Prod"]
+API_VERSION = API_SETTINGS["apiConnection"]["apiVersion"]
 DAY_OFFSET = API_SETTINGS["apiConnection"]["dayOffset"]
 LOG_TITLE = API_SETTINGS["logTitle"]
 
@@ -62,7 +63,7 @@ def gen_url(
 ) -> str:
     """generates the full URL needed for any requested route"""
     col_name = collection.name
-    url_pre = f"https://{API_ENV}.ctcsoftware.com/{scope.name}/reports/v1/reports/{collection.name}?reportsKey={API_KEY}"
+    url_pre = f"https://{API_ENV}.ctcsoftware.com/{scope.name}/reports/{API_VERSION}/reports/{collection.name}?reportsKey={API_KEY}"
 
     ##Collection handling
     if col_name == "app-sessions":
@@ -154,14 +155,21 @@ def get_x_by_id(
         # response_start = perf_counter()
         response = requests.get(url=url, timeout=120)
         response_text = response.text
-        # sleep(response.elapsed.total_seconds())
         data = json.loads(response_text)
         # response_end = perf_counter()
         # sleep(response_end - response_start)
+    except ConnectionError:
+        sleep(5)
+        get_x_by_id(scope=scope, collection=collection, item_id=item_id)
+    except NameError:
+        sleep(5)
+        get_x_by_id(scope=scope, collection=collection, item_id=item_id)
+    except TimeoutError:
+        sleep(5)
+        get_x_by_id(scope=scope, collection=collection, item_id=item_id)
     except Exception as err:
-        data = {}
-        raise err
-
+        data = None
+        pass
     return data
 
 

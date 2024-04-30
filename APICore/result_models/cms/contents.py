@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from APICore.api_get_functions import get_all_x, get_total_items, get_x_by_id
 from APICore.connection_models.collections import content, contents
@@ -73,7 +73,11 @@ def get_all_content() -> CMSContents:
 
 def get_content_details_by_id(*, item: CMSContent) -> CMSContent:
     result = get_x_by_id(scope=cms, collection=content, item_id=item.id)
-    cms_content = CMSContent.model_validate(result)
+    try:
+        cms_content = CMSContent.model_validate(result)
+    except ValidationError:
+        cms_content = None
+        pass
     for file in cms_content.files:
         file.contentId = cms_content.id
         for comp in file.components:
@@ -91,7 +95,8 @@ def get_all_content_details(objects: CMSContents) -> CMSContents:
     new_objects = CMSContents(totalItems=0, items=[])
     for item in objects.items:
         new_item = get_content_details_by_id(item=item)
-        new_objects.items.append(new_item)
+        if new_item is not None:
+            new_objects.items.append(new_item)
         new_objects.totalItems = len(new_objects.items)
     return new_objects
 

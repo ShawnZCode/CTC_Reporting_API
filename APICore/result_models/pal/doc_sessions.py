@@ -199,7 +199,6 @@ class PALLogSummary(BaseModel):
     eventId: int
     groupCt: int
     inPlaceCt: int
-    unPlacedCt: Optional[int] | None = None
     unPlacedRoomCt: int
     unenclosedRoomCt: int
     placedRoomCt: int
