@@ -51,9 +51,9 @@ content: Collection = Collection(
         {"includeFiles": True},
         {"includeTypes": True},
         {"includeTypeParameters": False},
-        {"includeLibraries": True},
+        {"includeLibraries": False},
         # ^^ Unnecessry to include libraries since it is faster to get associations from the Libraries call
-        {"includeAttachments": False},
+        {"includeAttachments": True},
         {"includeDownloads": False},
         {"includeLoads": True},
         {"includeDocuments": True},
