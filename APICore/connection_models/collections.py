@@ -49,7 +49,7 @@ content: Collection = Collection(
     mandatory_switches=["contentId"],
     optional_switches=[
         {"includeFiles": True},
-        {"includeTypes": True},
+        {"includeTypes": False},
         {"includeTypeParameters": False},
         {"includeLibraries": False},
         # ^^ Unnecessry to include libraries since it is faster to get associations from the Libraries call
