@@ -68,8 +68,7 @@ def create_new_file(
         db.commit()
         db.refresh(new_entry)
         if item.components != []:
-            for component in item.components:
-                [create_new_component(i, refreshed) for i in item.components]
+            [create_new_component(i, refreshed) for i in item.components]
     finally:
         db.close()
     return new_entry

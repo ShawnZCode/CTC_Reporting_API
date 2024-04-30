@@ -1,12 +1,12 @@
 {
     "logTitle": "Database",
-    "serverLanguage": "mssql",
+    "serverLanguage": "postgresql",
     "mssqlConnectionSettings": {
         "driver": "mssql+pyodbc",
         "uid": "sa",
         "pwd": "T3$t!ngSA",
         "host": "CTCLTMNShawnZ",
-        "db": "CTC_ReportingDB",
+        "db": "CTC_ReportingDB_Webinar",
         "port": 1433,
         "query": {
             "driver":"ODBC Driver 18 for SQL Server",
@@ -18,7 +18,7 @@
         "uid": "postgres",
         "pwd": "P0stgr3$",
         "host": "localhost",
-        "db": "CTC_ReportingDB",
+        "db": "CTC_ReportingDB_Webinar",
         "port": 5432,
         "query": {}
     }

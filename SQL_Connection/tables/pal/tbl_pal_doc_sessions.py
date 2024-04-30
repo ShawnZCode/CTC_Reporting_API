@@ -16,6 +16,12 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.pal.doc_sessions import PALDocSession, PALDocSessionBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
+from SQL_Connection.tables.pal.tbl_pal_log_addins import create_new_log_addin
+from SQL_Connection.tables.pal.tbl_pal_log_events import create_new_log_event
+from SQL_Connection.tables.pal.tbl_pal_log_links import create_new_log_link
+from SQL_Connection.tables.pal.tbl_pal_log_machines import create_new_log_machine
+from SQL_Connection.tables.pal.tbl_pal_log_prints import create_new_log_print
+from SQL_Connection.tables.pal.tbl_pal_log_summaries import create_new_log_summary
 from SQL_Connection.tables.pal.tbl_pal_log_view_types import create_new_log_view_type
 from SQL_Connection.tables.pal.tbl_pal_log_warning_summaries import (
     create_new_log_warning_summary,
@@ -75,36 +81,27 @@ def create_new_doc_session(
             db.add(new_entry)
             db.commit()
             db.refresh(new_entry)
-            # if item.logAddIns != []:
-            #     [
-            #         create_new_log_add_in(add_in, refreshed, db)
-            #         for add_in in item.logAddIns
-            #     ]
-            # if item.logEvents != []:
-            #     [
-            #         create_new_log_event(event, refreshed, db)
-            #         for event in item.logEvents
-            #     ]
-            # if item.logLinks != []:
-            #     [
-            #         create_new_log_link(link, refreshed, db)
-            #         for link in item.logLinks
-            #     ]
-            # if item.logMachines != []:
-            #     [
-            #         create_new_log_machine(machine, refreshed, db)
-            #         for machine in item.logMachines
-            #     ]
-            # if item.logPrints != []:
-            #     [
-            #         create_new_log_print(print_item, refreshed, db)
-            #         for print_item in item.logPrints
-            #     ]
-            # if item.logSummaries != []:
-            #     [
-            #         create_new_log_summary(summary, refreshed, db)
-            #         for summary in item.logSummaries
-            #     ]
+            if item.logAddIns != []:
+                [create_new_log_addin(addin, refreshed, db) for addin in item.logAddIns]
+            if item.logEvents != []:
+                [create_new_log_event(event, refreshed, db) for event in item.logEvents]
+            if item.logLinks != []:
+                [create_new_log_link(link, refreshed, db) for link in item.logLinks]
+            if item.logMachines != []:
+                [
+                    create_new_log_machine(machine, refreshed, db)
+                    for machine in item.logMachines
+                ]
+            if item.logPrints != []:
+                [
+                    create_new_log_print(print_item, refreshed, db)
+                    for print_item in item.logPrints
+                ]
+            if item.logSummaries != []:
+                [
+                    create_new_log_summary(summary, refreshed, db)
+                    for summary in item.logSummaries
+                ]
             if item.logViewTypes != []:
                 [
                     create_new_log_view_type(view_type, refreshed, db)

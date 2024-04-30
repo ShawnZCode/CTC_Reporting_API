@@ -17,6 +17,9 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 from APICore.result_models.pal.projects import PALProject, PALProjectBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 from SQL_Connection.tables.pal.tbl_pal_projectPaths import create_new_project_path
+from SQL_Connection.tables.pal.tbl_pal_projectPermissions import (
+    create_new_project_permission,
+)
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -77,8 +80,13 @@ def create_new_project(
                 db.refresh(new_entry)
                 if item.projectPaths != []:
                     [
-                        create_new_project_path(path, refreshed)
+                        create_new_project_path(path, refreshed, db)
                         for path in item.projectPaths
+                    ]
+                if item.projectPermissions != []:
+                    [
+                        create_new_project_permission(permission, refreshed, db)
+                        for permission in item.projectPermissions
                     ]
             except Exception as e:
                 return e

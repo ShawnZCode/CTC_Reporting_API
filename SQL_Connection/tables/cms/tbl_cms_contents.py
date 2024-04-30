@@ -23,6 +23,9 @@ from SQL_Connection.tables.cms.tbl_cms_contentFiles import create_new_file
 from SQL_Connection.tables.cms.tbl_cms_contentLibraries import (
     create_new_content_library,
 )
+from SQL_Connection.tables.cms.tbl_cms_contentLoads import create_new_content_load
+from SQL_Connection.tables.cms.tbl_cms_contentReviews import create_new_review
+from SQL_Connection.tables.cms.tbl_cms_contentRevisions import create_new_revision
 from SQL_Connection.tables.cms.tbl_cms_contentTags import create_new_content_tag
 
 
@@ -36,11 +39,15 @@ class TblCMSContents(Base):
     )
     addedAt: Mapped[datetime] = mapped_column(DateTime(), nullable=False)
     addedById: Mapped[UUID] = mapped_column(
-        ForeignKey("accounts.users.id"), nullable=False
+        Uuid(),
+        ForeignKey("accounts.users.id"),
+        nullable=False,
     )
     updatedAt: Mapped[datetime] = mapped_column(DateTime(), nullable=False)
     updatedById: Mapped[UUID] = mapped_column(
-        ForeignKey("accounts.users.id"), nullable=False
+        Uuid(),
+        ForeignKey("accounts.users.id"),
+        nullable=False,
     )
     name: Mapped[str] = mapped_column(String(150), nullable=False)
     fileName: Mapped[str] = mapped_column(String(150), nullable=False)
@@ -51,13 +58,17 @@ class TblCMSContents(Base):
     location: Mapped[str] = mapped_column(String(20), nullable=False)
     averageRating: Mapped[float] = mapped_column(Float(), nullable=False)
     categoryId: Mapped[int] = mapped_column(
-        ForeignKey("cms.categories.id"), nullable=True
+        Integer(),
+        ForeignKey("cms.categories.id"),
+        nullable=True,
     )
     previewImageUri: Mapped[str] = mapped_column(String(2048), nullable=True)
     displayUnit: Mapped[str] = mapped_column(String(15), nullable=True)
     revitFamilyHostType: Mapped[str] = mapped_column(String(20), nullable=True)
     refreshedId: Mapped[UUID] = mapped_column(
-        ForeignKey("core.refreshed.id"), nullable=False
+        Uuid(),
+        ForeignKey("core.refreshed.id"),
+        nullable=False,
     )
 
 
@@ -90,11 +101,11 @@ def create_new_content(
         if item.contentTags != []:
             [create_new_content_tag(i, refreshed) for i in item.contentTags]
         if item.loads != []:
-            pass
+            [create_new_content_load(i, refreshed, db) for i in item.loads]
         if item.reviews != []:
-            pass
+            [create_new_review(i, refreshed) for i in item.reviews]
         if item.revisions != []:
-            pass
+            [create_new_revision(i, refreshed) for i in item.revisions]
         if item.files != []:
             [create_new_file(i, refreshed) for i in item.files]
     finally:
