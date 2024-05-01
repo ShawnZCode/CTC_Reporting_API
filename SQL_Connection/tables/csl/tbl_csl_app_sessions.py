@@ -19,7 +19,7 @@ from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
 class TblCSLAppSessions(Base):
-    __tablename__ = "app_sessions"
+    __tablename__ = "appSessions"
     __table_args__ = {"schema": "csl"}
 
     id: Mapped[uuid4] = mapped_column(
