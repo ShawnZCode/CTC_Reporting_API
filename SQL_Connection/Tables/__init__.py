@@ -61,6 +61,7 @@ from SQL_Connection.tables.core.tbl_core_refreshed import (
     TblCoreRefreshed,
     create_new_refreshed,
     get_last_refreshed,
+    update_last_refreshed,
 )
 from SQL_Connection.tables.csl.tbl_csl_app_sessions import (
     TblCSLAppSessions,

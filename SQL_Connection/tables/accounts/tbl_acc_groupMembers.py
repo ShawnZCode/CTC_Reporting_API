@@ -68,7 +68,7 @@ def create_new_group_member(
 
 ## function to read from the table
 def read_db_group_member(item: AccGroupMember, session: Session) -> AccGroupMember:
-    db_group_member = (
+    db_item = (
         session.query(TblAccGroupMembers)
         .filter(
             TblAccGroupMembers.groupId == item.groupId,
@@ -76,11 +76,14 @@ def read_db_group_member(item: AccGroupMember, session: Session) -> AccGroupMemb
         )
         .first()
     )
-    if db_group_member is None:
+    if db_item is None:
         raise NotFoundError(
             f"GroupId: {item.groupId} with MemberId: {item.memberId} not found"
         )
-    return db_group_member
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return AccGroupMember(**db_item_dump)
 
 
 ## function to update the table

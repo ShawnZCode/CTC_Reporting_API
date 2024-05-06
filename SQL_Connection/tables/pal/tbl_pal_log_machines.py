@@ -86,4 +86,7 @@ def read_db_log_machine(item: PALLogMachine, session: Session) -> PALLogMachine:
     )
     if db_item is None:
         raise NotFoundError(f"logMaghineId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALLogMachine(**db_item_dump)

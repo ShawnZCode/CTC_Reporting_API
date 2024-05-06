@@ -110,9 +110,11 @@ def create_new_project(
 def read_db_project(item: PALProject, session: Session) -> PALProject:
     db_item = session.query(TblPALProjects).filter(TblPALProjects.id == item.id).first()
     if db_item is None:
-        raise NotFoundError(f"projectId: {item.id} not found in the database")
-    else:
-        return db_item
+        raise NotFoundError(f"projectId: {item.id} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALProject(**db_item_dump)
 
 
 ## function to update a project entry item in the table

@@ -70,10 +70,15 @@ def create_new_app_session(
 
 ## function to read from the database
 def read_db_app_session(item: CSLAppSession, db: Session) -> CSLAppSession:
-    result = db.query(TblCSLAppSessions).filter(TblCSLAppSessions.id == item.id).first()
-    if result is None:
+    db_item = (
+        db.query(TblCSLAppSessions).filter(TblCSLAppSessions.id == item.id).first()
+    )
+    if db_item is None:
         raise NotFoundError(f"AppSessionID: {item.id} not found")
-    return result
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CSLAppSession(**db_item_dump)
 
 
 ## function to update an entry in the database

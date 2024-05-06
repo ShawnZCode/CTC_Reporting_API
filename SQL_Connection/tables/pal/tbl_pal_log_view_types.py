@@ -76,7 +76,10 @@ def read_db_log_view_type(item: PALLogViewType, session: Session) -> PALLogViewT
     )
     if db_item is None:
         raise NotFoundError(f"LogViewTypeId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALLogViewType(**db_item_dump)
 
 
 ## function to update the table

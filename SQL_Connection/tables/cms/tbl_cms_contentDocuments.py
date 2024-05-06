@@ -74,7 +74,10 @@ def read_db_content_document(
     db_item = session.query(TblCMSContentDocuments).filter_by(id=item.id).first()
     if db_item is None:
         raise NotFoundError(f"DocumentId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentDocument(**db_item_dump)
 
 
 ## function to update the table

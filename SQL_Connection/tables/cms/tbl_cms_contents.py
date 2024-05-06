@@ -120,12 +120,13 @@ def get_all_contents():
 
 ## function to read from the table
 def read_db_content(item: CMSContent, session: Session) -> CMSContent:
-    db_content = (
-        session.query(TblCMSContents).filter(TblCMSContents.id == item.id).first()
-    )
-    if db_content is None:
+    db_item = session.query(TblCMSContents).filter(TblCMSContents.id == item.id).first()
+    if db_item is None:
         raise NotFoundError(f"ContentId: {item.id} not found")
-    return db_content
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContent(**db_item_dump)
 
 
 ## function to update the table

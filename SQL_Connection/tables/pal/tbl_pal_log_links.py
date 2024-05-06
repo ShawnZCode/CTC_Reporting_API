@@ -74,7 +74,10 @@ def read_db_log_link(item: PALLogLink, session: Session) -> PALLogLink:
     db_item = session.query(TblPALLogLinks).filter(TblPALLogLinks.id == item.id).first()
     if db_item is None:
         raise NotFoundError(f"LogLinkId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALLogLink(**db_item_dump)
 
 
 ## function to update the table

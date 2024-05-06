@@ -73,14 +73,17 @@ def read_db_log_warning_summary(
     item: PALLogWarningSummary,
     session: Session,
 ) -> PALLogWarningSummary:
-    db_entry = (
+    db_item = (
         session.query(TblPALLogWarningSummaries)
         .filter(TblPALLogWarningSummaries.id == item.id)
         .first()
     )
-    if db_entry is None:
+    if db_item is None:
         raise NotFoundError(f"LogWarningSummaryId: {item.id} not found")
-    return PALLogWarningSummary(**db_entry.model_dump())
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALLogWarningSummary(**db_item_dump)
 
 
 ## function to update the database for the item

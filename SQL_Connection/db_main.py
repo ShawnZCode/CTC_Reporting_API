@@ -29,7 +29,7 @@ TABLE_WRITE_BASE = {
 }
 
 TABLE_WRITE_DETAILS = {
-    # "cms_contents",
+    "cms_contents",
     "cms_libraries",
     "cms_tags",
     # "cms_saved_searches",
@@ -84,8 +84,9 @@ def create_all():
             isSSOUser=False,
         ),
     ]
-    refreshed = create_new_refreshed()
-    [create_new_user(user, refreshed) for user in default_users]
+    new_refresh = tables.create_new_refreshed()
+    [create_new_user(user, new_refresh) for user in default_users]
+    tables.update_last_refreshed(refreshed=new_refresh)
 
 
 ## function to reset the database
@@ -111,3 +112,4 @@ def write_all():
     new_refresh = tables.create_new_refreshed()
     for key in TABLE_WRITE_BASE.keys():
         write_all_x(key, new_refresh)
+    tables.update_last_refreshed(refreshed=new_refresh)

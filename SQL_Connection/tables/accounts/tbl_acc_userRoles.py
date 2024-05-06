@@ -60,7 +60,7 @@ def create_new_user_role(
 
 ## function to read from the table
 def read_db_user_role(item: AccUserRole, session: Session) -> AccUserRole:
-    db_user = (
+    db_item = (
         session.query(TblAccUserRoles)
         .filter(
             TblAccUserRoles.userId == item.userId,
@@ -68,11 +68,14 @@ def read_db_user_role(item: AccUserRole, session: Session) -> AccUserRole:
         )
         .first()
     )
-    if db_user is None:
+    if db_item is None:
         raise NotFoundError(
             f"UserId: {item.userId} with RoleId: {item.roleId} not found"
         )
-    return db_user
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return AccUserRole(**db_item_dump)
 
 
 ## function to update the table

@@ -95,7 +95,10 @@ def read_db_log_summary(item: PALLogSummary, session: Session) -> PALLogSummary:
     )
     if db_item is None:
         raise NotFoundError(f"LogSummaryId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALLogSummary(**db_item_dump)
 
 
 ## function to update the table

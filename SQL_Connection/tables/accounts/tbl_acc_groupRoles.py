@@ -61,7 +61,7 @@ def create_new_group_role(
 
 ## function to read from the table
 def read_db_group_role(item: AccGroupRole, session: Session) -> AccGroupRole:
-    db_group_role = (
+    db_item = (
         session.query(TblAccGroupRoles)
         .filter(
             TblAccGroupRoles.groupId == item.groupId,
@@ -69,9 +69,14 @@ def read_db_group_role(item: AccGroupRole, session: Session) -> AccGroupRole:
         )
         .first()
     )
-    if db_group_role is None:
-        raise NotFoundError
-    return db_group_role
+    if db_item is None:
+        raise NotFoundError(
+            f"GroupId: {item.groupId} + RoleId: {item.roleId} not found"
+        )
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return AccGroupRole(**db_item_dump)
 
 
 ## function to update the table

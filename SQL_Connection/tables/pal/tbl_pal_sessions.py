@@ -71,7 +71,10 @@ def read_db_session(item: PALSession, db: Session) -> PALSession:
     db_item = db.query(TblPALSessions).filter(TblPALSessions.id == item.id).first()
     if db_item is None:
         raise NotFoundError(f"SessionId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALSession(**db_item_dump)
 
 
 ## function to update the database for the item

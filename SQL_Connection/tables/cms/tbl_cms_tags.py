@@ -57,8 +57,11 @@ def create_new_tag(item: CMSTag, refreshed) -> CMSTag:
 def get_db_tag(item: CMSTag, db: Session) -> CMSTag:
     db_item = db.query(TblCMSTags).filter(TblCMSTags.id == item.id).first()
     if db_item is None:
-        raise NotFoundError
-    return db_item
+        raise NotFoundError(f"TagId {item.id} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSTag(**db_item_dump)
 
 
 ## function to update the table

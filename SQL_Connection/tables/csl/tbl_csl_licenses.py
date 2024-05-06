@@ -77,10 +77,13 @@ def create_new_license(
 
 ## function to read from the table
 def read_db_license(item: CSLLicense, db: Session) -> CSLLicense:
-    result = db.query(TblCSLLicenses).filter(TblCSLLicenses.id == item.id).first()
-    if result is None:
+    db_item = db.query(TblCSLLicenses).filter(TblCSLLicenses.id == item.id).first()
+    if db_item is None:
         raise NotFoundError(f"LicenseId: {item.id} not found")
-    return result
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CSLLicense(**db_item_dump)
 
 
 ## function to update the table

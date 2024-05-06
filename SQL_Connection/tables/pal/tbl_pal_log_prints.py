@@ -80,4 +80,7 @@ def read_db_log_print(item: PALLogPrint, session: Session) -> PALLogPrint:
     )
     if db_item is None:
         raise NotFoundError(f"LogPrintId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALLogPrint(**db_item_dump)

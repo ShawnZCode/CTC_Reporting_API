@@ -84,14 +84,17 @@ def create_new_review(
 
 ## function to read from the table
 def read_db_review(item: CMSContentReview, session: Session) -> TblCMSContentReviews:
-    db_review = (
+    db_item = (
         session.query(TblCMSContentReviews)
         .filter(TblCMSContentReviews.id == item.id)
         .first()
     )
-    if db_review is None:
+    if db_item is None:
         raise NotFoundError(f"ReviewId: {item.id} not found")
-    return db_review
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentReview(**db_item_dump)
 
 
 ## function to update the table

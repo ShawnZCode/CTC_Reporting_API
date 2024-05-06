@@ -56,10 +56,13 @@ def create_new_product(
 
 ## function to read from the table
 def read_db_product(item: CSLProduct, db: Session) -> CSLProduct:
-    result = db.query(TblCSLProducts).filter(TblCSLProducts.id == item.id).first()
-    if result is None:
-        raise NotFoundError
-    return result
+    db_item = db.query(TblCSLProducts).filter(TblCSLProducts.id == item.id).first()
+    if db_item is None:
+        raise NotFoundError(f"ProductId: {item.id} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CSLProduct(**db_item_dump)
 
 
 ## function to update the table

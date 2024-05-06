@@ -37,10 +37,13 @@ def create_new_role(item: AccRole, refreshed, session: Session = None) -> AccRol
 
 ## function to read item from the table
 def read_db_role(item: AccRole, session: Session) -> AccRole:
-    db_user = session.query(TblAccRoles).filter(TblAccRoles.id == item.id).first()
-    if db_user is None:
+    db_item = session.query(TblAccRoles).filter(TblAccRoles.id == item.id).first()
+    if db_item is None:
         raise NotFoundError(f"UserId: {item.id} not found")
-    return db_user
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return AccRole(**db_item_dump)
 
 
 ## function to update the table

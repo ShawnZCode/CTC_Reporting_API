@@ -67,5 +67,10 @@ def read_db_content_tag(item: CMSContentTag, session: Session) -> CMSContentTag:
         .first()
     )
     if db_item is None:
-        raise NotFoundError
-    return db_item
+        raise NotFoundError(
+            f"ContentId: {item.contentId} + TagId: {item.tagId} not found"
+        )
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentTag(**db_item_dump)

@@ -91,7 +91,10 @@ def read_db_log_event(item: PALLogEvent, session: Session) -> PALLogEvent:
     )
     if db_item is None:
         raise NotFoundError(f"LogEventId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALLogEvent(**db_item_dump)
 
 
 ## function to update the table

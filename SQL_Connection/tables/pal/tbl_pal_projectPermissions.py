@@ -100,5 +100,8 @@ def read_db_project_permission(
         .first()
     )
     if db_item is None:
-        raise NotFoundError(f"projectPermissionId: {item.id} not found in the database")
-    return db_item
+        raise NotFoundError(f"projectPermissionId: {item.id} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALProjectPermission(**db_item_dump)

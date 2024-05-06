@@ -76,8 +76,10 @@ def create_new_project_path(
 
 ## function to read a project entry item in the table
 def read_db_project_path(item: PALProjectPath, db: Session) -> PALProjectPath | None:
-    db_project_path = db.query(TblPALProjectPaths).filter_by(id=item.id).first()
-    if db_project_path is None:
+    db_item = db.query(TblPALProjectPaths).filter_by(id=item.id).first()
+    if db_item is None:
         raise NotFoundError(f"PathId {item.id} not found in database")
-    else:
-        return db_project_path
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALProjectPath(**db_item_dump)

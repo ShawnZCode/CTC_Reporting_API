@@ -63,10 +63,13 @@ def create_new_group(item: AccGroup, refreshed) -> AccGroup:
 
 ## function to read item from the table
 def read_db_group(item: AccGroup, session: Session) -> AccGroup:
-    db_user = session.query(TblAccGroups).filter(TblAccGroups.id == item.id).first()
-    if db_user is None:
-        raise NotFoundError(f"UserId: {item.id} not found")
-    return db_user
+    db_item = session.query(TblAccGroups).filter(TblAccGroups.id == item.id).first()
+    if db_item is None:
+        raise NotFoundError(f"GroupId: {item.id} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return AccGroup(**db_item_dump)
 
 
 ## function to update the table
