@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID  # , uuid4
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from sqlalchemy import (
     Boolean,
     DateTime,
@@ -16,15 +16,15 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.pal.doc_sessions import PALDocSession, PALDocSessionBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.pal.tbl_pal_log_addins import create_new_log_addin
-from SQL_Connection.tables.pal.tbl_pal_log_events import create_new_log_event
-from SQL_Connection.tables.pal.tbl_pal_log_links import create_new_log_link
-from SQL_Connection.tables.pal.tbl_pal_log_machines import create_new_log_machine
-from SQL_Connection.tables.pal.tbl_pal_log_prints import create_new_log_print
-from SQL_Connection.tables.pal.tbl_pal_log_summaries import create_new_log_summary
-from SQL_Connection.tables.pal.tbl_pal_log_view_types import create_new_log_view_type
+from SQL_Connection.tables.pal.tbl_pal_log_addins import write_db_log_addin
+from SQL_Connection.tables.pal.tbl_pal_log_events import write_db_log_event
+from SQL_Connection.tables.pal.tbl_pal_log_links import write_db_log_link
+from SQL_Connection.tables.pal.tbl_pal_log_machines import write_db_log_machine
+from SQL_Connection.tables.pal.tbl_pal_log_prints import write_db_log_print
+from SQL_Connection.tables.pal.tbl_pal_log_summaries import write_db_log_summary
+from SQL_Connection.tables.pal.tbl_pal_log_view_types import write_db_log_view_type
 from SQL_Connection.tables.pal.tbl_pal_log_warning_summaries import (
-    create_new_log_warning_summary,
+    write_db_log_warning_summary,
 )
 
 
@@ -65,63 +65,62 @@ class TblPALDocSessions(Base):
 
 
 ## function to write new entry item to the table
-def create_new_doc_session(
+def write_db_doc_session(
     item: PALDocSession,
     refreshed,
     session: Session = None,
 ) -> PALDocSession:
     base_content = PALDocSessionBase(**item.model_dump())
     base_content.refreshedId = refreshed.id
-    new_entry = TblPALDocSessions(**base_content.model_dump(exclude_none=True))
+    db_item_orig = TblPALDocSessions(**base_content.model_dump(exclude_none=True))
+    db_item = db_item_orig
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_doc_session(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-            if item.logAddIns != []:
-                [create_new_log_addin(addin, refreshed, db) for addin in item.logAddIns]
-            if item.logEvents != []:
-                [create_new_log_event(event, refreshed, db) for event in item.logEvents]
-            if item.logLinks != []:
-                [create_new_log_link(link, refreshed, db) for link in item.logLinks]
-            if item.logMachines != []:
-                [
-                    create_new_log_machine(machine, refreshed, db)
-                    for machine in item.logMachines
-                ]
-            if item.logPrints != []:
-                [
-                    create_new_log_print(print_item, refreshed, db)
-                    for print_item in item.logPrints
-                ]
-            if item.logSummaries != []:
-                [
-                    create_new_log_summary(summary, refreshed, db)
-                    for summary in item.logSummaries
-                ]
-            if item.logViewTypes != []:
-                [
-                    create_new_log_view_type(view_type, refreshed, db)
-                    for view_type in item.logViewTypes
-                ]
-            if item.logWarningSummaries != []:
-                [
-                    create_new_log_warning_summary(warning, refreshed, db)
-                    for warning in item.logWarningSummaries
-                ]
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_doc_session(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_doc_session(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+        if item.logAddIns != []:
+            [write_db_log_addin(addin, refreshed, db) for addin in item.logAddIns]
+        if item.logEvents != []:
+            [write_db_log_event(event, refreshed, db) for event in item.logEvents]
+        if item.logLinks != []:
+            [write_db_log_link(link, refreshed, db) for link in item.logLinks]
+        if item.logMachines != []:
+            [
+                write_db_log_machine(machine, refreshed, db)
+                for machine in item.logMachines
+            ]
+        if item.logPrints != []:
+            [
+                write_db_log_print(print_item, refreshed, db)
+                for print_item in item.logPrints
+            ]
+        if item.logSummaries != []:
+            [
+                write_db_log_summary(summary, refreshed, db)
+                for summary in item.logSummaries
+            ]
+        if item.logViewTypes != []:
+            [
+                write_db_log_view_type(view_type, refreshed, db)
+                for view_type in item.logViewTypes
+            ]
+        if item.logWarningSummaries != []:
+            [
+                write_db_log_warning_summary(warning, refreshed, db)
+                for warning in item.logWarningSummaries
+            ]
+    if session is None:
+        db.close()
+    try:
+        return PALDocSession(**db_item.__dict__)
+    except ValidationError:
+        return item
 
 
 ## function to read the database for the item
@@ -131,10 +130,7 @@ def read_db_doc_session(item: PALDocSession, db: Session) -> PALDocSession:
     )
     if db_item is None:
         raise NotFoundError(f"DocSessionId: {item.id} not found")
-    db_item_dump = {}
-    for key, value in db_item.__dict__.items():
-        db_item_dump.update({key: value})
-    return PALDocSession(**db_item_dump)
+    return PALDocSession(**db_item.__dict__)
 
 
 ## function to update the database for the item

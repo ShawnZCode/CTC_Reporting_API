@@ -1,19 +1,17 @@
 """Initialization of parent folder as python module"""
 
-# from SQL_Connection.tables.tbl_acc_groupMembers import TblAccGroupMembers
-# from SQL_Connection.tables.tbl_acc_groupRoles import TblAccGroupRoles
 from SQL_Connection.tables.accounts.tbl_acc_groupMembers import (
     TblAccGroupMembers,
-    create_new_group_member,
+    write_db_group_member,
 )
 from SQL_Connection.tables.accounts.tbl_acc_groupRoles import (
     TblAccGroupRoles,
-    create_new_group_role,
+    write_db_group_role,
 )
-from SQL_Connection.tables.accounts.tbl_acc_groups import TblAccGroups, create_new_group
-from SQL_Connection.tables.accounts.tbl_acc_roles import TblAccRoles, create_new_role
+from SQL_Connection.tables.accounts.tbl_acc_groups import TblAccGroups, write_db_group
+from SQL_Connection.tables.accounts.tbl_acc_roles import TblAccRoles, write_db_role
 from SQL_Connection.tables.accounts.tbl_acc_userRoles import TblAccUserRoles
-from SQL_Connection.tables.accounts.tbl_acc_users import TblAccUsers, create_new_user
+from SQL_Connection.tables.accounts.tbl_acc_users import TblAccUsers, write_db_user
 from SQL_Connection.tables.accounts.tbl_acc_usersInvited import TblAccUsersInvited
 from SQL_Connection.tables.cms.tbl_cms_categories import (
     TblCMSCategories,
@@ -45,7 +43,9 @@ from SQL_Connection.tables.cms.tbl_cms_contentLibraries import (
 )
 from SQL_Connection.tables.cms.tbl_cms_contents import (
     TblCMSContents,
-    create_new_content,
+    get_all_contents,
+    read_db_content,
+    write_db_content,
 )
 from SQL_Connection.tables.cms.tbl_cms_libraries import (
     TblCMSLibraries,
@@ -61,37 +61,38 @@ from SQL_Connection.tables.core.tbl_core_refreshed import (
     TblCoreRefreshed,
     create_new_refreshed,
     get_last_refreshed,
+    get_refreshed_count,
     update_last_refreshed,
 )
 from SQL_Connection.tables.csl.tbl_csl_app_sessions import (
     TblCSLAppSessions,
-    create_new_app_session,
+    write_db_app_session,
 )
 from SQL_Connection.tables.csl.tbl_csl_licensePermissions import (
     TblCSLLicensePermissions,
-    create_new_license_permission,
+    write_db_license_permission,
 )
 from SQL_Connection.tables.csl.tbl_csl_licenses import (
     TblCSLLicenses,
-    create_new_license,
+    write_db_license,
 )
 from SQL_Connection.tables.csl.tbl_csl_products import (
     TblCSLProducts,
-    create_new_product,
+    write_db_product,
 )
 from SQL_Connection.tables.pal.tbl_pal_doc_sessions import (
     TblPALDocSessions,
-    create_new_doc_session,
+    write_db_doc_session,
 )
 from SQL_Connection.tables.pal.tbl_pal_projectPaths import (
     TblPALProjectPaths,
-    create_new_project_path,
+    write_db_project_path,
 )
 from SQL_Connection.tables.pal.tbl_pal_projects import (
     TblPALProjects,
-    create_new_project,
+    write_db_project,
 )
 from SQL_Connection.tables.pal.tbl_pal_sessions import (
     TblPALSessions,
-    create_new_session,
+    write_db_session,
 )

@@ -41,31 +41,26 @@ class TblPALLogWarningSummaries(Base):
 
 
 ## function to write new entry item to the table
-def create_new_log_warning_summary(
+def write_db_log_warning_summary(
     item: PALLogWarningSummary,
     refreshed,
     session: Session = None,
 ) -> PALLogWarningSummary:
     base_item = item.model_dump(exclude_none=True)
-    new_entry = TblPALLogWarningSummaries(**base_item, refreshedId=refreshed.id)
+    db_item = TblPALLogWarningSummaries(**base_item, refreshedId=refreshed.id)
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_log_warning_summary(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_log_warning_summary(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_log_warning_summary(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    finally:
+        db.close()
+    return PALLogWarningSummary(**db_item.__dict__)
 
 
 ## function to read item from the table
@@ -80,10 +75,7 @@ def read_db_log_warning_summary(
     )
     if db_item is None:
         raise NotFoundError(f"LogWarningSummaryId: {item.id} not found")
-    db_item_dump = {}
-    for key, value in db_item.__dict__.items():
-        db_item_dump.update({key: value})
-    return PALLogWarningSummary(**db_item_dump)
+    return PALLogWarningSummary(**db_item.__dict__)
 
 
 ## function to update the database for the item

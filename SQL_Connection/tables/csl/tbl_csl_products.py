@@ -11,7 +11,7 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.csl.products import CSLProduct, CSLProductBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.csl.tbl_csl_app_sessions import create_new_app_session
+from SQL_Connection.tables.csl.tbl_csl_app_sessions import write_db_app_session
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -29,11 +29,11 @@ class TblCSLProducts(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_product(
+def write_db_product(
     item: CSLProduct, refreshed, session: Session = None
 ) -> CSLProduct:
     base_item = CSLProductBase(**item.model_dump(exclude_defaults=True))
-    new_entry = TblCSLProducts(
+    db_item = TblCSLProducts(
         **base_item.model_dump(exclude_defaults=True), refreshedId=refreshed.id
     )
     if session is None:
@@ -41,17 +41,20 @@ def create_new_product(
     else:
         db = session
     try:
-        new_entry = read_db_product(item, db)
-    except NotFoundError:
-        db.add(new_entry)
-        db.commit()
-        db.refresh(new_entry)
+        read_db_product(item, db)
         if item.appSessions != []:
             for app_session in item.appSessions:
-                create_new_app_session(app_session, refreshed, db)
+                write_db_app_session(app_session, refreshed, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+        if item.appSessions != []:
+            for app_session in item.appSessions:
+                write_db_app_session(app_session, refreshed, db)
     finally:
         db.close()
-    return new_entry
+    return CSLProduct(**db_item.__dict__)
 
 
 ## function to read from the table
@@ -59,10 +62,7 @@ def read_db_product(item: CSLProduct, db: Session) -> CSLProduct:
     db_item = db.query(TblCSLProducts).filter(TblCSLProducts.id == item.id).first()
     if db_item is None:
         raise NotFoundError(f"ProductId: {item.id} not found")
-    db_item_dump = {}
-    for key, value in db_item.__dict__.items():
-        db_item_dump.update({key: value})
-    return CSLProduct(**db_item_dump)
+    return CSLProduct(**db_item.__dict__)
 
 
 ## function to update the table

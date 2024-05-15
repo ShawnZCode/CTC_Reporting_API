@@ -60,33 +60,28 @@ class TblPALProjectPermissions(Base):
 
 
 ## function to write a new project permission entry item in the table
-def create_new_project_permission(
+def write_db_project_permission(
     item: PALProjectPermission,
     refreshed,
     session: Session = None,
 ) -> PALProjectPermission:
-    new_entry = TblPALProjectPermissions(
+    db_item = TblPALProjectPermissions(
         **item.model_dump(exclude_none=True),
         refreshedId=refreshed.id,
     )
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_project_permission(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_project_permission(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_project_permission(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    finally:
+        db.close()
+    return PALProjectPermission(**db_item.__dict__)
 
 
 ## function to read a project permission entry item in the table

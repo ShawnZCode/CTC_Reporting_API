@@ -40,42 +40,51 @@ class TblAccUserRoles(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_user_role(
-    item: AccUserRole, refreshed, session: Session = None
+def write_db_user_role(
+    item: AccUserRole,
+    refreshed,
+    session: Session = None,
 ) -> AccUserRole:
-    new_entry = TblAccUserRoles(
+    db_item = TblAccUserRoles(
         **item.model_dump(exclude_none=True), refreshedId=refreshed.id
     )
-    db = SessionLocal()
+    if session is None:
+        db = SessionLocal()
+    else:
+        db = session
     try:
-        new_entry = read_db_user_role(item, db)
+        read_db_user_role(item, db)
     except NotFoundError:
-        db.add(new_entry)
+        db.add(db_item)
         db.commit()
-        db.refresh(new_entry)
-    finally:
+        db.refresh(db_item)
+    if session is None:
         db.close()
-    return new_entry
+    return AccUserRole(**db_item.__dict__)
 
 
 ## function to read from the table
-def read_db_user_role(item: AccUserRole, session: Session) -> AccUserRole:
-    db_item = (
-        session.query(TblAccUserRoles)
-        .filter(
-            TblAccUserRoles.userId == item.userId,
-            TblAccUserRoles.roleId == item.roleId,
+def read_db_user_role(item: AccUserRole, session: Session = None) -> AccUserRole:
+    if session is None:
+        db = SessionLocal()
+    else:
+        db = session
+    try:
+        db_item = (
+            db.query(TblAccUserRoles)
+            .filter(
+                TblAccUserRoles.userId == item.userId,
+                TblAccUserRoles.roleId == item.roleId,
+            )
+            .first()
         )
-        .first()
-    )
-    if db_item is None:
+    except NotFoundError:
         raise NotFoundError(
             f"UserId: {item.userId} with RoleId: {item.roleId} not found"
         )
-    db_item_dump = {}
-    for key, value in db_item.__dict__.items():
-        db_item_dump.update({key: value})
-    return AccUserRole(**db_item_dump)
+    if session is None:
+        db.close()
+    return AccUserRole(**db_item.__dict__)
 
 
 ## function to update the table

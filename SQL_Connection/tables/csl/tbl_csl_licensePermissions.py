@@ -35,7 +35,7 @@ class TblCSLLicensePermissions(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_license_permission(
+def write_db_license_permission(
     item: CSLLicensePermission, refreshed, session: Session = None
 ) -> CSLLicensePermission:
     new_entry = TblCSLLicensePermissions(

@@ -40,30 +40,27 @@ class TblPALSessions(Base):
 
 
 ## function to write new entry item to the table
-def create_new_session(
-    item: PALSession, refreshed, session: Session = None
+def write_db_session(
+    item: PALSession,
+    refreshed,
+    session: Session = None,
 ) -> PALSession:
     base_content = PALSession(**item.model_dump())
     base_content.refreshedId = refreshed.id
-    new_entry = TblPALSessions(**base_content.model_dump(exclude_none=True))
+    db_item = TblPALSessions(**base_content.model_dump(exclude_none=True))
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_session(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_session(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_session(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    finally:
+        db.close()
+    return PALSession(**db_item.__dict__)
 
 
 ## function to read the database for the item
@@ -71,10 +68,7 @@ def read_db_session(item: PALSession, db: Session) -> PALSession:
     db_item = db.query(TblPALSessions).filter(TblPALSessions.id == item.id).first()
     if db_item is None:
         raise NotFoundError(f"SessionId: {item.id} not found")
-    db_item_dump = {}
-    for key, value in db_item.__dict__.items():
-        db_item_dump.update({key: value})
-    return PALSession(**db_item_dump)
+    return PALSession(**db_item.__dict__)
 
 
 ## function to update the database for the item

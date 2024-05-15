@@ -46,7 +46,7 @@ class TblCSLAppSessions(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_app_session(
+def write_db_app_session(
     item: CSLAppSession, refreshed, session: Session = None
 ) -> CSLAppSession:
     base_item = item.model_dump(exclude_defaults=True)

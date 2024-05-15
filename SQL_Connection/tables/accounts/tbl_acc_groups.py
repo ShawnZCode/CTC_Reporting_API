@@ -8,8 +8,8 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.accounts.groups import AccGroup, AccGroupBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.accounts.tbl_acc_groupMembers import create_new_group_member
-from SQL_Connection.tables.accounts.tbl_acc_groupRoles import create_new_group_role
+from SQL_Connection.tables.accounts.tbl_acc_groupMembers import write_db_group_member
+from SQL_Connection.tables.accounts.tbl_acc_groupRoles import write_db_group_role
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -37,28 +37,35 @@ class TblAccGroups(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_group(item: AccGroup, refreshed) -> AccGroup:
+def write_db_group(
+    item: AccGroup,
+    refreshed,
+    session: Session = None,
+) -> AccGroup:
     base_item = AccGroupBase(**item.model_dump(exclude_none=True))
-    new_entry = TblAccGroups(
+    db_item = TblAccGroups(
         **base_item.model_dump(exclude_none=True), refreshedId=refreshed.id
     )
-    db = SessionLocal()
+    if session is None:
+        db = SessionLocal()
+    else:
+        db = session
     try:
-        new_entry = read_db_group(item, db)
+        read_db_group(item, db)
     except NotFoundError:
-        db.add(new_entry)
+        db.add(db_item)
         db.commit()
-        db.refresh(new_entry)
+        db.refresh(db_item)
         if item.roleAssignments != []:
-            [create_new_group_role(role, refreshed, db) for role in item.groupRoles]
+            [write_db_group_role(role, refreshed, db) for role in item.groupRoles]
         if item.groupMembers != []:
             [
-                create_new_group_member(member, refreshed, db)
+                write_db_group_member(member, refreshed, db)
                 for member in item.groupMembers
             ]
-    finally:
+    if session is None:
         db.close()
-    return new_entry
+    return AccGroup(**db_item.__dict__)
 
 
 ## function to read item from the table

@@ -33,30 +33,26 @@ class TblAccGroupRoles(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_group_role(
+def write_db_group_role(
     item: AccGroupRole, refreshed, session: Session
 ) -> AccGroupRole:
-    new_entry = TblAccGroupRoles(
+    db_item = TblAccGroupRoles(
         groupId=item.groupId, roleId=item.roleId, refreshedId=refreshed.id
     )
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_group_role(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_group_role(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_group_role(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    if session is None:
+        db.close()
+
+    return AccGroupRole(**db_item.__dict__)
 
 
 ## function to read from the table

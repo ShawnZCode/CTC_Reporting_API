@@ -29,17 +29,26 @@ class TblCoreRefreshed(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_refreshed(session: Session = Session(get_db)) -> Refreshed:
+def create_new_refreshed(session: Session = None) -> Refreshed:
     # pass
     new_entry = TblCoreRefreshed(id=uuid4(), refreshStartedAt=datetime.now())
-    db = SessionLocal()
-    try:
-        db.add(new_entry)
-        db.commit()
-        db.refresh(new_entry)
-    finally:
-        db.close()
-    return new_entry
+    if session is None:
+        db = SessionLocal()
+        try:
+            db.add(new_entry)
+            db.commit()
+            db.refresh(new_entry)
+        finally:
+            db.close()
+    else:
+        try:
+            session.add(new_entry)
+            session.commit()
+            session.refresh(new_entry)
+        except Exception as e:
+            session.rollback()
+            raise e
+    return Refreshed(**new_entry.__dict__)
 
 
 ## function to read from the table
@@ -55,6 +64,18 @@ def get_last_refreshed(session: Session = None) -> Refreshed:
     except NotFoundError:
         raise NotFoundError("No previous refresh records found")
     return Refreshed(**db_item.__dict__)
+
+
+def get_refreshed_count(session: Session = None) -> int:
+    if session is None:
+        try:
+            db = SessionLocal()
+            count = db.query(TblCoreRefreshed).count()
+        finally:
+            db.close()
+    else:
+        count = session.query(TblCoreRefreshed).count()
+    return count
 
 
 ## function to update last refreshed
