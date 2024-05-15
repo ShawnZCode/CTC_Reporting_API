@@ -66,14 +66,17 @@ def create_new_property(
 def read_db_property(
     item: CMSContentFileComponentProperty, session: Session
 ) -> CMSContentFileComponentProperty:
-    db_content = (
+    db_item = (
         session.query(TblCMSContentFileComponentProperties)
         .filter(TblCMSContentFileComponentProperties.id == item.id)
         .first()
     )
-    if db_content is None:
+    if db_item is None:
         raise NotFoundError(f"PropertyId: {item.id} not found")
-    return db_content
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentFileComponentProperty(**db_item_dump)
 
 
 ## function to update the table

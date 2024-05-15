@@ -16,9 +16,9 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.pal.projects import PALProject, PALProjectBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
-from SQL_Connection.tables.pal.tbl_pal_projectPaths import create_new_project_path
+from SQL_Connection.tables.pal.tbl_pal_projectPaths import write_db_project_path
 from SQL_Connection.tables.pal.tbl_pal_projectPermissions import (
-    create_new_project_permission,
+    write_db_project_permission,
 )
 
 
@@ -61,58 +61,51 @@ class TblPALProjects(Base):
 
 
 ## function to write a new project entry item in the table
-def create_new_project(
+def write_db_project(
     item: PALProject,
     refreshed,
     session: Session = None,
 ) -> PALProject:
     base_project = PALProjectBase(**item.model_dump())
     base_project.refreshedId = refreshed.id
-    new_entry = TblPALProjects(**base_project.model_dump(exclude_none=True))
+    db_item = TblPALProjects(**base_project.model_dump(exclude_none=True))
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_project(item, db)
-        except NotFoundError:
-            try:
-                db.add(new_entry)
-                db.commit()
-                db.refresh(new_entry)
-                if item.projectPaths != []:
-                    [
-                        create_new_project_path(path, refreshed, db)
-                        for path in item.projectPaths
-                    ]
-                if item.projectPermissions != []:
-                    [
-                        create_new_project_permission(permission, refreshed, db)
-                        for permission in item.projectPermissions
-                    ]
-            except Exception as e:
-                return e
-        finally:
-            db.close()
     else:
+        db = session
+    try:
+        read_db_project(item, db)
+    except NotFoundError:
         try:
-            new_entry = read_db_project(item, session)
-        except NotFoundError:
-            try:
-                session.add(new_entry)
-                session.commit()
-                session.refresh(new_entry)
-            except Exception as e:
-                return e
-
-    return new_entry
+            db.add(db_item)
+            db.commit()
+            db.refresh(db_item)
+            if item.projectPaths != []:
+                [
+                    write_db_project_path(path, refreshed, db)
+                    for path in item.projectPaths
+                ]
+            if item.projectPermissions != []:
+                [
+                    write_db_project_permission(permission, refreshed, db)
+                    for permission in item.projectPermissions
+                ]
+        except Exception as e:
+            return e
+    if session is None:
+        db.close()
+    return PALProject(**db_item.__dict__)
 
 
 ## function to read a project entry item in the table
 def read_db_project(item: PALProject, session: Session) -> PALProject:
     db_item = session.query(TblPALProjects).filter(TblPALProjects.id == item.id).first()
     if db_item is None:
-        raise NotFoundError(f"projectId: {item.id} not found in the database")
-    else:
-        return db_item
+        raise NotFoundError(f"projectId: {item.id} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALProject(**db_item_dump)
 
 
 ## function to update a project entry item in the table

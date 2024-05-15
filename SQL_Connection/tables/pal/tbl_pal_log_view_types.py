@@ -40,31 +40,26 @@ class TblPALLogViewTypes(Base):
 
 
 ## function to write new entry item to the table
-def create_new_log_view_type(
+def write_db_log_view_type(
     item: PALLogViewType,
     refreshed,
     session: Session = None,
 ) -> PALLogViewType:
     base_item = item.model_dump(exclude_none=True)
-    new_entry = TblPALLogViewTypes(**base_item, refreshedId=refreshed.id)
+    db_item = TblPALLogViewTypes(**base_item, refreshedId=refreshed.id)
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_log_view_type(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_log_view_type(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_log_view_type(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    if session is None:
+        db.close()
+    return PALLogViewType(**db_item.__dict__)
 
 
 ## function to read item from the table
@@ -76,7 +71,7 @@ def read_db_log_view_type(item: PALLogViewType, session: Session) -> PALLogViewT
     )
     if db_item is None:
         raise NotFoundError(f"LogViewTypeId: {item.id} not found")
-    return db_item
+    return PALLogViewType(**db_item.__dict__)
 
 
 ## function to update the table

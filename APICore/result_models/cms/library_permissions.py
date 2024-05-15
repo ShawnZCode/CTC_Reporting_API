@@ -21,3 +21,12 @@ class CMSLibraryPermission(BaseModel):
     updatedAt: datetime
     updatedById: UUID
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSLibraryPermission):
+            return NotImplemented
+        return (
+            self.id == other.id
+            and self.updatedAt == other.updatedAt
+            and self.libraryId == other.libraryId
+        )

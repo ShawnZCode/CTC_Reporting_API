@@ -10,4 +10,11 @@ from pydantic import BaseModel
 ## creating the pydantic BaseModel
 class Refreshed(BaseModel):
     id: UUID = uuid4()
-    refreshedAt: datetime = datetime.now()
+    refreshStartedAt: datetime = datetime.now()
+    refreshEndedAt: Optional[datetime] | None = None
+    refreshDurationMinutes: Optional[int] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Refreshed):
+            return NotImplemented
+        return self.id == other.id and self.refreshStartedAt == other.refreshStartedAt

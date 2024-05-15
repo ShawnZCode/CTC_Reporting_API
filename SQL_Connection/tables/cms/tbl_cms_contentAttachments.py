@@ -66,14 +66,17 @@ def create_new_attachment(
 def read_db_attachment(
     item: CMSContentAttachment, session: Session
 ) -> CMSContentAttachment:
-    db_attachment = (
+    db_item = (
         session.query(TblCMSContentAttachments)
         .filter(TblCMSContentAttachments.id == item.id)
         .first()
     )
-    if db_attachment is None:
+    if db_item is None:
         raise NotFoundError(f"AttachmentId: {item.id} not found")
-    return db_attachment
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentAttachment(**db_item_dump)
 
 
 ## function to update the table

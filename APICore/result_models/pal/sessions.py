@@ -42,7 +42,16 @@ class PALSessions(BaseModel):
 
 
 ## defining the get functions
-def get_all_sessions() -> PALSessions:
-    total_items = get_total_items(scope=pal, collection=sessions)
-    result = get_all_x(scope=pal, collection=sessions, total_rows=total_items)
+def get_all_sessions(*, start_date: str | None = None) -> PALSessions:
+    total_items = get_total_items(
+        scope=pal,
+        collection=sessions,
+        start_date=start_date,
+    )
+    result = get_all_x(
+        scope=pal,
+        collection=sessions,
+        total_rows=total_items,
+        start_date=start_date,
+    )
     return PALSessions.model_validate(result)

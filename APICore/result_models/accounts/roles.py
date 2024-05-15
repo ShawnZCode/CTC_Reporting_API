@@ -16,6 +16,11 @@ class AccRole(BaseModel):
     id: int = Field(validation_alias=AliasChoices("intValue", "id"))
     displayName: str
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccRole):
+            return NotImplemented
+        return self.id == other.id and self.displayName == other.displayName
+
 
 class AccRoles(BaseModel):
     totalItems: int

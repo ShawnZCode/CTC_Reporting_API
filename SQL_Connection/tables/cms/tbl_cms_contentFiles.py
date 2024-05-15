@@ -76,14 +76,17 @@ def create_new_file(
 
 ## function to read from the table
 def read_db_file(item: CMSContentFile, session: Session) -> CMSContentFile:
-    db_file = (
+    db_item = (
         session.query(TblCMSContentFiles)
         .filter(TblCMSContentFiles.id == item.id)
         .first()
     )
-    if db_file is None:
+    if db_item is None:
         raise NotFoundError(f"FileId: {item.id} not found")
-    return db_file
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentFile(**db_item_dump)
 
 
 ## function to update the table

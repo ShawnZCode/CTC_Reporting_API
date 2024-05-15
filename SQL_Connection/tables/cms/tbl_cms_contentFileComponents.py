@@ -61,14 +61,17 @@ def read_db_component(
     item: CMSContentFileComponent,
     session: Session = None,
 ) -> CMSContentFileComponent:
-    db_component = (
+    db_item = (
         session.query(TblCMSContentFileComponents)
         .filter(TblCMSContentFileComponents.id == item.id)
         .first()
     )
-    if db_component is None:
+    if db_item is None:
         raise NotFoundError(f"ComponentId: {item.id} not found")
-    return db_component
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentFileComponent(**db_item_dump)
 
 
 ## function to update the table

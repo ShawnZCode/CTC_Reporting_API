@@ -20,10 +20,26 @@ class AccInvitedUserBase(BaseModel):
     invitationExpiration: datetime
     refreshedId: Optional[UUID] | None = None
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccInvitedUserBase):
+            return NotImplemented
+        return (
+            self.userId == other.userId
+            and self.invitationExpiration == other.invitationExpiration
+            and self.isEnabled == other.isEnabled
+            and self.email == other.email
+            and self.userName == other.userName
+        )
+
 
 class AccLibraryPermission(BaseModel):
     libraryId: UUID
     role: str
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccLibraryPermission):
+            return NotImplemented
+        return self.libraryId == other.libraryId and self.role == other.role
 
 
 class AccInvitedUser(AccInvitedUserBase):

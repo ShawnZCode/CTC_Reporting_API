@@ -32,43 +32,39 @@ class TblAccGroupMembers(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_group_member(
-    item: AccGroupMember, refreshed, session: Session
+def write_db_group_member(
+    item: AccGroupMember,
+    refreshed,
+    session: Session = None,
 ) -> AccGroupMember:
-    new_entry = TblAccGroupMembers(
+    db_item = TblAccGroupMembers(
         groupId=item.groupId, memberId=item.memberId, refreshedId=refreshed.id
     )
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_group_member(item, db)
-        except NotFoundError:
-            try:
-                db.add(new_entry)
-                db.commit()
-                db.refresh(new_entry)
-            except Exception as e:
-                db.rollback()
-                return e
-        finally:
-            db.close()
     else:
+        db = session
+    try:
+        read_db_group_member(item, db)
+    except NotFoundError:
         try:
-            new_entry = read_db_group_member(item, session)
-        except NotFoundError:
-            try:
-                session.add(new_entry)
-                session.commit()
-                session.refresh(new_entry)
-            except Exception as e:
-                session.rollback()
-                return e
-    return new_entry
+            db.add(db_item)
+            db.commit()
+            db.refresh(db_item)
+        except Exception as e:
+            db.rollback()
+            return e
+    if session is None:
+        db.close()
+    return AccGroupMember(**db_item.__dict__)
 
 
 ## function to read from the table
-def read_db_group_member(item: AccGroupMember, session: Session) -> AccGroupMember:
-    db_group_member = (
+def read_db_group_member(
+    item: AccGroupMember,
+    session: Session,
+) -> AccGroupMember:
+    db_item = (
         session.query(TblAccGroupMembers)
         .filter(
             TblAccGroupMembers.groupId == item.groupId,
@@ -76,11 +72,11 @@ def read_db_group_member(item: AccGroupMember, session: Session) -> AccGroupMemb
         )
         .first()
     )
-    if db_group_member is None:
+    if db_item is None:
         raise NotFoundError(
             f"GroupId: {item.groupId} with MemberId: {item.memberId} not found"
         )
-    return db_group_member
+    return AccGroupMember(**db_item.__dict__)
 
 
 ## function to update the table

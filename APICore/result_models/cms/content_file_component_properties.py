@@ -23,3 +23,11 @@ class CMSContentFileComponentProperty(BaseModel):
     value: Optional[str] | None = None
     unitTypeIdVersionless: Optional[str] | None = None
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentFileComponentProperty):
+            return NotImplemented
+        return (
+            self.id == other.id
+            and self.contentFileComponentId == other.contentFileComponentId
+        )

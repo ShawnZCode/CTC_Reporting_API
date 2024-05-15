@@ -44,40 +44,37 @@ class TblPALProjectPaths(Base):
 
 
 ## function to write a new project entry item in the table
-def create_new_project_path(
+def write_db_project_path(
     item: PALProjectPath,
     refreshed,
     session: Session = None,
 ) -> PALProjectPath:
     base_path = PALProjectPath(**item.model_dump())
-    new_entry = TblPALProjectPaths(
+    db_item = TblPALProjectPaths(
         **base_path.model_dump(exclude_none=True),
         refreshedId=refreshed.id,
     )
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_project_path(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_project_path(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_project_path(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    if session is None:
+        db.close()
+    return PALProjectPath(**db_item.__dict__)
 
 
 ## function to read a project entry item in the table
 def read_db_project_path(item: PALProjectPath, db: Session) -> PALProjectPath | None:
-    db_project_path = db.query(TblPALProjectPaths).filter_by(id=item.id).first()
-    if db_project_path is None:
+    db_item = db.query(TblPALProjectPaths).filter_by(id=item.id).first()
+    if db_item is None:
         raise NotFoundError(f"PathId {item.id} not found in database")
-    else:
-        return db_project_path
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return PALProjectPath(**db_item_dump)

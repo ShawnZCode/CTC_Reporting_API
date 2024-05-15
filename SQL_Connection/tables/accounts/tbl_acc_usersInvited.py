@@ -3,10 +3,10 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel
 from sqlalchemy import Boolean, DateTime, ForeignKey, String, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from APICore.result_models.accounts.users_invited import AccInvitedUser
-from SQL_Connection.db_connection import Base
+from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 
 
 ## Using SQLAlchemy2.0 generate Table with association to the correct schema
@@ -32,8 +32,18 @@ def create_new_entry():
 
 
 ## function to read from the table
-def get_all_items():
-    pass
+def read_db_user_invited(item: AccInvitedUser, session: Session) -> AccInvitedUser:
+    db_item = (
+        session.query(TblAccUsersInvited)
+        .filter(TblAccUsersInvited.userId == item.userId)
+        .first()
+    )
+    if db_item is None:
+        raise NotFoundError(f"UserId: {item.userId} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return AccInvitedUser(**db_item_dump)
 
 
 ## function to update the table

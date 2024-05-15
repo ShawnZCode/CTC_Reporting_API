@@ -39,13 +39,23 @@ class AccUserBase(BaseModel):
     updatedAt: datetime
     updatedById: UUID
     isSSOUser: bool
-    # refreshedId: Optional[UUID] = None
+    refreshedId: Optional[UUID | None] = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccUserBase):
+            return NotImplemented
+        return self.id == other.id and self.updatedAt == other.updatedAt
 
 
 class AccUserRoles(BaseModel):
     userId: UUID
     roleId: int
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccUserRoles):
+            return NotImplemented
+        return self.userId == other.userId and self.roleId == other.roleId
 
 
 class AccUser(AccUserBase):

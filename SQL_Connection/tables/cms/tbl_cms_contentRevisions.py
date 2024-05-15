@@ -74,14 +74,17 @@ def create_new_revision(
 def read_db_revision(
     item: CMSContentRevision, session: Session
 ) -> TblCMSContentRevisions:
-    db_revision = (
+    db_item = (
         session.query(TblCMSContentRevisions)
         .filter(TblCMSContentRevisions.id == item.id)
         .first()
     )
-    if db_revision is None:
+    if db_item is None:
         raise NotFoundError(f"RevisionId: {item.id} not found")
-    return db_revision
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentRevision(**db_item_dump)
 
 
 ## function to update the table

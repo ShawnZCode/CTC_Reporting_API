@@ -60,9 +60,12 @@ def create_new_category(
 
 ## function to read from the table
 def read_db_category(item: CMSCategory, session: Session) -> CMSCategory:
-    db_category = (
+    db_item = (
         session.query(TblCMSCategories).filter(TblCMSCategories.id == item.id).first()
     )
-    if db_category is None:
+    if db_item is None:
         raise NotFoundError(f"CategoryId: {item.id} not found")
-    return db_category
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSCategory(**db_item_dump)

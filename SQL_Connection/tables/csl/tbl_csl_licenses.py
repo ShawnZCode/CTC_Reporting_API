@@ -14,7 +14,7 @@ from sqlalchemy.orm import Mapped, Session, mapped_column
 from APICore.result_models.csl.licenses import CSLLicense, CSLLicenseBase
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 from SQL_Connection.tables.csl.tbl_csl_licensePermissions import (
-    create_new_license_permission,
+    write_db_license_permission,
 )
 
 
@@ -50,37 +50,44 @@ class TblCSLLicenses(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_license(
-    item: CSLLicense, refreshed, session: Session = None
+def write_db_license(
+    item: CSLLicense,
+    refreshed,
+    session: Session = None,
 ) -> CSLLicense:
     base_item = CSLLicenseBase(**item.model_dump(exclude_defaults=True))
-    new_entry = TblCSLLicenses(
+    db_item = TblCSLLicenses(
         **base_item.model_dump(exclude_defaults=True), refreshedId=refreshed.id
     )
     if session is None:
         db = SessionLocal()
+    else:
+        db = session
     try:
-        new_entry = read_db_license(item, db)
+        read_db_license(item, db)
     except NotFoundError:
-        db.add(new_entry)
+        db.add(db_item)
         db.commit()
-        db.refresh(new_entry)
+        db.refresh(db_item)
         if item.permissions != []:
             [
-                create_new_license_permission(permission, refreshed, db)
+                write_db_license_permission(permission, refreshed, db)
                 for permission in item.permissions
             ]
-    finally:
+    if session is None:
         db.close()
-    return new_entry
+    return CSLLicense(**db_item.__dict__)
 
 
 ## function to read from the table
 def read_db_license(item: CSLLicense, db: Session) -> CSLLicense:
-    result = db.query(TblCSLLicenses).filter(TblCSLLicenses.id == item.id).first()
-    if result is None:
+    db_item = db.query(TblCSLLicenses).filter(TblCSLLicenses.id == item.id).first()
+    if db_item is None:
         raise NotFoundError(f"LicenseId: {item.id} not found")
-    return result
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CSLLicense(**db_item_dump)
 
 
 ## function to update the table

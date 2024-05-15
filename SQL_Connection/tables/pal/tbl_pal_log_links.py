@@ -42,31 +42,26 @@ class TblPALLogLinks(Base):
 
 
 ## function to write new entry item to the table
-def create_new_log_link(
+def write_db_log_link(
     item: PALLogLink,
     refreshed,
     session: Session = None,
 ) -> PALLogLink:
     base_item = item.model_dump(exclude_none=True)
-    new_entry = TblPALLogLinks(**base_item, refreshedId=refreshed.id)
+    db_item = TblPALLogLinks(**base_item, refreshedId=refreshed.id)
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_log_link(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_log_link(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_log_link(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    if session is None:
+        db.close()
+    return PALLogLink(**db_item.__dict__)
 
 
 ## function to read item from the table
@@ -74,7 +69,7 @@ def read_db_log_link(item: PALLogLink, session: Session) -> PALLogLink:
     db_item = session.query(TblPALLogLinks).filter(TblPALLogLinks.id == item.id).first()
     if db_item is None:
         raise NotFoundError(f"LogLinkId: {item.id} not found")
-    return db_item
+    return PALLogLink(**db_item.__dict__)
 
 
 ## function to update the table

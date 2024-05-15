@@ -33,35 +33,31 @@ class TblAccGroupRoles(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_group_role(
+def write_db_group_role(
     item: AccGroupRole, refreshed, session: Session
 ) -> AccGroupRole:
-    new_entry = TblAccGroupRoles(
+    db_item = TblAccGroupRoles(
         groupId=item.groupId, roleId=item.roleId, refreshedId=refreshed.id
     )
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_group_role(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_group_role(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_group_role(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    if session is None:
+        db.close()
+
+    return AccGroupRole(**db_item.__dict__)
 
 
 ## function to read from the table
 def read_db_group_role(item: AccGroupRole, session: Session) -> AccGroupRole:
-    db_group_role = (
+    db_item = (
         session.query(TblAccGroupRoles)
         .filter(
             TblAccGroupRoles.groupId == item.groupId,
@@ -69,9 +65,14 @@ def read_db_group_role(item: AccGroupRole, session: Session) -> AccGroupRole:
         )
         .first()
     )
-    if db_group_role is None:
-        raise NotFoundError
-    return db_group_role
+    if db_item is None:
+        raise NotFoundError(
+            f"GroupId: {item.groupId} + RoleId: {item.roleId} not found"
+        )
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return AccGroupRole(**db_item_dump)
 
 
 ## function to update the table

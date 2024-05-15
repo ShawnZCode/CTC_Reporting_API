@@ -46,31 +46,26 @@ class TblPALLogPrints(Base):
 
 
 ## function to write new entry item to the table
-def create_new_log_print(
+def write_db_log_print(
     item: PALLogPrint,
     refreshed,
     session: Session = None,
 ) -> PALLogPrint:
     base_item = item.model_dump(exclude_none=True)
-    new_entry = TblPALLogPrints(**base_item, refreshedId=refreshed.id)
+    db_item = TblPALLogPrints(**base_item, refreshedId=refreshed.id)
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_log_print(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_log_print(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_log_print(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    if session is None:
+        db.close()
+    return PALLogPrint(**db_item.__dict__)
 
 
 ## function to read item from the table
@@ -80,4 +75,4 @@ def read_db_log_print(item: PALLogPrint, session: Session) -> PALLogPrint:
     )
     if db_item is None:
         raise NotFoundError(f"LogPrintId: {item.id} not found")
-    return db_item
+    return PALLogPrint(**db_item.__dict__)

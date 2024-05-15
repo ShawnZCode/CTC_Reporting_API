@@ -38,7 +38,12 @@ class AccGroupBase(BaseModel):
         )
     )
     isDefaultGroup: bool
-    # refreshedId: UUID
+    refreshedId: Optional[UUID | None] = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccGroupBase):
+            return NotImplemented
+        return self.id == other.id and self.updatedAt == other.updatedAt
 
 
 class AccGroupMember(BaseModel):
@@ -46,11 +51,21 @@ class AccGroupMember(BaseModel):
     memberId: UUID
     refreshedId: Optional[UUID] | None = None
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccGroupMember):
+            return NotImplemented
+        return self.groupId == other.groupId and self.memberId == other.memberId
+
 
 class AccGroupRole(BaseModel):
     groupId: UUID
     roleId: int
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, AccGroupRole):
+            return NotImplemented
+        return self.groupId == other.groupId and self.roleId == other.roleId
 
 
 class AccGroup(AccGroupBase):

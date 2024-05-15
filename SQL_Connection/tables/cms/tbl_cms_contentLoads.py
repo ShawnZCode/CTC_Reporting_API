@@ -107,7 +107,10 @@ def read_db_content_load(item: CMSContentLoad, session: Session) -> CMSContentLo
     db_item = session.query(TblCMSContentLoads).filter_by(id=item.id).first()
     if db_item is None:
         raise NotFoundError(f"ContentLoadId: {item.id} not found")
-    return db_item
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentLoad(**db_item_dump)
 
 
 ## function to update the table

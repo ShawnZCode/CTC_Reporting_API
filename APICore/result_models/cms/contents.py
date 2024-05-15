@@ -41,7 +41,17 @@ class CMSContentBase(LocalBaseModel):
     previewImageUri: Optional[str] | None = None
     displayUnit: Optional[str] | None = None
     revitFamilyHostType: Optional[str] | None = None
-    refreshedId: Optional[UUID] | None = None
+    status: Optional[str | None] = "Active"
+    refreshedId: Optional[UUID | None] = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentBase):
+            return NotImplemented
+        return (
+            self.id == other.id
+            and self.updatedAt == other.updatedAt
+            and self.deleted == other.deleted
+        )
 
 
 class CMSContent(CMSContentBase):

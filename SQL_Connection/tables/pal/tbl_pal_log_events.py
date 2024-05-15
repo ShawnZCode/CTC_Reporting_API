@@ -55,33 +55,28 @@ class TblPALLogEvents(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_log_event(
+def write_db_log_event(
     item: PALLogEvent,
     refreshed,
     session: Session = None,
 ) -> PALLogEvent:
     base_item = PALLogEvent(**item.model_dump(exclude_none=True))
-    new_entry = TblPALLogEvents(
+    db_item = TblPALLogEvents(
         **base_item.model_dump(exclude_none=True), refreshedId=refreshed.id
     )
     if session is None:
         db = SessionLocal()
-        try:
-            new_entry = read_db_log_event(item, db)
-        except NotFoundError:
-            db.add(new_entry)
-            db.commit()
-            db.refresh(new_entry)
-        finally:
-            db.close()
     else:
-        try:
-            new_entry = read_db_log_event(item, session)
-        except NotFoundError:
-            session.add(new_entry)
-            session.commit()
-            session.refresh(new_entry)
-    return new_entry
+        db = session
+    try:
+        read_db_log_event(item, db)
+    except NotFoundError:
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+    finally:
+        db.close()
+    return PALLogEvent(**db_item.__dict__)
 
 
 ## function to read item from the table
@@ -91,7 +86,7 @@ def read_db_log_event(item: PALLogEvent, session: Session) -> PALLogEvent:
     )
     if db_item is None:
         raise NotFoundError(f"LogEventId: {item.id} not found")
-    return db_item
+    return PALLogEvent(**db_item.__dict__)
 
 
 ## function to update the table

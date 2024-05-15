@@ -14,7 +14,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
-from APICore.result_models.cms.contents import CMSContent, CMSContentBase
+from APICore.result_models.cms.contents import CMSContent, CMSContentBase, CMSContents
 from SQL_Connection.db_connection import Base, NotFoundError, SessionLocal
 from SQL_Connection.tables.cms.tbl_cms_categories import create_new_category
 from SQL_Connection.tables.cms.tbl_cms_contentAttachments import create_new_attachment
@@ -65,6 +65,7 @@ class TblCMSContents(Base):
     previewImageUri: Mapped[str] = mapped_column(String(2048), nullable=True)
     displayUnit: Mapped[str] = mapped_column(String(15), nullable=True)
     revitFamilyHostType: Mapped[str] = mapped_column(String(20), nullable=True)
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="Active")
     refreshedId: Mapped[UUID] = mapped_column(
         Uuid(),
         ForeignKey("core.refreshed.id"),
@@ -73,25 +74,31 @@ class TblCMSContents(Base):
 
 
 ## function to write a new entry item in the table
-def create_new_content(
-    item: CMSContent, refreshed, session: Session = None
+def write_db_content(
+    item: CMSContent,
+    refreshed,
+    session: Session = None,
 ) -> CMSContent:
     base_content = CMSContentBase(**item.model_dump())
-    base_content.refreshedId = refreshed.id
-    new_entry = TblCMSContents(
+    db_item = TblCMSContents(
         **base_content.model_dump(exclude_none=True),
         categoryId=item.category.id,
-    )  # .model_dump())
+        refreshedId=refreshed.id,
+    )
     if session is None:
         db = SessionLocal()
+    else:
+        db = session
     try:
-        new_entry = read_db_content(item, db)
+        db_item = read_db_content(item, db)
     except NotFoundError:
         if item.category != []:
             create_new_category(item.category, refreshed)
-        db.add(new_entry)
+        db.add(db_item)
+        if item.category != []:
+            create_new_category(item.category, refreshed)
         db.commit()
-        db.refresh(new_entry)
+        db.refresh(db_item)
         if item.contentAttachments != []:
             [create_new_attachment(i, refreshed) for i in item.contentAttachments]
         if item.downloads != []:
@@ -108,31 +115,45 @@ def create_new_content(
             [create_new_revision(i, refreshed) for i in item.revisions]
         if item.files != []:
             [create_new_file(i, refreshed) for i in item.files]
-    finally:
+    if session is None:
         db.close()
-    return new_entry
+    return CMSContent(**db_item.__dict__)
 
 
 ## function to read from the table
-def get_all_contents():
-    pass
+def get_all_contents(session: Session) -> CMSContents:
+    if session is None:
+        db = SessionLocal()
+    else:
+        db = session
+    contents = CMSContents(totalItems=0, items=[])
+    try:
+        db_items = db.query(TblCMSContents).all()
+        for db_item in db_items:
+            contents.items.append(CMSContent(**db_item.__dict__))
+        contents.totalItems = len(contents.items)
+    except NotFoundError:
+        raise NotFoundError("No content records found")
+    finally:
+        if session is None:
+            db.close()
+    return contents
 
 
 ## function to read from the table
 def read_db_content(item: CMSContent, session: Session) -> CMSContent:
-    db_content = (
-        session.query(TblCMSContents).filter(TblCMSContents.id == item.id).first()
-    )
-    if db_content is None:
+    if session is None:
+        db = SessionLocal()
+    else:
+        db = session
+    db_item = db.query(TblCMSContents).filter(TblCMSContents.id == item.id).first()
+    if db_item is None:
         raise NotFoundError(f"ContentId: {item.id} not found")
-    return db_content
-
-
-## function to update the table
-def update_content():
-    pass
+    if session is None:
+        db.close()
+    return CMSContent(**db_item.__dict__)
 
 
 ## function to delete from the table
-def delete_content():
+def delete_db_content():
     pass

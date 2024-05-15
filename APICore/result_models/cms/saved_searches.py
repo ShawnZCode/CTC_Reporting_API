@@ -31,7 +31,7 @@ class CMSSavedSearchBase(BaseModel):
     query: Optional[str] | None = None
     fileVersions: Optional[str] | None = None
     filterContentByNotTagged: bool = False
-    displayUnits: Optional[List[str]] = []
+    displayUnits: Optional[str] | None = None
     sortBy: str
     sortDirection: str
     addedByUser: Optional[str] | None = None
@@ -41,6 +41,11 @@ class CMSSavedSearchBase(BaseModel):
     updatedEndDate: Optional[datetime] | None = None
     updatedStartDate: Optional[datetime] | None = None
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSSavedSearchBase):
+            return NotImplemented
+        return self.id == other.id and self.updatedAt == other.updatedAt
 
 
 class CMSSavedSearch(CMSSavedSearchBase):

@@ -35,7 +35,7 @@ class TblCSLLicensePermissions(Base):
 
 
 ## function to write to create a new entry item in the table
-def create_new_license_permission(
+def write_db_license_permission(
     item: CSLLicensePermission, refreshed, session: Session = None
 ) -> CSLLicensePermission:
     new_entry = TblCSLLicensePermissions(
@@ -67,5 +67,8 @@ def read_db_license_permission(
     """Read the database for the item"""
     db_item = db.query(TblCSLLicensePermissions).filter_by(id=item.id).first()
     if db_item is None:
-        raise NotFoundError
-    return db_item
+        raise NotFoundError(f"LicensePermissionId: {item.id} not found")
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CSLLicensePermission(**db_item_dump)

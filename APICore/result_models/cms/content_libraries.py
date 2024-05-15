@@ -12,3 +12,8 @@ class CMSContentLibrary(BaseModel):
     libraryId: UUID
     contentId: UUID
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentLibrary):
+            return NotImplemented
+        return self.libraryId == other.libraryId and self.contentId == other.contentId

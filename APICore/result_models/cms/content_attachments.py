@@ -23,3 +23,8 @@ class CMSContentAttachment(BaseModel):
     path: Optional[str] | None = None
     type: Optional[str] | None = None
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentAttachment):
+            return NotImplemented
+        return self.id == other.id and self.updatedAt == other.updatedAt

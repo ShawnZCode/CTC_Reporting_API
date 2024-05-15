@@ -74,14 +74,7 @@ def read_db_library(item: CMSSearch, session: Session) -> CMSSearch:
     db_item = session.query(TblCMSSearches).filter(TblCMSSearches.id == item.id).first()
     if db_item is None:
         raise NotFoundError(f"SearchId: {item.id} not found")
-    return db_item
-
-
-## function to update the table
-def update_entry():
-    pass
-
-
-## function to delete from the table
-def delete_entry():
-    pass
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSSearch(**db_item_dump)

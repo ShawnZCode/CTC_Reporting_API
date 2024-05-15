@@ -53,14 +53,17 @@ def create_new_download(
 def read_db_download(
     item: CMSContentDownload, session: Session
 ) -> TblCMSContentDownloads:
-    db_download = (
+    db_item = (
         session.query(TblCMSContentDownloads)
         .filter(TblCMSContentDownloads.id == item.id)
         .first()
     )
-    if db_download is None:
+    if db_item is None:
         raise NotFoundError(f"DownloadId: {item.id} not found")
-    return db_download
+    db_item_dump = {}
+    for key, value in db_item.__dict__.items():
+        db_item_dump.update({key: value})
+    return CMSContentDownload(**db_item_dump)
 
 
 ## function to update the table
