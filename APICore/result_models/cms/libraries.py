@@ -30,6 +30,11 @@ class CMSLibraryBase(BaseModel):
     imageUri: Optional[str] | None = None
     refreshedId: Optional[UUID] | None = None
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSLibraryBase):
+            return NotImplemented
+        return self.id == other.id and self.updatedAt == other.updatedAt
+
 
 class CMSLibrary(CMSLibraryBase):
     permissions: Optional[List[CMSLibraryPermission]] = []

@@ -17,3 +17,8 @@ class CMSContentDocument(BaseModel):
     revitCentralModelFilePath: Optional[str | None] = None
     revitWorksharingMode: Optional[str | None] = None
     refreshedId: Optional[UUID | None] = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentDocument):
+            return NotImplemented
+        return self.id == other.id and self.fileName == other.fileName

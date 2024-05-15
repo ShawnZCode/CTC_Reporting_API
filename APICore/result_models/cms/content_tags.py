@@ -12,3 +12,8 @@ class CMSContentTag(BaseModel):
     contentId: UUID
     tagId: UUID
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentTag):
+            return NotImplemented
+        return self.contentId == other.contentId and self.tagId == other.tagId

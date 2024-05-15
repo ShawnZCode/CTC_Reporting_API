@@ -100,10 +100,11 @@ def gen_url(
         or col == "app-sessions"
         or col == "doc-sessions"
         or col == "sessions"
-    ) and start_date is None:
-        current_date = date.today() - timedelta(DAY_OFFSET)
-        date_str = current_date.strftime("%Y-%m-%d")
-        start_date = date_str
+    ):
+        if start_date is None:
+            current_date = date.today() - timedelta(DAY_OFFSET)
+            date_str = current_date.strftime("%Y-%m-%d")
+            start_date = date_str
 
     if (
         col == "app-sessions" or col == "doc-sessions" or col == "sessions"
@@ -142,6 +143,7 @@ def get_x_by_id(
     scope: Scope,
     collection: Collection,
     item_id: set,
+    start_date: str | None = None,
 ) -> dict:
     """retrieves an item record based on the item's id value"""
     try:
@@ -150,6 +152,7 @@ def get_x_by_id(
             scope=scope,
             collection=collection,
             item_id=item_id,
+            start_date=start_date,
             switches=switches,
         )
         # response_start = perf_counter()
@@ -159,22 +162,27 @@ def get_x_by_id(
         # response_end = perf_counter()
         # sleep(response_end - response_start)
     except ConnectionError:
-        sleep(5)
+        sleep(60)
         get_x_by_id(scope=scope, collection=collection, item_id=item_id)
     except NameError:
-        sleep(5)
+        sleep(60)
         get_x_by_id(scope=scope, collection=collection, item_id=item_id)
     except TimeoutError:
-        sleep(5)
+        sleep(60)
         get_x_by_id(scope=scope, collection=collection, item_id=item_id)
     except Exception as err:
-        data = None
-        pass
+        sleep(60)
+        get_x_by_id(scope=scope, collection=collection, item_id=item_id)
     return data
 
 
 ## Calls CTC Reporting API to get total items for a given collection
-def get_total_items(*, scope: Scope, collection: Collection) -> int:
+def get_total_items(
+    *,
+    scope: Scope,
+    collection: Collection,
+    start_date: str | None = None,
+) -> int:
     """Retrieves total count of items by category"""
     switches: str = add_switches(collection=collection)
     url: str = gen_url(
@@ -182,6 +190,7 @@ def get_total_items(*, scope: Scope, collection: Collection) -> int:
         collection=collection,
         page_number=1,
         int_rows_per_page=1,
+        start_date=start_date,
         switches=switches,
     )
     try:
@@ -204,6 +213,7 @@ def get_next_x(
     scope: Scope,
     collection: Collection,
     page_number: int,
+    start_date: str | None = None,
 ) -> dict:
     """Retrieves next X items"""
     switches = add_switches(collection=collection)
@@ -212,6 +222,7 @@ def get_next_x(
         collection=collection,
         page_number=page_number,
         switches=switches,
+        start_date=start_date,
     )
     try:
         # response_start = perf_counter()
@@ -244,6 +255,7 @@ def get_all_x(
     total_rows: int = None,
     page_number: int = None,
     previous_items: list[dict] = None,
+    start_date: str | None = None,
 ) -> dict:
     """Use to recursively call API to get all <collection> items"""
     if total_rows is None:
@@ -260,12 +272,14 @@ def get_all_x(
             scope=scope,
             collection=collection,
             page_number=page_number,
+            start_date=start_date,
         )
     else:
         next_json = get_next_x(
             scope=scope,
             collection=collection,
             page_number=page_number,
+            start_date=start_date,
         )
         for item in next_json["items"]:
             previous_items["items"].append(item)
@@ -279,6 +293,7 @@ def get_all_x(
             total_rows=total_rows,
             page_number=page_number,
             previous_items=total_items,
+            start_date=start_date,
         )
     return total_items
 

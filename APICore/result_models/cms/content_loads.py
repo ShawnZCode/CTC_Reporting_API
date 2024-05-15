@@ -19,6 +19,16 @@ class CMSContentLoadBase(BaseModel):
     loadedById: UUID
     refreshedId: Optional[UUID] | None = None
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentLoadBase):
+            return NotImplemented
+        return (
+            self.id == other.id
+            and self.loadedAt == other.loadedAt
+            and self.contentId == other.contentId
+            and self.documentId == other.documentId
+        )
+
 
 class CMSContentLoad(CMSContentLoadBase):
     document: Optional[CMSContentDocument] | None = None

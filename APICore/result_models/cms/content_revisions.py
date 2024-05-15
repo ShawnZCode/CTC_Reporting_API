@@ -15,3 +15,12 @@ class CMSContentRevision(BaseModel):
     revisedAt: datetime
     revisedById: UUID
     refreshedId: Optional[UUID] | None = None
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSContentRevision):
+            return NotImplemented
+        return (
+            self.id == other.id
+            and self.revisedAt == other.revisedAt
+            and self.contentId == other.contentId
+        )

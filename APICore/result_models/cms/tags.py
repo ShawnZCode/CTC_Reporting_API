@@ -23,6 +23,11 @@ class CMSTagBase(BaseModel):
     description: Optional[str] | None = None
     refreshedId: Optional[UUID] | None = None
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, CMSTagBase):
+            return NotImplemented
+        return self.id == other.id and self.updatedAt == other.updatedAt
+
 
 class CMSTag(CMSTagBase):
     contentIds: Optional[List[UUID]] = []

@@ -75,7 +75,7 @@ class CMSSearchBase(BaseModel):
         default=None,
     )
     fileVersions: Optional[str] | None = None
-    displayUnits: Optional[List[str]] = []
+    displayUnits: Optional[str] | None = None
     hasExplicitLibraryFilter: bool
     refreshedId: Optional[UUID] | None = None
 
@@ -94,9 +94,18 @@ class CMSSearches(BaseModel):
 
 
 ## base function(s) for use with this model
-def get_all_searches() -> CMSSearches:
-    total_items = get_total_items(scope=cms, collection=searches)
-    result = get_all_x(scope=cms, collection=searches, total_rows=total_items)
+def get_all_searches(*, start_date: str | None = None) -> CMSSearches:
+    total_items = get_total_items(
+        scope=cms,
+        collection=searches,
+        start_date=start_date,
+    )
+    result = get_all_x(
+        scope=cms,
+        collection=searches,
+        total_rows=total_items,
+        start_date=start_date,
+    )
     return CMSSearches.model_validate(result)
 
 
@@ -104,7 +113,11 @@ def get_search_details_by_id(*, item: CMSSearch) -> CMSSearch:
     if item.id is None:
         return item
     else:
-        result = get_x_by_id(scope=cms, collection=search, item_id=item.id)
+        result = get_x_by_id(
+            scope=cms,
+            collection=search,
+            item_id=item.id,
+        )
         return CMSSearch.model_validate(result)
 
 
