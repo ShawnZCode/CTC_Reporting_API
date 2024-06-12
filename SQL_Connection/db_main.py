@@ -22,7 +22,7 @@ TABLE_WRITE_BASE = {
     # "cms_libraries": tables.create_new_library,
     # "cms_tags": tables.create_new_tag,
     # "cms_saved_searches": tables.create_new_saved_search,
-    "cms_searches": tables.create_new_search,
+    # "cms_searches": tables.create_new_search,
     "pal_projects": tables.write_db_project,
     "pal_sessions": tables.write_db_session,
     "pal_doc_sessions": tables.write_db_doc_session,

@@ -69,22 +69,20 @@ def read_db_user_role(item: AccUserRole, session: Session = None) -> AccUserRole
         db = SessionLocal()
     else:
         db = session
-    try:
-        db_item = (
-            db.query(TblAccUserRoles)
-            .filter(
-                TblAccUserRoles.userId == item.userId,
-                TblAccUserRoles.roleId == item.roleId,
-            )
-            .first()
+    db_item = (
+        db.query(TblAccUserRoles)
+        .filter(
+            TblAccUserRoles.userId == item.userId,
+            TblAccUserRoles.roleId == item.roleId,
         )
-    except NotFoundError:
+        .first()
+    )
+    if db_item is None:
         raise NotFoundError(
             f"UserId: {item.userId} with RoleId: {item.roleId} not found"
         )
-    if session is None:
-        db.close()
-    return AccUserRole(**db_item.__dict__)
+    else:
+        return AccUserRole(**db_item.__dict__)
 
 
 ## function to update the table

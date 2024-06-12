@@ -73,10 +73,7 @@ def read_db_group(item: AccGroup, session: Session) -> AccGroup:
     db_item = session.query(TblAccGroups).filter(TblAccGroups.id == item.id).first()
     if db_item is None:
         raise NotFoundError(f"GroupId: {item.id} not found")
-    db_item_dump = {}
-    for key, value in db_item.__dict__.items():
-        db_item_dump.update({key: value})
-    return AccGroup(**db_item_dump)
+    return AccGroup(**db_item.__dict__)
 
 
 ## function to update the table
